@@ -519,9 +519,9 @@
                 <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">प्लंबिंग क्विज़ (Plumbing Quiz)</h2>
                 <p class="text-center text-gray-700 mb-2">आप कितने प्रश्न हल करना चाहते हैं? (How many questions do you want to attempt?)</p>
                 <div class="flex justify-center space-x-3 mb-6">
-                    <button data-count="5" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">5 प्रश्न</button>
-                    <button data-count="10" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">10 प्रश्न</button>
                     <button data-count="15" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">15 प्रश्न</button>
+                    <button data-count="20" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">20 प्रश्न</button>
+                    <button data-count="25" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">25 प्रश्न</button>
                 </div>
                  <p class="text-center text-xs text-gray-500 mb-4">प्रत्येक प्रश्न के लिए 1 मिनट का समय होगा। (You will have 1 minute for each question.)</p>
                 <button id="startSelectedQuizButton" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-lg transition disabled:opacity-50" disabled>क्विज़ शुरू करें (Start Quiz)</button>
@@ -758,7 +758,230 @@
                     { text: "पानी के दबाव को बढ़ाना (To increase water pressure)", correct: false },
                     { text: "पानी को फिल्टर करना (To filter water)", correct: false }
                 ]
-            }
+            },
+          
+  {
+    id: 1,
+    text: "पीवीसी पाइप का मुख्य उपयोग क्या है? (What is the primary use of PVC pipes?)",
+    image: null,
+    options: [
+      { text: "बिजली तारों के लिए (For electrical wiring)", correct: false },
+      { text: "पानी की आपूर्ति के लिए (For water supply)", correct: true },
+      { text: "ईंधन परिवहन के लिए (For fuel transportation)", correct: false },
+      { text: "नकली सजावट के लिए (For fake decoration)", correct: false }
+    ]
+  },
+  {
+    id: 2,
+    text: "टॉयलेट में 'सिफन' का उद्देश्य क्या होता है? (What is the function of a siphon in a toilet?)",
+    image: null,
+    options: [
+      { text: "पानी जमा करना (To store water)", correct: false },
+      { text: "गंध को रोकना (To prevent odors)", correct: true },
+      { text: "टैंक को साफ रखना (To clean the tank)", correct: false },
+      { text: "पाइप में हवा भरना (To fill air in the pipe)", correct: false }
+    ]
+  },
+  {
+    id: 3,
+    text: "प्लंबिंग में 'एल्बो' का उपयोग क्यों किया जाता है? (Why is an elbow used in plumbing?)",
+    image: null,
+    options: [
+      { text: "पाइप जोड़ने के लिए (To connect pipes)", correct: false },
+      { text: "दिशा बदलने के लिए (To change direction)", correct: true },
+      { text: "दबाव बढ़ाने के लिए (To increase pressure)", correct: false },
+      { text: "साफ पानी फिल्टर करने के लिए (To filter clean water)", correct: false }
+    ]
+  },
+  {
+    id: 4,
+    text: "CPVC पाइप्स का उपयोग क्यों किया जाता है? (Why are CPVC pipes used?)",
+    image: null,
+    options: [
+      { text: "सिर्फ सर्द पानी के लिए (Only for cold water)", correct: false },
+      { text: "गर्म और ठंडे दोनों पानी के लिए (For both hot and cold water)", correct: true },
+      { text: "सिर्फ गैस लाइन के लिए (Only for gas line)", correct: false },
+      { text: "सिर्फ ड्रेनेज के लिए (Only for drainage)", correct: false }
+    ]
+  },
+  {
+    id: 5,
+    text: "नल में 'कार्ट्रिज' किसका हिस्सा होता है? (The cartridge is a part of which plumbing component?)",
+    image: null,
+    options: [
+      { text: "शॉवर (Shower)", correct: false },
+      { text: "फॉसेट (Faucet)", correct: true },
+      { text: "पाइप (Pipe)", correct: false },
+      { text: "फिल्टर (Filter)", correct: false }
+    ]
+  },
+  {
+    id: 6,
+    text: "प्लंबिंग में 'टी-जॉइंट' का उपयोग कब किया जाता है? (When is a T-joint used in plumbing?)",
+    image: null,
+    options: [
+      { text: "सीधे जोड़ के लिए (For straight joints)", correct: false },
+      { text: "तीन दिशा में जोड़ने के लिए (To connect in three directions)", correct: true },
+      { text: "दबाव बढ़ाने के लिए (To increase pressure)", correct: false },
+      { text: "फ्लो कम करने के लिए (To reduce flow)", correct: false }
+    ]
+  },
+  {
+    id: 7,
+    text: "वॉटर हीटर में एनोड रॉड का उद्देश्य क्या है? (What is the purpose of an anode rod in a water heater?)",
+    image: null,
+    options: [
+      { text: "पानी को तेजी से गर्म करना (To heat water faster)", correct: false },
+      { text: "टैंक को जंग लगने से बचाना (To protect the tank from corrosion)", correct: true },
+      { text: "पानी के दबाव को बढ़ाना (To increase water pressure)", correct: false },
+      { text: "पानी को फिल्टर करना (To filter water)", correct: false }
+    ]
+  },
+  {
+    id: 8,
+    text: "फ्लश टैंक में फ्लोट वाल्व का कार्य क्या होता है? (What is the function of the float valve in a flush tank?)",
+    image: null,
+    options: [
+      { text: "पानी भरना बंद करना (To stop water filling)", correct: true },
+      { text: "पानी को तेजी से बाहर निकालना (To flush faster)", correct: false },
+      { text: "गंध रोकना (To block smell)", correct: false },
+      { text: "टैंक साफ करना (To clean tank)", correct: false }
+    ]
+  },
+  {
+    id: 9,
+    text: "प्लंबिंग पाइप की नाप किस इकाई में होती है? (What is the unit used to measure plumbing pipes?)",
+    image: null,
+    options: [
+      { text: "किलोग्राम (Kilogram)", correct: false },
+      { text: "लीटर (Litre)", correct: false },
+      { text: "इंच (Inch)", correct: true },
+      { text: "सेल्सियस (Celsius)", correct: false }
+    ]
+  },
+  {
+    id: 10,
+    text: "कौन सी पाइप गर्म पानी के लिए उपयुक्त है? (Which pipe is suitable for hot water?)",
+    image: null,
+    options: [
+      { text: "PVC", correct: false },
+      { text: "CPVC", correct: true },
+      { text: "HDPE", correct: false },
+      { text: "GI", correct: false }
+    ]
+  },
+  {
+    id: 11,
+    text: "ड्रेनेज पाइप की ढलान क्यों आवश्यक है? (Why is slope important in drainage pipes?)",
+    image: null,
+    options: [
+      { text: "पानी जमा करने के लिए (To store water)", correct: false },
+      { text: "गति से पानी बहाने के लिए (To allow water to flow with gravity)", correct: true },
+      { text: "पाइप को मजबूत बनाने के लिए (To strengthen the pipe)", correct: false },
+      { text: "दबाव बढ़ाने के लिए (To increase pressure)", correct: false }
+    ]
+  },
+  {
+    id: 12,
+    text: "GI पाइप का मतलब क्या है? (What does GI pipe stand for?)",
+    image: null,
+    options: [
+      { text: "Galvanized Iron", correct: true },
+      { text: "Graphite Iron", correct: false },
+      { text: "Glass Insulated", correct: false },
+      { text: "Gas Injected", correct: false }
+    ]
+  },
+  {
+    id: 13,
+    text: "टेप का उपयोग पाइप में क्यों किया जाता है? (Why is tape used in pipe fittings?)",
+    image: null,
+    options: [
+      { text: "डिजाइन के लिए (For design)", correct: false },
+      { text: "लीकेज रोकने के लिए (To prevent leakage)", correct: true },
+      { text: "फिल्टरिंग के लिए (For filtering)", correct: false },
+      { text: "कलर कोडिंग के लिए (For color coding)", correct: false }
+    ]
+  },
+  {
+    id: 14,
+    text: "सीवर पाइप में कौन सी गैस बनती है? (Which gas forms in sewer pipes?)",
+    image: null,
+    options: [
+      { text: "ऑक्सीजन (Oxygen)", correct: false },
+      { text: "हाइड्रोजन सल्फाइड (Hydrogen Sulfide)", correct: true },
+      { text: "कार्बन डाइऑक्साइड (Carbon Dioxide)", correct: false },
+      { text: "नाइट्रोजन (Nitrogen)", correct: false }
+    ]
+  },
+  {
+    id: 15,
+    text: "प्रेशर वॉशर का उपयोग किसके लिए होता है? (What is a pressure washer used for?)",
+    image: null,
+    options: [
+      { text: "हीटिंग के लिए (For heating)", correct: false },
+      { text: "सफाई के लिए (For cleaning)", correct: true },
+      { text: "पानी जमा करने के लिए (For storing water)", correct: false },
+      { text: "पानी छानने के लिए (For filtering water)", correct: false }
+    ]
+  },
+  {
+    id: 16,
+    text: "प्लंजर का उपयोग किस स्थिति में किया जाता है? (When is a plunger used?)",
+    image: null,
+    options: [
+      { text: "नया पाइप लगाने में (To install new pipe)", correct: false },
+      { text: "ब्लॉक हटाने में (To remove blockages)", correct: true },
+      { text: "गंध हटाने में (To remove smell)", correct: false },
+      { text: "फ्लो बढ़ाने में (To increase flow)", correct: false }
+    ]
+  },
+  {
+    id: 17,
+    text: "PEX पाइप्स का उपयोग किसमें होता है? (Where are PEX pipes used?)",
+    image: null,
+    options: [
+      { text: "इलेक्ट्रिकल वायरिंग में (In electrical wiring)", correct: false },
+      { text: "ड्रेनेज में (In drainage)", correct: false },
+      { text: "हॉट और कोल्ड वाटर लाइन में (In hot and cold water lines)", correct: true },
+      { text: "गैस लाइन में (In gas line)", correct: false }
+    ]
+  },
+  {
+    id: 18,
+    text: "सीलेंट का कार्य क्या है? (What is the function of sealant?)",
+    image: null,
+    options: [
+      { text: "रंग बदलना (To change color)", correct: false },
+      { text: "फिटिंग्स को कसना (To tighten fittings)", correct: false },
+      { text: "लीकेज रोकना (To prevent leakage)", correct: true },
+      { text: "जगह चिपकाना (To stick surfaces)", correct: false }
+    ]
+  },
+  {
+    id: 19,
+    text: "हैंड पंप किस सिद्धांत पर काम करता है? (What principle does a hand pump work on?)",
+    image: null,
+    options: [
+      { text: "गुरुत्वाकर्षण (Gravity)", correct: false },
+      { text: "वायुदाब (Air Pressure)", correct: false },
+      { text: "वैक्यूम (Vacuum)", correct: true },
+      { text: "गति ऊर्जा (Kinetic energy)", correct: false }
+    ]
+  },
+  {
+    id: 20,
+    text: "नल का लीकेज बंद करने के लिए सबसे पहले क्या करना चाहिए? (What should be done first to stop tap leakage?)",
+    image: null,
+    options: [
+      { text: "फॉसेट हटाना (Remove the faucet)", correct: false },
+      { text: "पानी की सप्लाई बंद करना (Turn off the water supply)", correct: true },
+      { text: "पाइप काटना (Cut the pipe)", correct: false },
+      { text: "सीलेंट लगाना (Apply sealant)", correct: false }
+    ]
+  }
+
+
             // Add more questions here...
         ];
 
