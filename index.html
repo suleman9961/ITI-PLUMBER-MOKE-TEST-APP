@@ -3,122 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mock Test Ncn - AI Enhanced</title>
+    <title>Mock Test Ncn - AI Enhanced with Coins & Auth</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #E0F2FE; /* Light blue background similar to screenshot */
-            padding-bottom: 80px; /* Add padding to prevent content overlap with fixed footer */
-            overflow-x: hidden; /* Prevent horizontal scroll when sidebar is out */
+            background-color: #E0F2FE; /* Light blue background */
+            padding-bottom: 80px; /* Footer padding */
+            overflow-x: hidden;
         }
-        .premium-tag {
-            background-color: #FFA726; /* Orange for premium */
-            color: black;
+        .premium-tag { background-color: #FFA726; color: black; }
+        .free-tag { background-color: #66BB6A; color: white; }
+        .start-now-button-original-style { background-color: #EC4899; }
+        .plumber-tag { background-color: #FFCA28; color: #374151; }
+        .card-icon-placeholder { width: 50px; height: 50px; background-color: #E5E7EB; border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: #6B7280; flex-shrink: 0; }
+        .practice-button { background-color: #3B82F6; }
+        .social-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; }
+        .sidebar { transition: transform 0.3s ease-in-out; transform: translateX(-100%); }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-overlay { transition: opacity 0.3s ease-in-out; }
+        .auth-modal, .quiz-modal, .content-modal-container, .confirmation-modal, .top-scorer-modal { background-color: rgba(0, 0, 0, 0.75); transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
+        .auth-modal-content, .quiz-modal-content, .content-modal-content, .confirmation-modal-content, .top-scorer-modal-content { max-height: 90vh; transition: transform 0.3s ease-out, opacity 0.3s ease-out; transform: translateY(-20px) scale(0.95); opacity: 0; }
+        .auth-modal.active .auth-modal-content,
+        .quiz-modal.active .quiz-modal-content,
+        .content-modal-container.active .content-modal-content,
+        .confirmation-modal.active .confirmation-modal-content,
+        .top-scorer-modal.active .top-scorer-modal-content { transform: translateY(0) scale(1); opacity: 1; }
+        .quiz-option { transition: background-color 0.2s ease, border-color 0.2s ease; }
+        .quiz-option:hover { background-color: #d1e5fb; border-color: #3B82F6; }
+        .quiz-option.selected { background-color: #3B82F6; color: white; border-color: #2563EB; }
+        .quiz-option.correct { background-color: #10B981; color: white; border-color: #059669; }
+        .quiz-option.incorrect { background-color: #EF4444; color: white; border-color: #DC2626; }
+        .quiz-option.disabled { opacity: 0.5; pointer-events: none; }
+        .lifeline-btn.disabled { opacity: 0.4; cursor: not-allowed; background-color: #9CA3AF !important; }
+        .timer-bar { height: 8px; background-color: #3B82F6; transition: width 1s linear; width: 100%; }
+        .audience-poll-bar { background-color: #3B82F6; transition: width 0.5s ease-out; }
+        .coin-icon { width: 20px; height: 20px; margin-left: 5px; vertical-align: middle; }
+        .sub-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem; /* gap-3 */
+            margin-top: 0.75rem; /* mt-3 */
         }
-        .free-tag {
-            background-color: #66BB6A; /* Green for free */
+        .sub-card {
+            padding: 0.75rem; /* p-3 */
+            border-radius: 0.375rem; /* rounded-md */
+            text-align: left;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+        .premium-sub-card {
+            background-color: #4A5568; /* bg-slate-700 */
             color: white;
         }
-        .start-now-button-original-style { /* Renamed to avoid conflict, original style for reference */
-            background-color: #EC4899; /* Pinkish button from first screenshot */
+        .premium-sub-card:hover {
+            background-color: #2D3748; /* bg-slate-800 or darker */
         }
-        .plumber-tag {
-            background-color: #FFCA28; /* Yellow for plumber tag */
-            color: #374151; /* Dark gray text */
-        }
-        .card-icon-placeholder {
-            width: 50px;
-            height: 50px;
-            background-color: #E5E7EB;
-            border-radius: 0.375rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            color: #6B7280;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-        }
-        .practice-button {
-            background-color: #3B82F6; /* Blue similar to screenshot */
-        }
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.5rem; /* rounded-lg */
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(-100%);
-        }
-        .sidebar.open {
-            transform: translateX(0);
-        }
-        .sidebar-overlay {
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        /* Quiz Modal Styles */
-        .quiz-modal {
-            background-color: rgba(0, 0, 0, 0.75); /* Darker overlay for better focus */
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-        }
-        .quiz-modal-content {
-            max-height: 90vh; /* Ensure content fits viewport */
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-            transform: translateY(-20px) scale(0.95);
-            opacity: 0;
-        }
-        .quiz-modal.active .quiz-modal-content {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-        .quiz-option {
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-        }
-        .quiz-option:hover {
-            background-color: #d1e5fb; /* Light blue hover */
-            border-color: #3B82F6;
-        }
-        .quiz-option.selected {
-            background-color: #3B82F6;
-            color: white;
-            border-color: #2563EB;
-        }
-        .quiz-option.correct {
-            background-color: #10B981; /* Green */
-            color: white;
-            border-color: #059669;
-        }
-        .quiz-option.incorrect {
-            background-color: #EF4444; /* Red */
-            color: white;
-            border-color: #DC2626;
-        }
-        .quiz-option.disabled {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-        .lifeline-btn.disabled {
-            opacity: 0.4;
+        .premium-sub-card.disabled {
+            background-color: #718096; /* Lighter slate for disabled */
+            color: #A0AEC0;
             cursor: not-allowed;
-            background-color: #9CA3AF !important; /* Gray out when disabled */
+            opacity: 0.7;
         }
-        .timer-bar {
-            height: 8px;
-            background-color: #3B82F6;
-            transition: width 1s linear; /* Smooth transition for timer */
-            width: 100%;
+        .free-sub-card {
+            background-color: #EBF8FF; /* bg-blue-50 */
+            color: #2B6CB0; /* text-blue-700 */
+            border: 1px solid #BEE3F8; /* border-blue-200 */
         }
-        .audience-poll-bar {
-            background-color: #3B82F6;
-            transition: width 0.5s ease-out;
+        .free-sub-card:hover {
+            background-color: #C3DAFE; /* bg-blue-200 */
+        }
+        .tab-button.active {
+            border-bottom-color: #3B82F6; /* blue-600 */
+            color: #3B82F6; /* blue-600 */
+            font-weight: 600;
+        }
+        .error-message {
+            color: #EF4444; /* text-red-500 */
+            font-size: 0.875rem; /* text-sm */
+            margin-top: 0.25rem; /* mt-1 */
         }
     </style>
 </head>
@@ -133,12 +97,12 @@
             </div>
         </div>
         <nav class="flex-grow pt-4 space-y-1 overflow-y-auto">
-            <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
+            <a href="#" id="sidebarProfileLink" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                 </svg> Profile
             </a>
-            <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
+            <a href="#" id="sidebarTopScorerLink" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                 </svg> Top Scorer
@@ -168,31 +132,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
                 </svg> Instruction
             </a>
-            <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-1.003 1.116-1.003h2.58c.556 0 1.026.461 1.116 1.003l.07.42a2.35 2.35 0 0 0 3.505 1.435l.29-.29a1.125 1.125 0 0 1 1.591 0l1.823 1.823a1.125 1.125 0 0 1 0 1.591l-.29.29a2.35 2.35 0 0 0-1.435 3.505l-.42.07c-.542.09-1.003.56-1.003 1.116v2.58c0 .556-.461 1.026-1.003 1.116l-.42.07a2.35 2.35 0 0 0-1.435 3.505l.29.29a1.125 1.125 0 0 1 0 1.591l-1.823 1.823a1.125 1.125 0 0 1-1.591 0l-.29-.29a2.35 2.35 0 0 0-3.505-1.435l-.07-.42c-.09-.542-.56-1.003-1.116-1.003h-2.58c-.556 0-1.026.461-1.116-1.003l-.07-.42a2.35 2.35 0 0 0-1.435-3.505l-.29.29a1.125 1.125 0 0 1-1.591 0L2.044 16.6a1.125 1.125 0 0 1 0-1.591l.29-.29a2.35 2.35 0 0 0 1.435-3.505l.42-.07c.542-.09 1.003-.56 1.003-1.116V7.65c0-.556.461 1.026 1.003-1.116l.42-.07a2.35 2.35 0 0 0 3.505-1.435l-.29-.29a1.125 1.125 0 0 1 0-1.591l1.823-1.823a1.125 1.125 0 0 1 1.591 0l.29.29a2.35 2.35 0 0 0 3.505 1.435l.07.42ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" />
-                </svg> Settings
-            </a>
-            <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Zm0 0f-.363.606A2.252 2.252 0 0 1 5.684 9.75c0-.23.042-.448.12-.653m0 0A2.25 2.25 0 1 0 7.217 6.407m0 4.5a2.25 2.25 0 1 0 0-4.5m0 4.5V18m0-3.375c0-.23.042-.448.12-.653m-.12.653a2.25 2.25 0 1 1 0-4.5m0 4.5a2.25 2.25 0 1 0 0-4.5M12.75 18m0-3.375a2.252 2.252 0 0 1-1.533 2.145c-.22.113-.454.186-.703.186s-.484-.073-.703-.186A2.252 2.252 0 0 1 8.316 14.625m4.434 0c0-.23.042-.448.12-.653m-.12.653a2.25 2.25 0 1 0 0-4.5m0 4.5a2.25 2.25 0 1 1 0-4.5m0 4.5V18m0-3.375a2.252 2.252 0 0 1-1.533 2.145c-.22.113-.454.186-.703.186s-.484-.073-.703-.186A2.252 2.252 0 0 1 8.316 14.625m0 0A2.25 2.25 0 1 0 12.75 12a2.25 2.25 0 0 0-4.434 0Z" />
-                </svg> Share App
-            </a>
-            <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                </svg> About Us
-            </a>
-            <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6.75h-9a1.5 1.5 0 0 0-1.5 1.5v9a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-9a1.5 1.5 0 0 0-1.5-1.5ZM16.5 9.75h-9M16.5 12.75h-9M16.5 15.75h-9" />
-                </svg> Terms of Service
-            </a>
-            <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75h6m-6 3h6m-6-6h6M21 12.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /> <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993a1.267 1.267 0 0 1-2.123 0l-2.537-3.426A1.267 1.267 0 0 1 15.75 4.5h.001M9.25 4.5h.001" /> </svg> Privacy Policy
-            </a>
-            <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2 mt-auto mb-2">
+             <a href="#" id="sidebarLogoutLink" class="flex items-center px-4 py-3 text-sm text-slate-200 hover:bg-slate-700 rounded-md mx-2 mt-auto mb-2 hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0h3m0 0-3-3m3 3-3 3" />
                 </svg> Logout
@@ -213,9 +153,11 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                 </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
+                <button id="headerUserIcon" aria-label="User profile or Login/Signup" class="focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </button>
             </div>
         </div>
     </header>
@@ -223,13 +165,16 @@
     <div class="container mx-auto p-4">
         <section class="bg-blue-500 text-white p-4 rounded-lg shadow-lg mt-1">
             <div class="flex items-center mb-2">
-                <img src="https://placehold.co/60x60/FFFFFF/3B82F6?text=User" alt="User Avatar" class="w-12 h-12 rounded-full border-2 border-white mr-3">
+                <img id="userAvatarMain" src="https://placehold.co/60x60/FFFFFF/3B82F6?text=User" alt="User Avatar" class="w-12 h-12 rounded-full border-2 border-white mr-3">
                 <div>
-                    <h2 class="text-lg font-semibold">Mohd SULEMAN</h2>
+                    <h2 id="userNameMain" class="text-lg font-semibold">
+                        Guest User
+                    </h2>
+                    <span id="userCoinsDisplay" class="ml-0 text-yellow-300 font-bold">
+                        (<span id="coinCount">0</span> 🪙)
+                    </span>
                     <div class="flex space-x-4 text-sm mt-1">
-                        <span><strong class="font-bold">200</strong></span>
-                        <span><strong class="font-bold">23</strong></span>
-                        <span><strong class="font-bold">31040</strong></span>
+                        <span>ID: <span id="userIdDisplay" class="font-normal">N/A</span></span>
                     </div>
                 </div>
             </div>
@@ -268,7 +213,7 @@
                 <a href="#" class="text-blue-600 font-medium hover:underline text-sm">View All</a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div class="bg-white rounded-xl shadow-lg p-4 relative border-t-4 border-blue-500">
+                <div id="freeTestCardPlumberEnglish" class="bg-white rounded-xl shadow-lg p-4 relative border-t-4 border-blue-500">
                     <span class="free-tag absolute top-3 right-3 px-2 py-1 text-xs font-semibold rounded">Free</span>
                     <div class="flex items-start space-x-3">
                         <div class="card-icon-placeholder">
@@ -283,11 +228,29 @@
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-t border-gray-200">
-                        <p class="text-sm font-semibold text-blue-700">Plumber - English</p>
-                        <p class="text-xs text-gray-500 mt-1">Question : 462 &nbsp;&nbsp; Topics : 4</p>
+                        <p class="text-sm font-semibold text-blue-700 mb-2">Plumber - English Sections</p>
+                        <div id="freePlumberEnglishSubCardsContainer" class="sub-card-grid">
+                            <button class="sub-card free-sub-card" data-subtest="basic_concepts_en">
+                                <h5 class="font-semibold">Basic Concepts</h5>
+                                <p class="text-xs">Learn fundamentals</p>
+                            </button>
+                            <button class="sub-card free-sub-card" data-subtest="safety_symbols_en">
+                                <h5 class="font-semibold">Safety Symbols</h5>
+                                <p class="text-xs">Understand signs</p>
+                            </button>
+                            <button class="sub-card free-sub-card" data-subtest="measurement_tools_en">
+                                <h5 class="font-semibold">Measurement Tools</h5>
+                                <p class="text-xs">Tool details</p>
+                            </button>
+                            <button class="sub-card free-sub-card" data-subtest="practice_drills_en">
+                                <h5 class="font-semibold">Practice Drills</h5>
+                                <p class="text-xs">Quick exercises</p>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="bg-slate-800 text-white rounded-xl shadow-lg p-4 relative border-t-4 border-yellow-400">
+
+                <div id="premiumTestCardPlumberHindi" class="bg-slate-800 text-white rounded-xl shadow-lg p-4 relative border-t-4 border-yellow-400">
                      <span class="premium-tag absolute top-3 right-3 px-2 py-1 text-xs font-semibold rounded">Premium</span>
                      <div class="flex items-start space-x-3">
                         <div class="card-icon-placeholder bg-slate-700">
@@ -296,14 +259,44 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-md font-bold text-white">ITI Mock Test</h4>
+                            <h4 class="text-md font-bold text-white">ITI Mock Test (Premium Section)</h4>
                             <p class="text-sm text-slate-300 font-medium">प्लम्बर सभी विषय</p>
                             <p class="text-xs text-slate-400">( English | हिंदी )</p>
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-t border-slate-700">
-                        <p class="text-sm font-semibold text-yellow-400">प्लम्बर - हिंदी</p>
-                        <p class="text-xs text-slate-400 mt-1">Question : 1910 &nbsp;&nbsp; Topics : 7</p>
+                        <div id="premiumPlumberHindiStatus" class="mb-2 text-sm text-yellow-200">
+                            Loading status...
+                        </div>
+                        <button id="unlockPremiumPlumberHindiButton" data-testid="premium_plumber_hindi" data-cost="500" class="mb-3 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-3 rounded-lg text-sm transition opacity-50 cursor-not-allowed" disabled>
+                            Check Status
+                        </button>
+                        <div id="premiumPlumberHindiSubCardsContainer" class="sub-card-grid hidden">
+                            <button class="sub-card premium-sub-card disabled" data-subtest="handwritten_notes_hi">
+                                <h5 class="font-semibold">हस्तलिखित नोट्स</h5>
+                                <p class="text-xs text-slate-400">विस्तृत नोट्स पढ़ें</p>
+                            </button>
+                            <button class="sub-card premium-sub-card disabled" data-subtest="theory_hi">
+                                <h5 class="font-semibold">थ्योरी</h5>
+                                <p class="text-xs text-slate-400">अवधारणाएं समझें</p>
+                            </button>
+                            <button class="sub-card premium-sub-card disabled" data-subtest="mock_test_hi">
+                                <h5 class="font-semibold">मॉक टेस्ट</h5>
+                                <p class="text-xs text-slate-400">परीक्षा का अभ्यास करें</p>
+                            </button>
+                            <button class="sub-card premium-sub-card disabled" data-subtest="test_preparation_hi">
+                                <h5 class="font-semibold">टेस्ट तैयारी</h5>
+                                <p class="text-xs text-slate-400">रणनीतियाँ और सुझाव</p>
+                            </button>
+                            <button class="sub-card premium-sub-card disabled" data-subtest="file_making_hi">
+                                <h5 class="font-semibold">फाइल मेकिंग</h5>
+                                <p class="text-xs text-slate-400">प्रैक्टिकल कार्य</p>
+                            </button>
+                            <button class="sub-card premium-sub-card disabled" data-subtest="tools_detail_hi">
+                                <h5 class="font-semibold">उपकरण विवरण</h5>
+                                <p class="text-xs text-slate-400">उपकरणों की जानकारी</p>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-lg p-4 relative border-t-4 border-blue-500 sm:col-span-2 md:col-span-1">
@@ -322,43 +315,6 @@
                     </div>
                 </div>
             </div>
-          
-          <div class="bg-white rounded-xl shadow-lg p-4 relative border-t-4 border-blue-500 sm:col-span-2 md:col-span-1">
-                     <div class="flex items-start space-x-3">
-                        <div class="card-icon-placeholder">
-                             <img src="https://placehold.co/50x50/E5E7EB/3B82F6?text=Theory" alt="Theory Icon" class="w-full h-full object-cover rounded-md">
-                        </div>
-                        <div>
-                            <h4 class="text-md font-bold text-gray-800">Plumber Theory</h4>
-                            <p class="text-sm text-gray-600 font-medium">प्लम्बर थ्योरी | Plu...</p>
-                        </div>
-                    </div>
-                     <div class="mt-3 pt-3 border-t border-gray-200">
-                        <p class="text-sm font-semibold text-blue-700">Detailed Study Material</p>
-                        <p class="text-xs text-gray-500 mt-1">Covers all essential concepts</p>
-                    </div>
-                </div>
-          
-           <div class="bg-slate-800 text-white rounded-xl shadow-lg p-4 relative border-t-4 border-yellow-400">
-                     <span class="premium-tag absolute top-3 right-3 px-2 py-1 text-xs font-semibold rounded">Premium</span>
-                     <div class="flex items-start space-x-3">
-                        <div class="card-icon-placeholder bg-slate-690">
-                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-yellow-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-md font-bold text-white">ITI Mock Test</h4>
-                            <p class="text-sm text-slate-300 font-medium">प्लम्बर सभी विषय</p>
-                            <p class="text-xs text-slate-400">( English | हिंदी )</p>
-                        </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-t border-slate-690">
-                        <p class="text-sm font-semibold text-yellow-400">प्लम्बर - हिंदी</p>
-                        <p class="text-xs text-slate-400 mt-1">Question : 1910 &nbsp;&nbsp; Topics : 7</p>
-                    </div>
-                </div>
-                
         </section>
 
         <section class="bg-white p-5 rounded-lg shadow-lg mt-6">
@@ -384,8 +340,6 @@
                     Daily Test
                 </button>
             </div>
-          
-          
         </section>
 
         <section class="bg-white p-5 rounded-lg shadow-lg mt-6">
@@ -459,7 +413,6 @@
             </div>
         </section>
 
-
         <section class="bg-blue-600 text-white p-4 rounded-lg shadow-lg mt-6 text-center">
             <h3 class="text-md font-semibold mb-3">Join Our Social Groups! To Connect US!</h3>
             <div class="flex justify-center space-x-3 sm:space-x-4">
@@ -505,7 +458,7 @@
             </svg>
             <span class="text-xs mt-1">Tests</span>
         </button>
-        <button class="flex flex-col items-center text-gray-500 hover:text-blue-600">
+        <button id="footerProfileButton" class="flex flex-col items-center text-gray-500 hover:text-blue-600">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
@@ -513,15 +466,168 @@
         </button>
     </footer>
 
+    <div id="authModal" class="auth-modal fixed inset-0 z-[100] flex items-center justify-center p-4 hidden">
+        <div class="auth-modal-content bg-slate-50 w-full max-w-md rounded-xl shadow-2xl p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-blue-700">Profile / Authentication</h2>
+                <button id="closeAuthModalButton" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="authStatus" class="mb-4 p-3 bg-blue-100 text-blue-700 rounded-md text-sm hidden"></div>
+
+            <div class="mb-4 border-b border-gray-200">
+                <nav class="flex space-x-4" aria-label="Tabs">
+                    <button id="loginTabButton" class="tab-button py-3 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 text-sm font-medium active">
+                        Login (लॉग इन करें)
+                    </button>
+                    <button id="signupTabButton" class="tab-button py-3 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 text-sm font-medium">
+                        Signup (साइन अप करें)
+                    </button>
+                </nav>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="loginEmail" class="block text-sm font-medium text-gray-700">Email (ईमेल)</label>
+                    <input type="email" id="loginEmail" name="loginEmail" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700">Password (पासवर्ड)</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition">Login (लॉग इन करें)</button>
+                <p id="loginError" class="error-message hidden"></p>
+            </form>
+
+            <form id="signupForm" class="space-y-4 hidden">
+                <div>
+                    <label for="signupName" class="block text-sm font-medium text-gray-700">Full Name (पूरा नाम)</label>
+                    <input type="text" id="signupName" name="signupName" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="signupEmail" class="block text-sm font-medium text-gray-700">Email (ईमेल)</label>
+                    <input type="email" id="signupEmail" name="signupEmail" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <label for="signupPassword" class="block text-sm font-medium text-gray-700">Password (पासवर्ड)</label>
+                    <input type="password" id="signupPassword" name="signupPassword" required minlength="6" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition">Signup (साइन अप करें)</button>
+                <p id="signupError" class="error-message hidden"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="topScorerModal" class="top-scorer-modal fixed inset-0 z-[95] flex items-center justify-center p-4 hidden">
+        <div class="top-scorer-modal-content bg-slate-50 w-full max-w-lg rounded-xl shadow-2xl p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-blue-700">🏆 Top Scorers (शीर्ष स्कोरर) 🏆</h2>
+                <button id="closeTopScorerModalButton" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="topScorerList" class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-lg font-semibold text-yellow-500 mr-3">1.</span>
+                        <img src="https://placehold.co/40x40/A7F3D0/10B981?text=R" alt="User R" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Rakesh Kumar</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">15000 🪙</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-lg font-semibold text-gray-400 mr-3">2.</span>
+                        <img src="https://placehold.co/40x40/BAE6FD/0EA5E9?text=P" alt="User P" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Priya Sharma</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">14500 🪙</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-lg font-semibold text-orange-400 mr-3">3.</span>
+                        <img src="https://placehold.co/40x40/FBCFE8/DB2777?text=A" alt="User A" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Amit Singh</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">13800 🪙</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-md font-medium text-gray-500 mr-3 ml-1">4.</span>
+                        <img src="https://placehold.co/40x40/DDD6FE/7C3AED?text=S" alt="User S" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Sunita Devi</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">12000 🪙</span>
+                </div>
+                 <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-md font-medium text-gray-500 mr-3 ml-1">5.</span>
+                        <img src="https://placehold.co/40x40/C4B5FD/6D28D9?text=V" alt="User V" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Vikram Rathore</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">11500 🪙</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-md font-medium text-gray-500 mr-3 ml-1">6.</span>
+                        <img src="https://placehold.co/40x40/A5F3FC/0891B2?text=N" alt="User N" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Neha Gupta</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">10900 🪙</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-md font-medium text-gray-500 mr-3 ml-1">7.</span>
+                        <img src="https://placehold.co/40x40/FDE68A/F59E0B?text=M" alt="User M" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Manoj Tiwari</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">10200 🪙</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-md font-medium text-gray-500 mr-3 ml-1">8.</span>
+                        <img src="https://placehold.co/40x40/FECACA/DC2626?text=K" alt="User K" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Kavita Patel</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">9800 🪙</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-md font-medium text-gray-500 mr-3 ml-1">9.</span>
+                        <img src="https://placehold.co/40x40/BBF7D0/16A34A?text=D" alt="User D" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Deepak Joshi</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">9500 🪙</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center">
+                        <span class="text-md font-medium text-gray-500 mr-3 ml-1">10.</span>
+                        <img src="https://placehold.co/40x40/BFDBFE/3B82F6?text=G" alt="User G" class="w-10 h-10 rounded-full mr-3">
+                        <span class="font-medium text-gray-800">Geeta Kumari</span>
+                    </div>
+                    <span class="font-semibold text-blue-600">9200 🪙</span>
+                </div>
+            </div>
+            <p class="mt-6 text-sm text-gray-600 text-center">Note: This is a sample leaderboard. (यह एक नमूना लीडरबोर्ड है।)</p>
+        </div>
+    </div>
+
+
     <div id="quizModal" class="quiz-modal fixed inset-0 z-[70] flex items-center justify-center p-4 hidden">
         <div class="quiz-modal-content bg-slate-50 w-full max-w-2xl rounded-xl shadow-2xl p-6 overflow-y-auto">
             <div id="quizSetupScreen">
                 <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">प्लंबिंग क्विज़ (Plumbing Quiz)</h2>
                 <p class="text-center text-gray-700 mb-2">आप कितने प्रश्न हल करना चाहते हैं? (How many questions do you want to attempt?)</p>
                 <div class="flex justify-center space-x-3 mb-6">
+                    <button data-count="5" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">5 प्रश्न</button>
+                    <button data-count="10" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">10 प्रश्न</button>
                     <button data-count="15" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">15 प्रश्न</button>
-                    <button data-count="20" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">20 प्रश्न</button>
-                    <button data-count="25" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">25 प्रश्न</button>
                 </div>
                  <p class="text-center text-xs text-gray-500 mb-4">प्रत्येक प्रश्न के लिए 1 मिनट का समय होगा। (You will have 1 minute for each question.)</p>
                 <button id="startSelectedQuizButton" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-lg transition disabled:opacity-50" disabled>क्विज़ शुरू करें (Start Quiz)</button>
@@ -572,8 +678,8 @@
             <div id="quizResultsScreen" class="hidden text-center">
                 <h2 class="text-3xl font-bold text-green-600 mb-4">क्विज़ समाप्त! (Quiz Finished!)</h2>
                 <img src="https://placehold.co/100x100/E0F2FE/10B981?text=🏆" alt="Trophy" class="mx-auto mb-4 w-24 h-24">
-                <p class="text-xl text-gray-800 mb-2">आपका स्कोर (Your Score):</p>
-                <p id="finalScore" class="text-4xl font-bold text-blue-700 mb-6"></p>
+                <p class="text-xl text-gray-800 mb-2">आपका स्कोर (Your Score): <span id="finalScore"></span></p>
+                <p class="text-lg text-gray-700 mb-6">आपने <span id="coinsEarnedInQuiz">0</span> सिक्के कमाए! (You earned <span id="coinsEarnedInQuizDup">0</span> coins!)</p>
                 <div class="space-y-3 sm:space-y-0 sm:flex sm:space-x-4 justify-center">
                     <button id="playAgainButton" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition">फिर से खेलें (Play Again)</button>
                     <button id="closeQuizResultsButton" class="w-full sm:w-auto bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg text-lg transition">बंद करें (Close)</button>
@@ -582,29 +688,550 @@
         </div>
     </div>
 
+    <div id="confirmationModal" class="confirmation-modal fixed inset-0 z-[80] flex items-center justify-center p-4 hidden">
+        <div class="confirmation-modal-content bg-white w-full max-w-md rounded-xl shadow-2xl p-6">
+            <h2 id="confirmationTitle" class="text-xl font-bold text-gray-800 mb-4">Confirm Purchase</h2>
+            <p id="confirmationMessage" class="text-gray-700 mb-6">Are you sure you want to spend 500 coins to unlock this test for 1 month?</p>
+            <div class="flex justify-end space-x-3">
+                <button id="cancelUnlockButton" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition">Cancel</button>
+                <button id="confirmUnlockButton" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition">Confirm & Unlock</button>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        // Sidebar toggle functionality (remains the same)
+    <div id="contentModal" class="content-modal-container fixed inset-0 z-[90] flex items-center justify-center p-4 hidden">
+        <div class="content-modal-content bg-white w-full max-w-lg rounded-xl shadow-2xl p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="contentModalTitle" class="text-xl font-bold text-blue-700">Content Title</h2>
+                <button id="closeContentModalButton" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="contentModalImageContainer" class="mb-4 text-center hidden">
+                <img id="contentModalImage" src="" alt="Content Image" class="max-w-full h-auto max-h-48 mx-auto rounded-lg shadow-md object-contain">
+            </div>
+            <div id="contentModalBody" class="text-gray-700 space-y-4 text-sm sm:text-base">
+                </div>
+        </div>
+    </div>
+
+
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInAnonymously, 
+            signInWithCustomToken, 
+            onAuthStateChanged,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            signOut,
+            updateProfile
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc, 
+            setDoc, 
+            updateDoc, 
+            Timestamp,
+            increment,
+            onSnapshot,
+            setLogLevel
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration and Initialization ---
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "YOUR_API_KEY", authDomain: "YOUR_AUTH_DOMAIN", projectId: "YOUR_PROJECT_ID" }; // Fallback for local
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        const fbApp = initializeApp(firebaseConfig);
+        const auth = getAuth(fbApp);
+        const db = getFirestore(fbApp);
+        setLogLevel('debug'); 
+
+        let currentUserId = null;
+        let currentUserData = { displayName: "Guest User", coins: 0, premiumAccess: {} };
+        let unsubscribeUserData = null; 
+
+        // DOM Elements for User Profile
+        const userNameMainEl = document.getElementById('userNameMain');
+        const userAvatarMainEl = document.getElementById('userAvatarMain'); // Placeholder for future avatar use
+        const userIdDisplayEl = document.getElementById('userIdDisplay');
+        const coinCountEl = document.getElementById('coinCount');
+        
+        // DOM Elements for Auth Modal
+        const authModal = document.getElementById('authModal');
+        const closeAuthModalButton = document.getElementById('closeAuthModalButton');
+        const loginTabButton = document.getElementById('loginTabButton');
+        const signupTabButton = document.getElementById('signupTabButton');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const loginErrorEl = document.getElementById('loginError');
+        const signupErrorEl = document.getElementById('signupError');
+        const authStatusEl = document.getElementById('authStatus');
+        const sidebarProfileLink = document.getElementById('sidebarProfileLink');
+        const headerUserIcon = document.getElementById('headerUserIcon');
+        const footerProfileButton = document.getElementById('footerProfileButton');
+        const sidebarLogoutLink = document.getElementById('sidebarLogoutLink');
+
+        // DOM Elements for Top Scorer Modal
+        const topScorerModal = document.getElementById('topScorerModal');
+        const sidebarTopScorerLink = document.getElementById('sidebarTopScorerLink');
+        const closeTopScorerModalButton = document.getElementById('closeTopScorerModalButton');
+
+
+        // --- Authentication State Change Handler ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) { // User is signed in (either anonymously or with email/pass)
+                console.log("User is signed in:", user.uid, "Anonymous:", user.isAnonymous);
+                currentUserId = user.uid;
+                
+                if (unsubscribeUserData) unsubscribeUserData(); // Unsubscribe from previous listener
+                listenToUserData(currentUserId); // Listen to data for the current user
+
+                // If user just signed up/logged in (not anonymous), ensure their profile is set
+                if (!user.isAnonymous && !currentUserData.profileInitialized) {
+                     // Profile might be initialized by listenToUserData or needs an explicit call if new
+                    await initializeUserData(currentUserId, user.displayName || "User", user.email);
+                }
+                updateUIAfterAuthChange(user);
+
+            } else { // User is signed out
+                console.log("User is signed out.");
+                currentUserId = null;
+                currentUserData = { displayName: "Guest User", coins: 0, premiumAccess: {} }; 
+                if (unsubscribeUserData) unsubscribeUserData(); 
+                updateUIAfterAuthChange(null);
+                // Attempt to sign in anonymously if no user is present
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                        console.log("Signed in with custom token after logout.");
+                    } else {
+                        await signInAnonymously(auth);
+                        console.log("Signed in anonymously after logout.");
+                    }
+                } catch (error) {
+                    console.error("Error during anonymous sign-in after logout:", error);
+                }
+            }
+        });
+
+        function updateUIAfterAuthChange(user) {
+            if (user) {
+                userNameMainEl.textContent = currentUserData.displayName || (user.isAnonymous ? "Guest User" : user.email);
+                // userAvatarMainEl.src = currentUserData.photoURL || `https://placehold.co/60x60/FFFFFF/3B82F6?text=${(currentUserData.displayName || 'U')[0].toUpperCase()}`;
+                userIdDisplayEl.textContent = user.uid.substring(0, 8) + "...";
+                coinCountEl.textContent = currentUserData.coins !== undefined ? currentUserData.coins : 0;
+                sidebarLogoutLink.classList.remove('hidden');
+                authStatusEl.textContent = `Logged in as: ${user.email || 'Anonymous Guest'}`;
+                authStatusEl.classList.remove('hidden');
+                loginForm.classList.add('hidden'); // Hide forms if logged in
+                signupForm.classList.add('hidden');
+                loginTabButton.classList.add('hidden');
+                signupTabButton.classList.add('hidden');
+
+            } else { // Logged out state
+                userNameMainEl.textContent = "Guest User";
+                // userAvatarMainEl.src = "https://placehold.co/60x60/FFFFFF/3B82F6?text=U";
+                userIdDisplayEl.textContent = "N/A";
+                coinCountEl.textContent = 0;
+                sidebarLogoutLink.classList.add('hidden');
+                authStatusEl.classList.add('hidden');
+                loginForm.classList.remove('hidden'); // Show forms if logged out
+                signupForm.classList.add('hidden'); // Default to login tab
+                loginTabButton.classList.remove('hidden');
+                signupTabButton.classList.remove('hidden');
+                loginTabButton.classList.add('active');
+                signupTabButton.classList.remove('active');
+            }
+            updatePremiumTestUI(); // Also update premium test UI as it depends on user data
+        }
+
+
+        async function initializeUserData(userId, displayName, email) {
+            if (!userId) return;
+            const userDocRef = doc(db, `artifacts/${appId}/users/${userId}/profile`);
+            try {
+                const docSnap = await getDoc(userDocRef);
+                if (!docSnap.exists()) {
+                    const initialData = {
+                        displayName: displayName || "User " + userId.substring(0, 6),
+                        email: email || null,
+                        coins: 0, 
+                        premiumAccess: {},
+                        createdAt: Timestamp.now(),
+                        profileInitialized: true 
+                    };
+                    await setDoc(userDocRef, initialData);
+                    console.log("New user profile created in Firestore:", initialData);
+                    currentUserData = initialData; // Update local cache immediately
+                } else {
+                    // If doc exists, ensure displayName is updated if provided (e.g., after signup)
+                    const existingData = docSnap.data();
+                    currentUserData = existingData; // Load existing data
+                    if (displayName && existingData.displayName !== displayName) {
+                        await updateDoc(userDocRef, { displayName: displayName });
+                        currentUserData.displayName = displayName;
+                         console.log("User display name updated in Firestore.");
+                    }
+                    if (!existingData.profileInitialized) { // Mark as initialized if it wasn't
+                        await updateDoc(userDocRef, { profileInitialized: true });
+                        currentUserData.profileInitialized = true;
+                    }
+                }
+            } catch (error) {
+                console.error("Error initializing/updating user data:", error);
+            }
+        }
+        
+        function listenToUserData(userId) {
+            if (!userId) return;
+            const userDocRef = doc(db, `artifacts/${appId}/users/${userId}/profile`);
+            unsubscribeUserData = onSnapshot(userDocRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    currentUserData = docSnap.data();
+                    console.log("User data updated via onSnapshot:", currentUserData);
+                    // Update UI elements that depend on currentUserData
+                    userNameMainEl.textContent = currentUserData.displayName || (auth.currentUser?.isAnonymous ? "Guest User" : auth.currentUser?.email);
+                    // userAvatarMainEl.src = currentUserData.photoURL || `https://placehold.co/60x60/FFFFFF/3B82F6?text=${(currentUserData.displayName || 'U')[0].toUpperCase()}`;
+                    coinCountEl.textContent = currentUserData.coins !== undefined ? currentUserData.coins : 0;
+                    updatePremiumTestUI(); 
+                } else {
+                    console.log("User document does not exist in snapshot listener for ID:", userId, ". Attempting to re-initialize if user is not anonymous.");
+                    // Only re-initialize if it's a non-anonymous user, as anonymous profiles are created on demand
+                    if (auth.currentUser && !auth.currentUser.isAnonymous) {
+                         initializeUserData(userId, auth.currentUser.displayName, auth.currentUser.email);
+                    } else if (!auth.currentUser) { // If user somehow got deleted but is logged out
+                        currentUserData = { displayName: "Guest User", coins: 0, premiumAccess: {} };
+                        updateUIAfterAuthChange(null);
+                    }
+                }
+            }, (error) => {
+                console.error("Error listening to user data:", error);
+            });
+        }
+
+        // --- Auth Modal Logic ---
+        function openAuthModal() {
+            authModal.classList.remove('hidden');
+            authModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Reset forms and errors
+            loginForm.reset();
+            signupForm.reset();
+            loginErrorEl.classList.add('hidden');
+            signupErrorEl.classList.add('hidden');
+            
+            // Update status and form visibility based on current auth state
+            if (auth.currentUser && !auth.currentUser.isAnonymous) {
+                authStatusEl.textContent = `You are currently logged in as: ${auth.currentUser.email}. You can logout from the sidebar.`;
+                authStatusEl.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                signupForm.classList.add('hidden');
+                loginTabButton.classList.add('hidden');
+                signupTabButton.classList.add('hidden');
+            } else {
+                authStatusEl.classList.add('hidden');
+                loginForm.classList.remove('hidden'); // Default to login
+                signupForm.classList.add('hidden');
+                loginTabButton.classList.remove('hidden');
+                signupTabButton.classList.remove('hidden');
+                loginTabButton.classList.add('active');
+                signupTabButton.classList.remove('active');
+            }
+        }
+        sidebarProfileLink.addEventListener('click', (e) => { e.preventDefault(); openAuthModal(); });
+        headerUserIcon.addEventListener('click', openAuthModal);
+        footerProfileButton.addEventListener('click', openAuthModal);
+        closeAuthModalButton.addEventListener('click', () => {
+            authModal.classList.add('hidden');
+            authModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        loginTabButton.addEventListener('click', () => {
+            loginTabButton.classList.add('active');
+            signupTabButton.classList.remove('active');
+            loginForm.classList.remove('hidden');
+            signupForm.classList.add('hidden');
+            loginErrorEl.classList.add('hidden');
+            signupErrorEl.classList.add('hidden');
+        });
+        signupTabButton.addEventListener('click', () => {
+            signupTabButton.classList.add('active');
+            loginTabButton.classList.remove('active');
+            signupForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            loginErrorEl.classList.add('hidden');
+            signupErrorEl.classList.add('hidden');
+        });
+
+        // --- Signup Handler ---
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = signupForm.signupName.value.trim();
+            const email = signupForm.signupEmail.value.trim();
+            const password = signupForm.signupPassword.value;
+            signupErrorEl.classList.add('hidden');
+
+            if (!name) {
+                signupErrorEl.textContent = "Name is required.";
+                signupErrorEl.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                // Update Firebase Auth profile (optional, but good practice)
+                await updateProfile(user, { displayName: name });
+                // Initialize/Update user data in Firestore
+                await initializeUserData(user.uid, name, user.email); 
+                
+                console.log("Signup successful:", user);
+                authModal.classList.add('hidden'); // Close modal on success
+                authModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                // onAuthStateChanged will handle UI updates
+            } catch (error) {
+                console.error("Signup error:", error);
+                signupErrorEl.textContent = error.message;
+                signupErrorEl.classList.remove('hidden');
+            }
+        });
+
+        // --- Login Handler ---
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = loginForm.loginEmail.value.trim();
+            const password = loginForm.loginPassword.value;
+            loginErrorEl.classList.add('hidden');
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log("Login successful:", userCredential.user);
+                authModal.classList.add('hidden'); // Close modal on success
+                authModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                 // onAuthStateChanged will handle UI updates and data fetching
+            } catch (error) {
+                console.error("Login error:", error);
+                loginErrorEl.textContent = error.message;
+                loginErrorEl.classList.remove('hidden');
+            }
+        });
+        
+        // --- Logout Handler ---
+        sidebarLogoutLink.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await signOut(auth);
+                console.log("User signed out successfully.");
+                // onAuthStateChanged will handle UI updates and anonymous sign-in
+                // Close sidebar if open
+                if (sidebar.classList.contains('open')) {
+                    toggleSidebar();
+                }
+            } catch (error) {
+                console.error("Logout error:", error);
+            }
+        });
+
+        // --- Top Scorer Modal Logic ---
+        sidebarTopScorerLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            topScorerModal.classList.remove('hidden');
+            topScorerModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // In a real app, you would fetch and render dynamic data here.
+            // For now, it uses the static HTML list.
+        });
+        closeTopScorerModalButton.addEventListener('click', () => {
+            topScorerModal.classList.add('hidden');
+            topScorerModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+
+        // --- Premium Test Logic (mostly unchanged, relies on currentUserData from onSnapshot) ---
+        const premiumTestButton = document.getElementById('unlockPremiumPlumberHindiButton');
+        const premiumTestStatusEl = document.getElementById('premiumPlumberHindiStatus');
+        const premiumPlumberHindiSubCardsContainer = document.getElementById('premiumPlumberHindiSubCardsContainer');
+        const PREMIUM_TEST_ID = "premium_plumber_hindi"; 
+        const PREMIUM_TEST_COST = 500;
+
+        function updatePremiumTestUI() {
+            if (!currentUserData) { 
+                premiumTestStatusEl.textContent = "Loading user data...";
+                premiumTestButton.disabled = true;
+                premiumTestButton.classList.add('opacity-50', 'cursor-not-allowed');
+                premiumPlumberHindiSubCardsContainer.classList.add('hidden');
+                premiumPlumberHindiSubCardsContainer.querySelectorAll('.premium-sub-card').forEach(card => card.classList.add('disabled'));
+                return;
+            }
+
+            const testAccess = currentUserData.premiumAccess?.[PREMIUM_TEST_ID];
+            const userCoins = currentUserData.coins !== undefined ? currentUserData.coins : 0;
+            
+            premiumPlumberHindiSubCardsContainer.classList.add('hidden'); 
+            premiumPlumberHindiSubCardsContainer.querySelectorAll('.premium-sub-card').forEach(card => {
+                card.classList.add('disabled');
+                card.onclick = null;
+            });
+
+            if (testAccess && testAccess.expiresAt) {
+                const expiryDate = testAccess.expiresAt.toDate();
+                if (expiryDate > new Date()) {
+                    premiumTestStatusEl.textContent = `Unlocked! Expires on: ${expiryDate.toLocaleDateString()}`;
+                    premiumTestButton.textContent = "View Content (खुला हुआ)";
+                    premiumTestButton.classList.remove('bg-green-600', 'hover:bg-green-700', 'opacity-50', 'cursor-not-allowed');
+                    premiumTestButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                    premiumTestButton.disabled = true; 
+                    
+                    premiumPlumberHindiSubCardsContainer.classList.remove('hidden');
+                    premiumPlumberHindiSubCardsContainer.querySelectorAll('.premium-sub-card').forEach(card => {
+                        card.classList.remove('disabled');
+                        card.onclick = () => {
+                            // Find the content for this premium sub-test and display it
+                            // This part needs specific content data similar to freeContentData
+                            const subtestKey = card.dataset.subtest;
+                            console.log(`Accessing premium sub-test: ${subtestKey}`);
+                            // Example: openContentModalForPremium(subtestKey);
+                            openContentModalGeneric(subtestKey, true);
+                        }
+                    });
+                    return; 
+                } else {
+                     premiumTestStatusEl.textContent = `Premium access expired.`; 
+                }
+            } else {
+                 premiumTestStatusEl.textContent = `Cost: ${PREMIUM_TEST_COST} coins. You have ${userCoins}.`;
+            }
+            
+            premiumTestButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            premiumTestButton.classList.add('bg-green-600', 'hover:bg-green-700');
+            
+            if (auth.currentUser && !auth.currentUser.isAnonymous) { // Only allow unlock for logged-in (non-anonymous) users
+                if (userCoins >= PREMIUM_TEST_COST) {
+                    premiumTestButton.textContent = `Unlock Section for ${PREMIUM_TEST_COST} 🪙`;
+                    premiumTestButton.disabled = false;
+                    premiumTestButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    premiumTestButton.onclick = () => handleUnlockPremiumTest(PREMIUM_TEST_ID, PREMIUM_TEST_COST);
+                } else {
+                    premiumTestButton.textContent = `Need ${PREMIUM_TEST_COST - userCoins} more 🪙`;
+                    premiumTestButton.disabled = true;
+                    premiumTestButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    premiumTestButton.onclick = null;
+                }
+            } else { // Anonymous or logged-out users cannot unlock
+                premiumTestButton.textContent = `Login to Unlock (कीमत: ${PREMIUM_TEST_COST} 🪙)`;
+                premiumTestButton.disabled = true;
+                premiumTestButton.classList.add('opacity-50', 'cursor-not-allowed');
+                premiumTestButton.onclick = openAuthModal; // Prompt to login
+            }
+        }
+
+        async function handleUnlockPremiumTest(testId, cost) {
+            if (!currentUserId || (auth.currentUser && auth.currentUser.isAnonymous)) {
+                premiumTestStatusEl.textContent = "Please login to unlock premium content.";
+                openAuthModal();
+                return;
+            }
+            if (!currentUserData || (currentUserData.coins !== undefined ? currentUserData.coins : 0) < cost) {
+                premiumTestStatusEl.textContent = "Not enough coins or user data error.";
+                return;
+            }
+            
+            const confirmationModal = document.getElementById('confirmationModal');
+            const confirmationTitle = document.getElementById('confirmationTitle');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            const confirmUnlockButton = document.getElementById('confirmUnlockButton');
+            const cancelUnlockButton = document.getElementById('cancelUnlockButton');
+
+            confirmationTitle.textContent = `Unlock "प्लम्बर सभी विषय" Section?`;
+            confirmationMessage.textContent = `Are you sure you want to spend ${cost} coins to unlock this section for 1 month?`;
+            
+            confirmationModal.classList.remove('hidden');
+            confirmationModal.classList.add('active');
+
+            confirmUnlockButton.onclick = async () => {
+                confirmationModal.classList.add('hidden');
+                confirmationModal.classList.remove('active');
+
+                const userDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}/profile`);
+                const now = Timestamp.now();
+                const expiryDate = new Date(now.toDate());
+                expiryDate.setMonth(expiryDate.getMonth() + 1);
+                const expiryTimestamp = Timestamp.fromDate(expiryDate);
+
+                const currentPremiumAccess = currentUserData.premiumAccess || {};
+                const newPremiumAccess = {
+                    ...currentPremiumAccess,
+                    [testId]: {
+                        unlockedAt: now,
+                        expiresAt: expiryTimestamp
+                    }
+                };
+                try {
+                    await updateDoc(userDocRef, {
+                        coins: increment(-cost), 
+                        premiumAccess: newPremiumAccess
+                    });
+                    console.log(`Section ${testId} unlocked. Coins deducted. Firestore update sent.`);
+                } catch (error) {
+                    console.error("Error unlocking premium section:", error);
+                    premiumTestStatusEl.textContent = "Error during unlock. Please try again.";
+                }
+            };
+            cancelUnlockButton.onclick = () => {
+                confirmationModal.classList.add('hidden');
+                confirmationModal.classList.remove('active');
+            };
+        }
+        async function updateUserCoins(userId, amount) {
+            if (!userId) {
+                console.error("Cannot update coins: No userId provided.");
+                return;
+            }
+            if (amount === 0) {
+                 console.log("No coins to update (amount is 0).");
+                 return;
+            }
+            const userDocRef = doc(db, `artifacts/${appId}/users/${userId}/profile`);
+            console.log(`Attempting to update coins for user ${userId} by ${amount}. Current local coins before Firestore call: ${currentUserData?.coins}`);
+            try {
+                await updateDoc(userDocRef, {
+                    coins: increment(amount) 
+                });
+                console.log(`SUCCESS: Coins update request sent to Firestore for user ${userId} by ${amount}. Waiting for onSnapshot to reflect the change in UI.`);
+            } catch (error) {
+                console.error(`ERROR updating coins in Firestore for user ${userId}:`, error);
+            }
+        }
+
+
+        // --- Sidebar Functionality ---
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const hamburgerButton = document.getElementById('hamburgerButton');
-
         function toggleSidebar() {
             sidebar.classList.toggle('open');
             sidebarOverlay.classList.toggle('hidden');
             document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : 'auto';
         }
-
         hamburgerButton.addEventListener('click', toggleSidebar);
         sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        // AI Q&A Functionality (remains the same)
+        // --- AI Q&A Functionality (unchanged) ---
         const askQuestionBtn = document.getElementById('askQuestionBtn');
         const aiQuestionArea = document.getElementById('aiQuestionArea');
-        const aiQuestionTextEl = document.getElementById('aiQuestionText'); // Renamed to avoid conflict
+        const aiQuestionTextEl = document.getElementById('aiQuestionText');
         const getExplanationBtn = document.getElementById('getExplanationBtn');
         const aiExplanationArea = document.getElementById('aiExplanationArea');
-        const aiExplanationTextEl = document.getElementById('aiExplanationText'); // Renamed to avoid conflict
+        const aiExplanationTextEl = document.getElementById('aiExplanationText');
         const aiLoadingIndicator = document.getElementById('aiLoadingIndicator');
         let currentAiGeneralQuestion = "";
         const sampleGeneralQuestions = [
@@ -612,7 +1239,6 @@
             "पी-ट्रैप का उद्देश्य क्या है? (What is the purpose of a P-trap?)",
             "भारत की राजधानी क्या है? (What is the capital of India?)",
         ];
-
         askQuestionBtn.addEventListener('click', () => {
             aiExplanationArea.style.display = 'none';
             aiExplanationTextEl.textContent = '';
@@ -622,7 +1248,6 @@
             aiQuestionTextEl.textContent = currentAiGeneralQuestion;
             aiQuestionArea.style.display = 'block';
         });
-
         getExplanationBtn.addEventListener('click', async () => {
             if (!currentAiGeneralQuestion) return;
             aiLoadingIndicator.style.display = 'block';
@@ -631,7 +1256,7 @@
             getExplanationBtn.disabled = true;
             const prompt = `कृपया इस प्रश्न का उत्तर सरल और स्पष्ट भाषा में समझाएं: "${currentAiGeneralQuestion}". सुनिश्चित करें कि जवाब हिंदी में हो।`;
             try {
-                const apiKey = "";
+                const apiKey = ""; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                 const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -661,352 +1286,74 @@
         const numQuestionsButtons = document.querySelectorAll('.num-questions-btn');
         const startSelectedQuizButton = document.getElementById('startSelectedQuizButton');
         const closeQuizSetupButton = document.getElementById('closeQuizSetupButton');
-        
         const currentQuestionNumberEl = document.getElementById('currentQuestionNumber');
         const totalQuizQuestionsEl = document.getElementById('totalQuizQuestions');
         const quizTimerEl = document.getElementById('quizTimer');
         const questionTimerBar = document.getElementById('questionTimerBar');
         const questionImageContainer = document.getElementById('questionImageContainer');
         const questionImageEl = document.getElementById('questionImage');
-        const questionTextQuizEl = document.getElementById('questionText'); // Renamed to avoid conflict
+        const questionTextQuizEl = document.getElementById('questionText'); 
         const optionsContainer = document.getElementById('optionsContainer');
         const lifeline5050Button = document.getElementById('lifeline5050');
         const lifelineAudiencePollButton = document.getElementById('lifelineAudiencePoll');
         const audiencePollResultsEl = document.getElementById('audiencePollResults');
         const nextQuestionButton = document.getElementById('nextQuestionButton');
         const closeQuizInterfaceButton = document.getElementById('closeQuizInterfaceButton');
-
         const finalScoreEl = document.getElementById('finalScore');
         const playAgainButton = document.getElementById('playAgainButton');
         const closeQuizResultsButton = document.getElementById('closeQuizResultsButton');
+        const coinsEarnedInQuizEl = document.getElementById('coinsEarnedInQuiz');
+        const coinsEarnedInQuizDupEl = document.getElementById('coinsEarnedInQuizDup');
 
         let allPlumbingQuestions = [
-            // Sample questions (more can be added)
-            {
-                id: 1,
-                text: "चित्र में दिखाए गए उपकरण का नाम क्या है? (What is the name of the tool shown in the picture?)",
-                image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Pipe+Wrench",
-                options: [
-                    { text: "पाइप रिंच (Pipe Wrench)", correct: true },
-                    { text: "समायोज्य रिंच (Adjustable Wrench)", correct: false },
-                    { text: "सॉकेट रिंच (Socket Wrench)", correct: false },
-                    { text: "टॉर्क रिंच (Torque Wrench)", correct: false }
-                ]
-            },
-            {
-                id: 2,
-                text: "पानी के रिसाव को रोकने के लिए पाइप थ्रेड्स पर आमतौर पर किस सामग्री का उपयोग किया जाता है? (Which material is commonly used on pipe threads to prevent water leaks?)",
-                image: null,
-                options: [
-                    { text: "टेफ्लॉन टेप (Teflon Tape)", correct: true },
-                    { text: "डक्ट टेप (Duct Tape)", correct: false },
-                    { text: "रबर सीमेंट (Rubber Cement)", correct: false },
-                    { text: "सिलिकॉन सीलेंट (Silicone Sealant)", correct: false }
-                ]
-            },
-            {
-                id: 3,
-                text: "पी-ट्रैप का मुख्य कार्य क्या है? (What is the main function of a P-trap?)",
-                image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=P-Trap+Diagram",
-                options: [
-                    { text: "पानी के प्रवाह को बढ़ाना (Increase water flow)", correct: false },
-                    { text: "गटर गैसों को घर में प्रवेश करने से रोकना (Prevent sewer gases from entering the house)", correct: true },
-                    { text: "पानी के दबाव को नियंत्रित करना (Regulate water pressure)", correct: false },
-                    { text: "पाइप को साफ रखना (Keep pipes clean)", correct: false }
-                ]
-            },
-            {
-                id: 4,
-                text: "इनमें से कौन सा एक प्रकार का प्लंबिंग वाल्व नहीं है? (Which of these is NOT a type of plumbing valve?)",
-                image: null,
-                options: [
-                    { text: "गेट वाल्व (Gate Valve)", correct: false },
-                    { text: "बॉल वाल्व (Ball Valve)", correct: false },
-                    { text: "बटरफ्लाई वाल्व (Butterfly Valve)", correct: false },
-                    { text: "पिस्टन वाल्व (Piston Valve - less common in household plumbing, can be tricky)", correct: true } // Assuming piston valve is less common for this context
-                ]
-            },
-            {
-                id: 5,
-                text: "शौचालय फ्लश सिस्टम में साइफन प्रभाव का क्या महत्व है? (What is the significance of the siphon effect in a toilet flush system?)",
-                image: null, // Corrected: removed the extra 'u'
-                options: [
-                    { text: "यह टैंक को तेजी से भरता है (It fills the tank quickly)", correct: false },
-                    { text: "यह कटोरे से अपशिष्ट को प्रभावी ढंग से निकालता है (It effectively removes waste from the bowl)", correct: true },
-                    { text: "यह पानी बचाता है (It conserves water)", correct: false },
-                    { text: "यह शोर को कम करता है (It reduces noise)", correct: false }
-                ]
-            },
-             {
-                id: 6,
-                text: "चित्र में किस प्रकार की पाइप फिटिंग दिखाई गई है? (What type of pipe fitting is shown in the picture?)",
-                image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Elbow+Fitting",
-                options: [
-                    { text: "टी (Tee)", correct: false },
-                    { text: "एल्बो (Elbow)", correct: true },
-                    { text: "कपलिंग (Coupling)", correct: false },
-                    { text: "यूनियन (Union)", correct: false }
-                ]
-            },
-            {
-                id: 7,
-                text: "वॉटर हीटर में एनोड रॉड का उद्देश्य क्या है? (What is the purpose of an anode rod in a water heater?)",
-                image: null,
-                options: [
-                    { text: "पानी को तेजी से गर्म करना (To heat water faster)", correct: false },
-                    { text: "टैंक को जंग लगने से बचाना (To protect the tank from corrosion)", correct: true },
-                    { text: "पानी के दबाव को बढ़ाना (To increase water pressure)", correct: false },
-                    { text: "पानी को फिल्टर करना (To filter water)", correct: false }
-                ]
-            },
-          
-  {
-    id: 1,
-    text: "पीवीसी पाइप का मुख्य उपयोग क्या है? (What is the primary use of PVC pipes?)",
-    image: null,
-    options: [
-      { text: "बिजली तारों के लिए (For electrical wiring)", correct: false },
-      { text: "पानी की आपूर्ति के लिए (For water supply)", correct: true },
-      { text: "ईंधन परिवहन के लिए (For fuel transportation)", correct: false },
-      { text: "नकली सजावट के लिए (For fake decoration)", correct: false }
-    ]
-  },
-  {
-    id: 2,
-    text: "टॉयलेट में 'सिफन' का उद्देश्य क्या होता है? (What is the function of a siphon in a toilet?)",
-    image: null,
-    options: [
-      { text: "पानी जमा करना (To store water)", correct: false },
-      { text: "गंध को रोकना (To prevent odors)", correct: true },
-      { text: "टैंक को साफ रखना (To clean the tank)", correct: false },
-      { text: "पाइप में हवा भरना (To fill air in the pipe)", correct: false }
-    ]
-  },
-  {
-    id: 3,
-    text: "प्लंबिंग में 'एल्बो' का उपयोग क्यों किया जाता है? (Why is an elbow used in plumbing?)",
-    image: null,
-    options: [
-      { text: "पाइप जोड़ने के लिए (To connect pipes)", correct: false },
-      { text: "दिशा बदलने के लिए (To change direction)", correct: true },
-      { text: "दबाव बढ़ाने के लिए (To increase pressure)", correct: false },
-      { text: "साफ पानी फिल्टर करने के लिए (To filter clean water)", correct: false }
-    ]
-  },
-  {
-    id: 4,
-    text: "CPVC पाइप्स का उपयोग क्यों किया जाता है? (Why are CPVC pipes used?)",
-    image: null,
-    options: [
-      { text: "सिर्फ सर्द पानी के लिए (Only for cold water)", correct: false },
-      { text: "गर्म और ठंडे दोनों पानी के लिए (For both hot and cold water)", correct: true },
-      { text: "सिर्फ गैस लाइन के लिए (Only for gas line)", correct: false },
-      { text: "सिर्फ ड्रेनेज के लिए (Only for drainage)", correct: false }
-    ]
-  },
-  {
-    id: 5,
-    text: "नल में 'कार्ट्रिज' किसका हिस्सा होता है? (The cartridge is a part of which plumbing component?)",
-    image: null,
-    options: [
-      { text: "शॉवर (Shower)", correct: false },
-      { text: "फॉसेट (Faucet)", correct: true },
-      { text: "पाइप (Pipe)", correct: false },
-      { text: "फिल्टर (Filter)", correct: false }
-    ]
-  },
-  {
-    id: 6,
-    text: "प्लंबिंग में 'टी-जॉइंट' का उपयोग कब किया जाता है? (When is a T-joint used in plumbing?)",
-    image: null,
-    options: [
-      { text: "सीधे जोड़ के लिए (For straight joints)", correct: false },
-      { text: "तीन दिशा में जोड़ने के लिए (To connect in three directions)", correct: true },
-      { text: "दबाव बढ़ाने के लिए (To increase pressure)", correct: false },
-      { text: "फ्लो कम करने के लिए (To reduce flow)", correct: false }
-    ]
-  },
-  {
-    id: 7,
-    text: "वॉटर हीटर में एनोड रॉड का उद्देश्य क्या है? (What is the purpose of an anode rod in a water heater?)",
-    image: null,
-    options: [
-      { text: "पानी को तेजी से गर्म करना (To heat water faster)", correct: false },
-      { text: "टैंक को जंग लगने से बचाना (To protect the tank from corrosion)", correct: true },
-      { text: "पानी के दबाव को बढ़ाना (To increase water pressure)", correct: false },
-      { text: "पानी को फिल्टर करना (To filter water)", correct: false }
-    ]
-  },
-  {
-    id: 8,
-    text: "फ्लश टैंक में फ्लोट वाल्व का कार्य क्या होता है? (What is the function of the float valve in a flush tank?)",
-    image: null,
-    options: [
-      { text: "पानी भरना बंद करना (To stop water filling)", correct: true },
-      { text: "पानी को तेजी से बाहर निकालना (To flush faster)", correct: false },
-      { text: "गंध रोकना (To block smell)", correct: false },
-      { text: "टैंक साफ करना (To clean tank)", correct: false }
-    ]
-  },
-  {
-    id: 9,
-    text: "प्लंबिंग पाइप की नाप किस इकाई में होती है? (What is the unit used to measure plumbing pipes?)",
-    image: null,
-    options: [
-      { text: "किलोग्राम (Kilogram)", correct: false },
-      { text: "लीटर (Litre)", correct: false },
-      { text: "इंच (Inch)", correct: true },
-      { text: "सेल्सियस (Celsius)", correct: false }
-    ]
-  },
-  {
-    id: 10,
-    text: "कौन सी पाइप गर्म पानी के लिए उपयुक्त है? (Which pipe is suitable for hot water?)",
-    image: null,
-    options: [
-      { text: "PVC", correct: false },
-      { text: "CPVC", correct: true },
-      { text: "HDPE", correct: false },
-      { text: "GI", correct: false }
-    ]
-  },
-  {
-    id: 11,
-    text: "ड्रेनेज पाइप की ढलान क्यों आवश्यक है? (Why is slope important in drainage pipes?)",
-    image: null,
-    options: [
-      { text: "पानी जमा करने के लिए (To store water)", correct: false },
-      { text: "गति से पानी बहाने के लिए (To allow water to flow with gravity)", correct: true },
-      { text: "पाइप को मजबूत बनाने के लिए (To strengthen the pipe)", correct: false },
-      { text: "दबाव बढ़ाने के लिए (To increase pressure)", correct: false }
-    ]
-  },
-  {
-    id: 12,
-    text: "GI पाइप का मतलब क्या है? (What does GI pipe stand for?)",
-    image: null,
-    options: [
-      { text: "Galvanized Iron", correct: true },
-      { text: "Graphite Iron", correct: false },
-      { text: "Glass Insulated", correct: false },
-      { text: "Gas Injected", correct: false }
-    ]
-  },
-  {
-    id: 13,
-    text: "टेप का उपयोग पाइप में क्यों किया जाता है? (Why is tape used in pipe fittings?)",
-    image: null,
-    options: [
-      { text: "डिजाइन के लिए (For design)", correct: false },
-      { text: "लीकेज रोकने के लिए (To prevent leakage)", correct: true },
-      { text: "फिल्टरिंग के लिए (For filtering)", correct: false },
-      { text: "कलर कोडिंग के लिए (For color coding)", correct: false }
-    ]
-  },
-  {
-    id: 14,
-    text: "सीवर पाइप में कौन सी गैस बनती है? (Which gas forms in sewer pipes?)",
-    image: null,
-    options: [
-      { text: "ऑक्सीजन (Oxygen)", correct: false },
-      { text: "हाइड्रोजन सल्फाइड (Hydrogen Sulfide)", correct: true },
-      { text: "कार्बन डाइऑक्साइड (Carbon Dioxide)", correct: false },
-      { text: "नाइट्रोजन (Nitrogen)", correct: false }
-    ]
-  },
-  {
-    id: 15,
-    text: "प्रेशर वॉशर का उपयोग किसके लिए होता है? (What is a pressure washer used for?)",
-    image: null,
-    options: [
-      { text: "हीटिंग के लिए (For heating)", correct: false },
-      { text: "सफाई के लिए (For cleaning)", correct: true },
-      { text: "पानी जमा करने के लिए (For storing water)", correct: false },
-      { text: "पानी छानने के लिए (For filtering water)", correct: false }
-    ]
-  },
-  {
-    id: 16,
-    text: "प्लंजर का उपयोग किस स्थिति में किया जाता है? (When is a plunger used?)",
-    image: null,
-    options: [
-      { text: "नया पाइप लगाने में (To install new pipe)", correct: false },
-      { text: "ब्लॉक हटाने में (To remove blockages)", correct: true },
-      { text: "गंध हटाने में (To remove smell)", correct: false },
-      { text: "फ्लो बढ़ाने में (To increase flow)", correct: false }
-    ]
-  },
-  {
-    id: 17,
-    text: "PEX पाइप्स का उपयोग किसमें होता है? (Where are PEX pipes used?)",
-    image: null,
-    options: [
-      { text: "इलेक्ट्रिकल वायरिंग में (In electrical wiring)", correct: false },
-      { text: "ड्रेनेज में (In drainage)", correct: false },
-      { text: "हॉट और कोल्ड वाटर लाइन में (In hot and cold water lines)", correct: true },
-      { text: "गैस लाइन में (In gas line)", correct: false }
-    ]
-  },
-  {
-    id: 18,
-    text: "सीलेंट का कार्य क्या है? (What is the function of sealant?)",
-    image: null,
-    options: [
-      { text: "रंग बदलना (To change color)", correct: false },
-      { text: "फिटिंग्स को कसना (To tighten fittings)", correct: false },
-      { text: "लीकेज रोकना (To prevent leakage)", correct: true },
-      { text: "जगह चिपकाना (To stick surfaces)", correct: false }
-    ]
-  },
-  {
-    id: 19,
-    text: "हैंड पंप किस सिद्धांत पर काम करता है? (What principle does a hand pump work on?)",
-    image: null,
-    options: [
-      { text: "गुरुत्वाकर्षण (Gravity)", correct: false },
-      { text: "वायुदाब (Air Pressure)", correct: false },
-      { text: "वैक्यूम (Vacuum)", correct: true },
-      { text: "गति ऊर्जा (Kinetic energy)", correct: false }
-    ]
-  },
-  {
-    id: 20,
-    text: "नल का लीकेज बंद करने के लिए सबसे पहले क्या करना चाहिए? (What should be done first to stop tap leakage?)",
-    image: null,
-    options: [
-      { text: "फॉसेट हटाना (Remove the faucet)", correct: false },
-      { text: "पानी की सप्लाई बंद करना (Turn off the water supply)", correct: true },
-      { text: "पाइप काटना (Cut the pipe)", correct: false },
-      { text: "सीलेंट लगाना (Apply sealant)", correct: false }
-    ]
-  }
-
-
-            // Add more questions here...
+            { id: 1, text: "चित्र में दिखाए गए उपकरण का नाम क्या है? (What is the name of the tool shown in the picture?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Pipe+Wrench", options: [{ text: "पाइप रिंच (Pipe Wrench)", correct: true },{ text: "समायोज्य रिंच (Adjustable Wrench)", correct: false },{ text: "सॉकेट रिंच (Socket Wrench)", correct: false },{ text: "टॉर्क रिंच (Torque Wrench)", correct: false }]},
+            { id: 2, text: "पानी के रिसाव को रोकने के लिए पाइप थ्रेड्स पर आमतौर पर किस सामग्री का उपयोग किया जाता है? (Which material is commonly used on pipe threads to prevent water leaks?)", image: null, options: [{ text: "टेफ्लॉन टेप (Teflon Tape)", correct: true },{ text: "डक्ट टेप (Duct Tape)", correct: false },{ text: "रबर सीमेंट (Rubber Cement)", correct: false },{ text: "सिलिकॉन सीलेंट (Silicone Sealant)", correct: false }]},
+            { id: 3, text: "पी-ट्रैप का मुख्य कार्य क्या है? (What is the main function of a P-trap?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=P-Trap+Diagram", options: [{ text: "पानी के प्रवाह को बढ़ाना (Increase water flow)", correct: false },{ text: "गटर गैसों को घर में प्रवेश करने से रोकना (Prevent sewer gases from entering the house)", correct: true },{ text: "पानी के दबाव को नियंत्रित करना (Regulate water pressure)", correct: false },{ text: "पाइप को साफ रखना (Keep pipes clean)", correct: false }]},
+            { id: 4, text: "इनमें से कौन सा एक प्रकार का प्लंबिंग वाल्व नहीं है? (Which of these is NOT a type of plumbing valve?)", image: null, options: [{ text: "गेट वाल्व (Gate Valve)", correct: false },{ text: "बॉल वाल्व (Ball Valve)", correct: false },{ text: "बटरफ्लाई वाल्व (Butterfly Valve)", correct: false },{ text: "पिस्टन वाल्व (Piston Valve)", correct: true }]}, 
+            { id: 5, text: "शौचालय फ्लश सिस्टम में साइफन प्रभाव का क्या महत्व है? (What is the significance of the siphon effect in a toilet flush system?)", image: null, options: [{ text: "यह टैंक को तेजी से भरता है (It fills the tank quickly)", correct: false },{ text: "यह कटोरे से अपशिष्ट को प्रभावी ढंग से निकालता है (It effectively removes waste from the bowl)", correct: true },{ text: "यह पानी बचाता है (It conserves water)", correct: false },{ text: "यह शोर को कम करता है (It reduces noise)", correct: false }]},
+            { id: 6, text: "चित्र में किस प्रकार की पाइप फिटिंग दिखाई गई है? (What type of pipe fitting is shown in the picture?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Elbow+Fitting", options: [{ text: "टी (Tee)", correct: false },{ text: "एल्बो (Elbow)", correct: true },{ text: "कपलिंग (Coupling)", correct: false },{ text: "यूनियन (Union)", correct: false }]},
+            { id: 7, text: "वॉटर हीटर में एनोड रॉड का उद्देश्य क्या है? (What is the purpose of an anode rod in a water heater?)", image: null, options: [{ text: "पानी को तेजी से गर्म करना (To heat water faster)", correct: false },{ text: "टैंक को जंग लगने से बचाना (To protect the tank from corrosion)", correct: true },{ text: "पानी के दबाव को बढ़ाना (To increase water pressure)", correct: false },{ text: "पानी को फिल्टर करना (To filter water)", correct: false }]},
+            { id: 8, text: "तांबे के पाइप को जोड़ने के लिए आमतौर पर किस प्रक्रिया का उपयोग किया जाता है? (Which process is commonly used for joining copper pipes?)", image: null, options: [{ text: "वेल्डिंग (Welding)", correct: false },{ text: "सोल्डरिंग (Soldering)", correct: true },{ text: "थ्रेडिंग (Threading)", correct: false },{ text: "क्लैंपिंग (Clamping)", correct: false }]},
+            { id: 9, text: "एक 'चेक वाल्व' का उद्देश्य क्या है? (What is the purpose of a 'check valve'?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Check+Valve", options: [{ text: "पानी के प्रवाह को रोकना (To stop water flow)", correct: false },{ text: "पानी के दबाव को कम करना (To reduce water pressure)", correct: false },{ text: "बैकफ्लो को रोकना (To prevent backflow)", correct: true },{ text: "पानी के तापमान को नियंत्रित करना (To control water temperature)", correct: false }]},
+            { id: 10, text: "डीपीडब्ल्यूसी पाइप का क्या अर्थ है? (What does DWV pipe stand for?)", image: null, options: [{ text: "ड्रिंक वॉटर वैक्यूम (Drink Water Vacuum)", correct: false },{ text: "ड्रेन वेस्ट वेंट (Drain Waste Vent)", correct: true },{ text: "ड्यूअल वॉटर वेंट (Dual Water Vent)", correct: false },{ text: "डीप वॉटर वैल्व (Deep Water Valve)", correct: false }]},
+            { id: 11, text: "चित्र में दिखाए गए उपकरण का उपयोग किस लिए किया जाता है? (What is the tool shown in the picture used for?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Plunger", options: [{ text: "पाइप काटने के लिए (For cutting pipes)", correct: false },{ text: "नालियों को खोलने के लिए (For unclogging drains)", correct: true },{ text: "पाइप को कसने के लिए (For tightening pipes)", correct: false },{ text: "रिसाव का पता लगाने के लिए (For detecting leaks)", correct: false }]},
+            { id: 12, text: "प्लंबिंग में 'वाटर हैमर' क्या है? (What is 'water hammer' in plumbing?)", image: null, options: [{ text: "एक प्रकार का पाइप (A type of pipe)", correct: false },{ text: "एक उपकरण (A tool)", correct: false },{ text: "पाइप में अचानक दबाव परिवर्तन से होने वाला शोर (Noise caused by sudden pressure change in pipes)", correct: true },{ text: "पानी का रिसाव (A water leak)", correct: false }]},
+            { id: 13, text: "कौन सा पाइप सामग्री आमतौर पर गर्म पानी की लाइनों के लिए अनुशंसित नहीं है? (Which pipe material is generally NOT recommended for hot water lines?)", image: null, options: [{ text: "कॉपर (Copper)", correct: false },{ text: "सीपीवीसी (CPVC)", correct: false },{ text: "पीवीसी (PVC - Schedule 40/80 for cold water primarily)", correct: true },{ text: "पीईएक्स (PEX)", correct: false }]},
+            { id: 14, text: "एक 'यूनियन' फिटिंग का उपयोग किस लिए किया जाता है? (What is a 'union' fitting used for?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Union+Fitting", options: [{ text: "पाइप की दिशा बदलने के लिए (To change pipe direction)", correct: false },{ text: "दो पाइपों को स्थायी रूप से जोड़ने के लिए (To permanently join two pipes)", correct: false },{ text: "पाइप को आसानी से अलग करने की अनुमति देने के लिए (To allow easy disassembly of pipes)", correct: true },{ text: "पाइप के आकार को कम करने के लिए (To reduce pipe size)", correct: false }]},
+            { id: 15, text: "सुरक्षा के लिए, गैस लाइनों पर काम करने से पहले पहला कदम क्या होना चाहिए? (For safety, what should be the first step before working on gas lines?)", image: null, options: [{ text: "खिड़कियां खोलें (Open windows)", correct: false },{ text: "मुख्य गैस आपूर्ति बंद करें (Shut off the main gas supply)", correct: true },{ text: "उपकरण इकट्ठा करें (Gather tools)", correct: false },{ text: "सुरक्षा चश्मा पहनें (Wear safety goggles)", correct: false }]}
         ];
+
 
         let currentQuizQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
-        let timeLeft = 60;
+        let coinsThisQuiz = 0; 
+        let timeLeft = 60; 
         let timerInterval;
         let selectedNumOfQuestions = 0;
-        let lifelines = {
-            fiftyFiftyUsed: false,
-            audiencePollUsed: false
-        };
+        let lifelines = { fiftyFiftyUsed: false, audiencePollUsed: false };
 
         triggerQuizButton.addEventListener('click', () => {
+            if (!auth.currentUser || auth.currentUser.isAnonymous) {
+                openAuthModal(); // Prompt login if anonymous or not logged in
+                // Optionally, display a message like "Please login to take the quiz."
+                const tempMsg = document.createElement('p');
+                tempMsg.textContent = "Please login to start the quiz. (क्विज़ शुरू करने के लिए कृपया लॉग इन करें।)";
+                tempMsg.classList.add('text-red-500', 'text-center', 'my-2', 'text-sm');
+                triggerQuizButton.parentNode.insertBefore(tempMsg, triggerQuizButton.nextSibling);
+                setTimeout(() => tempMsg.remove(), 3000);
+                return;
+            }
             quizModal.classList.remove('hidden');
-            quizModal.classList.add('active'); // For animation
+            quizModal.classList.add('active');
             showQuizScreen('setup');
-            document.body.style.overflow = 'hidden'; // Prevent background scroll
+            document.body.style.overflow = 'hidden';
         });
 
         function closeQuizModal() {
             quizModal.classList.add('hidden');
             quizModal.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Restore background scroll
+            document.body.style.overflow = 'auto';
             if (timerInterval) clearInterval(timerInterval);
         }
 
@@ -1016,17 +1363,19 @@
 
         numQuestionsButtons.forEach(button => {
             button.addEventListener('click', () => {
-                numQuestionsButtons.forEach(btn => btn.classList.replace('bg-green-500', 'bg-blue-500'));
-                button.classList.replace('bg-blue-500', 'bg-green-500');
+                numQuestionsButtons.forEach(btn => btn.classList.replace('bg-green-500', 'bg-blue-500')); 
+                button.classList.replace('bg-blue-500', 'bg-green-500'); 
                 selectedNumOfQuestions = parseInt(button.dataset.count);
                 startSelectedQuizButton.disabled = false;
             });
         });
 
         startSelectedQuizButton.addEventListener('click', () => {
-            if (selectedNumOfQuestions > 0) {
+            if (selectedNumOfQuestions > 0 && selectedNumOfQuestions <= allPlumbingQuestions.length) {
                 initializeQuiz();
                 showQuizScreen('interface');
+            } else if (selectedNumOfQuestions > allPlumbingQuestions.length) {
+                alert(`Sorry, only ${allPlumbingQuestions.length} questions are available. Please select a smaller number.`);
             }
         });
         
@@ -1038,10 +1387,11 @@
         }
 
         function initializeQuiz() {
-            shuffleArray(allPlumbingQuestions);
-            currentQuizQuestions = allPlumbingQuestions.slice(0, selectedNumOfQuestions);
+            shuffleArray(allPlumbingQuestions); 
+            currentQuizQuestions = allPlumbingQuestions.slice(0, selectedNumOfQuestions); 
             currentQuestionIndex = 0;
             score = 0;
+            coinsThisQuiz = 0; 
             lifelines.fiftyFiftyUsed = false;
             lifelines.audiencePollUsed = false;
             updateLifelineButtons();
@@ -1055,7 +1405,6 @@
 
             if (screenName === 'setup') {
                 quizSetupScreen.classList.remove('hidden');
-                // Reset selection
                 numQuestionsButtons.forEach(btn => btn.classList.replace('bg-green-500', 'bg-blue-500'));
                 startSelectedQuizButton.disabled = true;
                 selectedNumOfQuestions = 0;
@@ -1064,6 +1413,14 @@
             } else if (screenName === 'results') {
                 quizResultsScreen.classList.remove('hidden');
                 finalScoreEl.textContent = `${score} / ${currentQuizQuestions.length}`;
+                coinsEarnedInQuizEl.textContent = coinsThisQuiz;
+                coinsEarnedInQuizDupEl.textContent = coinsThisQuiz;
+                if (coinsThisQuiz > 0 && currentUserId && auth.currentUser && !auth.currentUser.isAnonymous) {
+                    console.log(`Quiz ended. Earned ${coinsThisQuiz} coins. User ID: ${currentUserId}. Calling updateUserCoins.`);
+                    updateUserCoins(currentUserId, coinsThisQuiz); 
+                } else {
+                    console.log(`Quiz ended. No coins to add or user is anonymous/not logged in. Coins earned: ${coinsThisQuiz}, UserID: ${currentUserId}`);
+                }
             }
         }
 
@@ -1072,29 +1429,28 @@
                 showQuizScreen('results');
                 return;
             }
-
             const question = currentQuizQuestions[currentQuestionIndex];
             currentQuestionNumberEl.textContent = currentQuestionIndex + 1;
             totalQuizQuestionsEl.textContent = currentQuizQuestions.length;
-            questionTextQuizEl.textContent = question.text;
-
+            questionTextQuizEl.textContent = question.text; 
             if (question.image) {
                 questionImageEl.src = question.image;
                 questionImageContainer.classList.remove('hidden');
             } else {
                 questionImageContainer.classList.add('hidden');
             }
-
             optionsContainer.innerHTML = '';
-            question.options.forEach((option, index) => {
+            let shuffledOptions = [...question.options];
+            shuffleArray(shuffledOptions);
+
+            shuffledOptions.forEach((option) => {
                 const button = document.createElement('button');
                 button.classList.add('quiz-option', 'w-full', 'text-left', 'p-3', 'sm:p-4', 'border-2', 'border-gray-300', 'rounded-lg', 'hover:border-blue-500', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-400', 'transition', 'duration-150', 'text-sm', 'sm:text-base');
                 button.textContent = option.text;
-                button.dataset.index = index;
-                button.addEventListener('click', () => handleAnswer(index, button));
+                button.dataset.correct = option.correct; 
+                button.addEventListener('click', () => handleAnswer(option.correct, button, shuffledOptions));
                 optionsContainer.appendChild(button);
             });
-            
             audiencePollResultsEl.classList.add('hidden');
             audiencePollResultsEl.innerHTML = '';
             nextQuestionButton.classList.add('hidden');
@@ -1102,29 +1458,28 @@
             startTimer();
         }
 
-        function handleAnswer(selectedIndex, selectedButton) {
+        function handleAnswer(isCorrect, selectedButton, allDisplayedOptions) {
             clearInterval(timerInterval);
-            const question = currentQuizQuestions[currentQuestionIndex];
-            const correct = question.options[selectedIndex].correct;
-
-            Array.from(optionsContainer.children).forEach(btn => {
-                btn.disabled = true; // Disable all options
-                btn.classList.add('disabled');
-                const optionIndex = parseInt(btn.dataset.index);
-                if (question.options[optionIndex].correct) {
-                    btn.classList.add('correct');
-                } else if (optionIndex === selectedIndex && !question.options[optionIndex].correct) {
-                     btn.classList.add('incorrect');
+            
+            allDisplayedOptions.forEach(opt => {
+                const btn = Array.from(optionsContainer.children).find(b => b.textContent === opt.text);
+                if (btn) {
+                    btn.disabled = true;
+                    btn.classList.add('disabled');
+                    if (opt.correct) { 
+                        btn.classList.add('correct');
+                    }
                 }
             });
 
-            if (correct) {
+            if (isCorrect) {
                 score++;
+                coinsThisQuiz++; 
+                selectedButton.classList.remove('incorrect'); 
                 selectedButton.classList.add('correct');
             } else {
                 selectedButton.classList.add('incorrect');
             }
-            
             nextQuestionButton.classList.remove('hidden');
         }
         
@@ -1134,11 +1489,10 @@
         });
 
         function startTimer() {
-            timeLeft = 60;
+            timeLeft = 60; 
             quizTimerEl.textContent = `01:00`;
             questionTimerBar.style.width = '100%';
-            questionTimerBar.style.backgroundColor = '#3B82F6'; // Blue
-
+            questionTimerBar.style.backgroundColor = '#3B82F6'; 
             timerInterval = setInterval(() => {
                 timeLeft--;
                 const minutes = Math.floor(timeLeft / 60);
@@ -1146,57 +1500,42 @@
                 quizTimerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 questionTimerBar.style.width = `${(timeLeft / 60) * 100}%`;
 
-                if (timeLeft < 20 && timeLeft >= 10) {
-                    questionTimerBar.style.backgroundColor = '#F59E0B'; // Yellow
-                } else if (timeLeft < 10) {
-                    questionTimerBar.style.backgroundColor = '#EF4444'; // Red
-                }
-
-
+                if (timeLeft < 10) questionTimerBar.style.backgroundColor = '#EF4444'; 
+                else if (timeLeft < 20) questionTimerBar.style.backgroundColor = '#F59E0B'; 
+                
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    // Auto-submit or move to next question as incorrect
                     Array.from(optionsContainer.children).forEach(btn => {
                         btn.disabled = true;
                         btn.classList.add('disabled');
-                        const optionIndex = parseInt(btn.dataset.index);
-                        if (currentQuizQuestions[currentQuestionIndex].options[optionIndex].correct) {
-                           // Optionally highlight correct answer if time runs out
-                           // btn.classList.add('correct'); 
+                        const originalOption = currentQuizQuestions[currentQuestionIndex].options.find(o => o.text === btn.textContent);
+                        if (originalOption && originalOption.correct) {
+                            btn.classList.add('correct');
                         }
                     });
                     quizTimerEl.textContent = "00:00";
                     nextQuestionButton.classList.remove('hidden');
-                    // You might want to add a message like "Time's up!"
                 }
             }, 1000);
         }
         
-        function resetTimer() {
-            clearInterval(timerInterval);
-        }
+        function resetTimer() { clearInterval(timerInterval); }
 
         lifeline5050Button.addEventListener('click', () => {
             if (lifelines.fiftyFiftyUsed) return;
-
             const question = currentQuizQuestions[currentQuestionIndex];
-            let incorrectOptions = [];
-            question.options.forEach((opt, index) => {
-                if (!opt.correct) {
-                    incorrectOptions.push(index);
+            let incorrectOptionElements = [];
+            Array.from(optionsContainer.children).forEach(btn => {
+                if (btn.dataset.correct === "false" && !btn.classList.contains('disabled')) {
+                    incorrectOptionElements.push(btn);
                 }
             });
 
-            shuffleArray(incorrectOptions);
+            shuffleArray(incorrectOptionElements);
             
-            let optionsToHide = 0; // Changed variable name to English for consistency
-            for (let i = 0; i < incorrectOptions.length && optionsToHide < 2; i++) {
-                const optionButton = optionsContainer.querySelector(`button[data-index="${incorrectOptions[i]}"]`);
-                if (optionButton && !optionButton.classList.contains('disabled')) { // Check if not already disabled by another lifeline
-                    optionButton.classList.add('disabled', 'opacity-50', 'pointer-events-none');
-                    optionButton.style.visibility = 'hidden'; // Hide for better UX
-                    optionsToHide++;
-                }
+            for (let i = 0; i < 2 && i < incorrectOptionElements.length; i++) {
+                incorrectOptionElements[i].classList.add('disabled', 'opacity-50', 'pointer-events-none');
+                incorrectOptionElements[i].style.visibility = 'hidden';
             }
             
             lifelines.fiftyFiftyUsed = true;
@@ -1205,66 +1544,136 @@
 
         lifelineAudiencePollButton.addEventListener('click', () => {
             if (lifelines.audiencePollUsed) return;
-
             const question = currentQuizQuestions[currentQuestionIndex];
-            audiencePollResultsEl.innerHTML = ''; // Clear previous poll
+            audiencePollResultsEl.innerHTML = '';
             audiencePollResultsEl.classList.remove('hidden');
-
             let totalVotes = 0;
-            const pollData = question.options.map((option, index) => {
-                let votes;
-                if (option.correct) {
-                    votes = Math.floor(Math.random() * 40) + 50; // 50-89% for correct
-                } else {
-                    votes = Math.floor(Math.random() * 30) + 5;  // 5-34% for incorrect
-                }
+
+            const displayedOptions = Array.from(optionsContainer.children).filter(btn => !btn.style.visibility || btn.style.visibility !== 'hidden');
+
+            const pollData = displayedOptions.map(btn => {
+                const isCorrect = btn.dataset.correct === "true";
+                let votes = isCorrect ? Math.floor(Math.random() * 40) + 50 : Math.floor(Math.random() * 30) + 5; 
                 totalVotes += votes;
-                return { text: option.text, votes: votes, originalIndex: index };
+                return { text: btn.textContent, votes: votes };
             });
 
-            // Normalize percentages
+            if (totalVotes === 0 && pollData.length > 0) {
+                pollData.forEach(item => item.votes = 100 / pollData.length); 
+                totalVotes = 100;
+            }
+
+
             pollData.forEach(item => {
                 const percentage = totalVotes > 0 ? Math.round((item.votes / totalVotes) * 100) : 0;
                 const pollBarContainer = document.createElement('div');
                 pollBarContainer.classList.add('flex', 'items-center', 'space-x-2', 'text-sm');
-                
                 const optionText = document.createElement('div');
                 optionText.classList.add('w-1/3', 'truncate', 'text-gray-700');
                 optionText.textContent = item.text;
-
                 const barOuter = document.createElement('div');
                 barOuter.classList.add('w-2/3', 'bg-gray-200', 'rounded-full', 'h-5');
-                
                 const barInner = document.createElement('div');
                 barInner.classList.add('audience-poll-bar', 'h-5', 'rounded-full', 'flex', 'items-center', 'justify-end', 'pr-2', 'text-xs', 'text-white', 'font-medium');
                 barInner.style.width = `${percentage}%`;
                 barInner.textContent = `${percentage}%`;
-                
                 barOuter.appendChild(barInner);
                 pollBarContainer.appendChild(optionText);
                 pollBarContainer.appendChild(barOuter);
                 audiencePollResultsEl.appendChild(pollBarContainer);
             });
-            
             lifelines.audiencePollUsed = true;
             updateLifelineButtons();
         });
         
         function updateLifelineButtons() {
-            if (lifelines.fiftyFiftyUsed) {
-                lifeline5050Button.classList.add('disabled');
-            } else {
-                lifeline5050Button.classList.remove('disabled');
-            }
-            if (lifelines.audiencePollUsed) {
-                lifelineAudiencePollButton.classList.add('disabled');
-            } else {
-                lifelineAudiencePollButton.classList.remove('disabled');
-            }
+            lifeline5050Button.classList.toggle('disabled', lifelines.fiftyFiftyUsed);
+            lifelineAudiencePollButton.classList.toggle('disabled', lifelines.audiencePollUsed);
         }
 
-        playAgainButton.addEventListener('click', () => {
-            showQuizScreen('setup'); // Go back to question selection
+        playAgainButton.addEventListener('click', () => { showQuizScreen('setup'); });
+
+        // --- Content Modal Logic (Free & Premium) ---
+        const contentModal = document.getElementById('contentModal');
+        const contentModalTitle = document.getElementById('contentModalTitle');
+        const contentModalImageContainer = document.getElementById('contentModalImageContainer');
+        const contentModalImage = document.getElementById('contentModalImage');
+        const contentModalBody = document.getElementById('contentModalBody');
+        const closeContentModalButton = document.getElementById('closeContentModalButton');
+
+        const freeContentData = {
+            'basic_concepts_en': {
+                title: "Basic Plumbing Concepts (मूल अवधारणाएँ)",
+                image: "https://placehold.co/300x150/E0F2FE/3B82F6?text=Simple+Water+System+Diagram",
+                body: `<div class="p-3 bg-blue-50 rounded-lg shadow"><h4 class="font-semibold text-blue-800 mb-1">Q1: What is the primary purpose of a plumbing system in a building?</h4><p class="italic text-blue-600 mb-1">(किसी भवन में प्लंबिंग सिस्टम का प्राथमिक उद्देश्य क्या है?)</p><p class="text-sm">A1: To supply clean water for drinking, cooking, and cleaning, and to safely remove wastewater and sewage. (स्वच्छ पानी की आपूर्ति करना और अपशिष्ट जल को सुरक्षित रूप से निकालना।)</p></div> <div class="p-3 bg-blue-50 rounded-lg shadow"><h4 class="font-semibold text-blue-800 mb-1">Q2: Name two common materials used for water supply pipes.</h4><p class="italic text-blue-600 mb-1">(पानी आपूर्ति पाइप के लिए उपयोग की जाने वाली दो सामान्य सामग्रियों के नाम बताइए।)</p><p class="text-sm">A2: PVC (Polyvinyl Chloride) and Copper. Other materials include PEX (Cross-linked polyethylene) and Galvanized Iron (though less common now for supply). (पीवीसी (पॉलीविनाइल क्लोराइड) और तांबा। अन्य सामग्रियों में पीईएक्स और जीआई शामिल हैं।)</p></div>`
+            },
+            'safety_symbols_en': {
+                title: "Safety Symbols in Plumbing (प्लंबिंग में सुरक्षा संकेत)",
+                image: null, 
+                body: `<div class="p-3 bg-yellow-50 rounded-lg shadow flex items-start space-x-3"><img src="https://placehold.co/60x60/FFFF00/000000?text=⚠️&fontsize=30" alt="Warning Sign" class="w-12 h-12 object-contain rounded flex-shrink-0"><div><h4 class="font-semibold text-yellow-800">Danger/Warning (खतरा/चेतावनी)</h4><p class="text-sm">Indicates potential hazards like sharp objects, heavy loads, or general unsafe conditions. Proceed with extreme caution and follow all safety protocols. (संभावित खतरों को इंगित करता है। सावधानी से आगे बढ़ें।)</p></div></div> <div class="p-3 bg-blue-50 rounded-lg shadow flex items-start space-x-3"><img src="https://placehold.co/60x60/ADD8E6/000000?text=🧤+🥽&fontsize=20" alt="PPE Sign" class="w-12 h-12 object-contain rounded flex-shrink-0"><div><h4 class="font-semibold text-blue-800">Wear PPE (पीपीई पहनें)</h4><p class="text-sm">Personal Protective Equipment (e.g., safety glasses, gloves, hard hats, steel-toed boots) must be worn in this area or for this task. (व्यक्तिगत सुरक्षा उपकरण (जैसे दस्ताने, चश्मे) पहने जाने चाहिए।)</p></div></div> <div class="p-3 bg-red-50 rounded-lg shadow flex items-start space-x-3"><img src="https://placehold.co/60x60/FFD700/000000?text=⚡&fontsize=30" alt="Electrical Hazard Sign" class="w-12 h-12 object-contain rounded flex-shrink-0"><div><h4 class="font-semibold text-red-800">Electrical Hazard (विद्युत खतरा)</h4><p class="text-sm">Risk of electric shock. Be extremely careful with electrical components, power tools near water, or damaged wiring. Ensure power is off before working. (बिजली के झटके का खतरा। विद्युत घटकों से बेहद सावधान रहें।)</p></div></div>`
+            },
+            'measurement_tools_en': {
+                title: "Common Measurement Tools (सामान्य माप उपकरण)",
+                image: null, 
+                body: `<div class="p-3 bg-indigo-50 rounded-lg shadow"><div class="flex items-start space-x-3 mb-1"><img src="https://placehold.co/100x70/E0F2FE/3B82F6?text=Measuring+Tape+Icon" alt="Measuring Tape" class="w-20 h-auto object-contain rounded flex-shrink-0"><div><h4 class="font-semibold text-indigo-800">Measuring Tape (मापने का टेप)</h4><p class="text-sm">Used for linear measurements (length, width, height of pipes, spaces, etc.). Available in various lengths (e.g., 3m, 5m, 10m) with markings in cm/mm and inches. (रैखिक माप के लिए उपयोग किया जाता है।)</p></div></div></div> <div class="p-3 bg-indigo-50 rounded-lg shadow"><div class="flex items-start space-x-3 mb-1"><img src="https://placehold.co/100x70/E0F2FE/3B82F6?text=Spirit+Level+Icon" alt="Spirit Level" class="w-20 h-auto object-contain rounded flex-shrink-0"><div><h4 class="font-semibold text-indigo-800">Spirit Level (स्पिरिट लेवल)</h4><p class="text-sm">Used to check if a surface or pipe installation is perfectly horizontal (level) or vertical (plumb). Crucial for proper drainage and fitting. (क्षैतिज या ऊर्ध्वाधर स्तर की जांच के लिए।)</p></div></div></div> <div class="p-3 bg-indigo-50 rounded-lg shadow"><div class="flex items-start space-x-3 mb-1"><img src="https://placehold.co/100x70/E0F2FE/3B82F6?text=Pipe+Caliper+Icon" alt="Pipe Caliper" class="w-20 h-auto object-contain rounded flex-shrink-0"><div><h4 class="font-semibold text-indigo-800">Pipe Caliper / Vernier Caliper (पाइप कैलिपर / वर्नियर कैलिपर)</h4><p class="text-sm">Used to measure the internal and external diameter of pipes and fittings with high precision. Essential for selecting correct sizes. (पाइप के आंतरिक और बाहरी व्यास को मापने के लिए।)</p></div></div></div>`
+            },
+            'practice_drills_en': {
+                title: "Practice Drills (अभ्यास अभ्यास)",
+                image: "https://placehold.co/300x150/E0F2FE/3B82F6?text=Practice+Exercises",
+                body: `<p class="mb-3 text-gray-600">Test your knowledge with these quick questions: (इन त्वरित प्रश्नों के साथ अपने ज्ञान का परीक्षण करें:)</p><div class="p-3 bg-green-50 rounded-lg shadow"><h4 class="font-semibold text-green-800 mb-1">Q1: A pipe has an outer diameter of 50mm and a wall thickness of 5mm. What is its inner diameter?</h4><p class="italic text-green-600 mb-1">(एक पाइप का बाहरी व्यास 50 मिमी और दीवार की मोटाई 5 मिमी है। इसका आंतरिक व्यास क्या है?)</p><p class="text-sm">A: 40mm (Inner Diameter = Outer Diameter - 2 * Wall Thickness) (उत्तर: 40मिमी)</p></div> <div class="p-3 bg-green-50 rounded-lg shadow"><h4 class="font-semibold text-green-800 mb-1">Q2: True or False: It is safe to work on plumbing near live electrical wires without shutting off the power first.</h4><p class="italic text-green-600 mb-1">(सही या गलत: बिजली बंद किए बिना जीवित बिजली के तारों के पास प्लंबिंग पर काम करना सुरक्षित है।)</p><p class="text-sm">A: False. Always ensure electrical power is off and locked out/tagged out before working near electrical hazards. (उत्तर: गलत। हमेशा सुनिश्चित करें कि बिजली बंद है।)</p></div>`
+            }
+        };
+        // Placeholder for premium content - structure similar to freeContentData
+        const premiumContentData = {
+            'handwritten_notes_hi': { title: "Premium: हस्तलिखित नोट्स (Handwritten Notes)", image: "https://placehold.co/300x150/FFFBEB/F59E0B?text=Premium+Notes", body: "<p>यह प्रीमियम हस्तलिखित नोट्स का अनुभाग है। विस्तृत जानकारी जल्द ही उपलब्ध होगी। (This is the premium handwritten notes section. Detailed information will be available soon.)</p>" },
+            'theory_hi': { title: "Premium: थ्योरी (Theory)", image: "https://placehold.co/300x150/FFFBEB/F59E0B?text=Premium+Theory", body: "<p>यह प्रीमियम थ्योरी अनुभाग है। विस्तृत जानकारी जल्द ही उपलब्ध होगी। (This is the premium theory section. Detailed information will be available soon.)</p>" },
+            'mock_test_hi': { title: "Premium: मॉक टेस्ट (Mock Test)", image: "https://placehold.co/300x150/FFFBEB/F59E0B?text=Premium+Mock+Test", body: "<p>यह प्रीमियम मॉक टेस्ट अनुभाग है। विस्तृत जानकारी जल्द ही उपलब्ध होगी। (This is the premium mock test section. Detailed information will be available soon.)</p>" },
+            'test_preparation_hi': { title: "Premium: टेस्ट तैयारी (Test Preparation)", image: "https://placehold.co/300x150/FFFBEB/F59E0B?text=Premium+Test+Prep", body: "<p>यह प्रीमियम टेस्ट तैयारी अनुभाग है। विस्तृत जानकारी जल्द ही उपलब्ध होगी। (This is the premium test preparation section. Detailed information will be available soon.)</p>" },
+            'file_making_hi': { title: "Premium: फाइल मेकिंग (File Making)", image: "https://placehold.co/300x150/FFFBEB/F59E0B?text=Premium+File+Making", body: "<p>यह प्रीमियम फाइल मेकिंग अनुभाग है। विस्तृत जानकारी जल्द ही उपलब्ध होगी। (This is the premium file making section. Detailed information will be available soon.)</p>" },
+            'tools_detail_hi': { title: "Premium: उपकरण विवरण (Tools Detail)", image: "https://placehold.co/300x150/FFFBEB/F59E0B?text=Premium+Tools", body: "<p>यह प्रीमियम उपकरण विवरण अनुभाग है। विस्तृत जानकारी जल्द ही उपलब्ध होगी। (This is the premium tools detail section. Detailed information will be available soon.)</p>" }
+        };
+
+        function openContentModalGeneric(contentKey, isPremium = false) {
+            const data = isPremium ? premiumContentData[contentKey] : freeContentData[contentKey];
+            if (data) {
+                contentModalTitle.textContent = data.title;
+                if (data.image) {
+                    contentModalImage.src = data.image;
+                    contentModalImageContainer.classList.remove('hidden');
+                } else {
+                    contentModalImageContainer.classList.add('hidden');
+                }
+                contentModalBody.innerHTML = data.body;
+            } else {
+                contentModalTitle.textContent = "Content Not Available (सामग्री उपलब्ध नहीं है)";
+                contentModalImageContainer.classList.add('hidden');
+                contentModalBody.innerHTML = "<p>The content for this section is currently unavailable. Please check back later. (इस अनुभाग के लिए सामग्री वर्तमान में उपलब्ध नहीं है। कृपया बाद में वापस देखें।)</p>";
+            }
+            contentModal.classList.remove('hidden');
+            contentModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+
+        document.querySelectorAll('#freePlumberEnglishSubCardsContainer .free-sub-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const contentKey = card.dataset.subtest; 
+                openContentModalGeneric(contentKey, false);
+            });
+        });
+
+        closeContentModalButton.addEventListener('click', () => {
+            contentModal.classList.add('hidden');
+            contentModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        contentModal.addEventListener('click', (event) => { 
+            if (event.target === contentModal) {
+                contentModal.classList.add('hidden');
+                contentModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         });
 
     </script>
