@@ -676,17 +676,17 @@
         // ============================================================================== //
         // ===================== FIREBASE SETUP START =================================== //
         // ============================================================================== //
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        let userProvidedFirebaseConfig = { // User's provided config as a fallback
-            apiKey: "AIzaSyCk0Wb16qVd16VKYsi5VviE_f0eE5jdNYY",
-            authDomain: "mock-test-eed98.firebaseapp.com",
-            databaseURL: "https://mock-test-eed98-default-rtdb.firebaseio.com", // Note: We'll use Firestore, not Realtime DB
-            projectId: "mock-test-eed98",
-            storageBucket: "mock-test-eed98.appspot.com", // Corrected from firebasestorage.app
-            messagingSenderId: "821341772378",
-            appId: "1:821341772378:web:b9f000a61ba9224d1b1663",
-            measurementId: "G-V3K014SFG6"
-        };
+       const firebaseConfig = {
+  apiKey: "AIzaSyCk0Wb16qVd16VKYsi5VviE_f0eE5jdNYY",
+  authDomain: "mock-test-eed98.firebaseapp.com",
+  databaseURL: "https://mock-test-eed98-default-rtdb.firebaseio.com",
+  projectId: "mock-test-eed98",
+  storageBucket: "mock-test-eed98.firebasestorage.app",
+  messagingSenderId: "821341772378",
+  appId: "1:821341772378:web:b9f000a61ba9224d1b1663",
+  measurementId: "G-V3K014SFG6"
+};
+
         
         let firebaseConfigToUse;
         if (typeof __firebase_config !== 'undefined' && __firebase_config && __firebase_config.trim() !== "") {
