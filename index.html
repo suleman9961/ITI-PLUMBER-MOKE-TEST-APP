@@ -198,6 +198,8 @@
             color: #374151; /* text-gray-700 */
         }
     </style>
+
+   
 </head>
 <body>
 
@@ -1792,6 +1794,30 @@
             updatePremiumTestUI(); 
         });
 
+
+
+         // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCk0Wb16qVd16VKYsi5VviE_f0eE5jdNYY",
+  authDomain: "mock-test-eed98.firebaseapp.com",
+  databaseURL: "https://mock-test-eed98-default-rtdb.firebaseio.com",
+  projectId: "mock-test-eed98",
+  storageBucket: "mock-test-eed98.firebasestorage.app",
+  messagingSenderId: "821341772378",
+  appId: "1:821341772378:web:b9f000a61ba9224d1b1663",
+  measurementId: "G-V3K014SFG6"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
     </script>
 
 </body>
