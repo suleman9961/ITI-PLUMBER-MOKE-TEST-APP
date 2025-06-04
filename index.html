@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mock Test Ncn - Google Sheets & Gemini Features</title>
+    <title>Mock Test Ncn - Firebase & Gemini Features</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -198,8 +198,6 @@
             color: #374151; /* text-gray-700 */
         }
     </style>
-
-   
 </head>
 <body>
 
@@ -481,7 +479,7 @@
                 </button>
             </div>
             <div id="topScorerList" class="space-y-3"></div>
-            <p class="mt-6 text-sm text-gray-600 text-center">Note: Leaderboard data is fetched from Google Sheets. (लीडरबोर्ड डेटा गूगल शीट्स से प्राप्त किया जाता है।)</p>
+            <p class="mt-6 text-sm text-gray-600 text-center">Note: Leaderboard data is fetched from Google Sheets or Firebase. (लीडरबोर्ड डेटा गूगल शीट्स या फायरबेस से प्राप्त किया जाता है।)</p>
         </div>
     </div>
 
@@ -640,14 +638,89 @@
         </div>
     </div>
 
+    <!-- ============================================================================== -->
+    <!-- ===================== FIREBASE SDK IMPORTS START ============================= -->
+    <!-- ============================================================================== -->
+    <script type="module">
+        // Firebase App (Core)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        // Firebase Authentication
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // Firestore Database
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, addDoc, getDocs, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        // Firebase Analytics (Optional)
+        // import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+    
+        // Global Firebase instances (will be initialized in the main script)
+        window.firebaseApp = null;
+        window.firebaseDb = null;
+        window.firebaseAuth = null;
+        window.firebaseSDKLoaded = { // Make SDK functions available globally for the main script
+            initializeApp,
+            getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
+            getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, addDoc, getDocs, serverTimestamp, runTransaction
+            // getAnalytics (if using)
+        };
+        console.log("Firebase SDKs loaded via module script.");
+    </script>
+    <!-- ============================================================================== -->
+    <!-- ===================== FIREBASE SDK IMPORTS END =============================== -->
+    <!-- ============================================================================== -->
 
-    <script>
-        // --- Google Sheets Integration Placeholder ---
-        const GOOGLE_SHEET_APP_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE'; 
+
+    <script> // Main Application Script
         // --- Gemini API Key Placeholder ---
-        // API key is intentionally left blank. Canvas will provide it.
-        const GEMINI_API_KEY = "AIzaSyBpqWTCb4IeWcVTOI7t5zQvCymQEa9IVUo"; // For models other than gemini-2.0-flash or imagen-3.0-generate-002
+        const GEMINI_API_KEY = ""; // For models other than gemini-2.0-flash or imagen-3.0-generate-002
         const GEMINI_API_URL_TEXT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+        // ============================================================================== //
+        // ===================== FIREBASE SETUP START =================================== //
+        // ============================================================================== //
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        let userProvidedFirebaseConfig = { // User's provided config as a fallback
+            apiKey: "AIzaSyCk0Wb16qVd16VKYsi5VviE_f0eE5jdNYY",
+            authDomain: "mock-test-eed98.firebaseapp.com",
+            databaseURL: "https://mock-test-eed98-default-rtdb.firebaseio.com", // Note: We'll use Firestore, not Realtime DB
+            projectId: "mock-test-eed98",
+            storageBucket: "mock-test-eed98.appspot.com", // Corrected from firebasestorage.app
+            messagingSenderId: "821341772378",
+            appId: "1:821341772378:web:b9f000a61ba9224d1b1663",
+            measurementId: "G-V3K014SFG6"
+        };
+        
+        let firebaseConfigToUse;
+        if (typeof __firebase_config !== 'undefined' && __firebase_config && __firebase_config.trim() !== "") {
+            try {
+                firebaseConfigToUse = JSON.parse(__firebase_config);
+                console.log("Using Firebase config from __firebase_config global variable.");
+            } catch (e) {
+                console.error("Error parsing __firebase_config. Using user-provided fallback config. Error:", e);
+                firebaseConfigToUse = userProvidedFirebaseConfig;
+            }
+        } else {
+            console.warn("__firebase_config is not defined or empty. Using user-provided fallback config.");
+            firebaseConfigToUse = userProvidedFirebaseConfig;
+        }
+
+        // Initialize Firebase
+        // Ensure firebaseSDKLoaded is available from the module script
+        if (window.firebaseSDKLoaded) {
+            try {
+                window.firebaseApp = window.firebaseSDKLoaded.initializeApp(firebaseConfigToUse);
+                window.firebaseAuth = window.firebaseSDKLoaded.getAuth(window.firebaseApp);
+                window.firebaseDb = window.firebaseSDKLoaded.getFirestore(window.firebaseApp);
+                // const analytics = window.firebaseSDKLoaded.getAnalytics(window.firebaseApp); // Optional
+                console.log("Firebase initialized successfully with App ID:", appId);
+            } catch (error) {
+                console.error("Firebase initialization error:", error);
+                // Handle error, maybe show a message to the user
+            }
+        } else {
+            console.error("Firebase SDK not loaded. Cannot initialize Firebase.");
+        }
+        // ============================================================================== //
+        // ===================== FIREBASE SETUP END ===================================== //
+        // ============================================================================== //
 
 
         // --- Global User Data Store ---
@@ -659,20 +732,19 @@
             premiumAccess: {}, 
             favoriteQuestions: [], 
             isLoggedIn: false,
-            isSheetUser: false 
+            isFirebaseUser: false // To track if user is from Firebase
         };
-        const PRE_APPROVED_USER_EMAIL = "test@example.com";
-        const PRE_APPROVED_USER_PASS = "test123";
+        const PRE_APPROVED_USER_EMAIL = "test@example.com"; // Kept for Sheets logic if needed, but Firebase auth is primary
+        const PRE_APPROVED_USER_PASS = "test123"; // Kept for Sheets logic
         const PREMIUM_TEST_ID = "premium_plumber_hindi"; 
         const PREMIUM_TEST_COST = 500;
 
 
-        // DOM Elements
+        // DOM Elements (Existing ones - no change here)
         const userNameMainEl = document.getElementById('userNameMain');
         const userAvatarMainEl = document.getElementById('userAvatarMain');
         const userIdDisplayEl = document.getElementById('userIdDisplay');
         const coinCountEl = document.getElementById('coinCount');
-        
         const authModal = document.getElementById('authModal');
         const closeAuthModalButton = document.getElementById('closeAuthModalButton');
         const loginTabButton = document.getElementById('loginTabButton');
@@ -682,137 +754,139 @@
         const loginErrorEl = document.getElementById('loginError');
         const signupErrorEl = document.getElementById('signupError');
         const authStatusEl = document.getElementById('authStatus');
-        
         const sidebarProfileLink = document.getElementById('sidebarProfileLink');
         const headerUserIcon = document.getElementById('headerUserIcon');
         const footerProfileButton = document.getElementById('footerProfileButton');
         const sidebarLogoutLink = document.getElementById('sidebarLogoutLink');
         const sidebarInstructionLink = document.getElementById('sidebarInstructionLink');
-        
         const topScorerModal = document.getElementById('topScorerModal');
         const sidebarTopScorerLink = document.getElementById('sidebarTopScorerLink');
         const closeTopScorerModalButton = document.getElementById('closeTopScorerModalButton');
         const topScorerListEl = document.getElementById('topScorerList');
-        
         const loadingOverlay = document.getElementById('loadingOverlay');
-        
         const sidebarFavoriteQuestionLink = document.getElementById('sidebarFavoriteQuestionLink');
         const favoriteQuestionsModal = document.getElementById('favoriteQuestionsModal');
         const closeFavoriteQuestionsModalButton = document.getElementById('closeFavoriteQuestionsModalButton');
         const favoriteQuestionsListEl = document.getElementById('favoriteQuestionsList');
-        
         const sidebarRaiseComplaintLink = document.getElementById('sidebarRaiseComplaintLink');
         const complaintModal = document.getElementById('complaintModal');
         const closeComplaintModalButton = document.getElementById('closeComplaintModalButton');
         const complaintForm = document.getElementById('complaintForm');
-        
         const sidebarInviteFriendsLink = document.getElementById('sidebarInviteFriendsLink');
         const whatsappShareHeaderBtn = document.getElementById('whatsappShareHeader');
-        
         const shareModal = document.getElementById('shareModal');
         const shareModalTextEl = document.getElementById('shareModalText');
         const copyShareTextButton = document.getElementById('copyShareTextButton');
         const closeShareModalButton = document.getElementById('closeShareModalButton');
-        
         const showRandomImpQuestionBtn = document.getElementById('showRandomImpQuestionBtn');
         const importantQuestionDisplayArea = document.getElementById('importantQuestionDisplayArea');
         const importantQuestionTextEl = document.getElementById('importantQuestionText');
         const importantAnswerTextEl = document.getElementById('importantAnswerText');
-
         const premiumTestButton = document.getElementById('unlockPremiumPlumberHindiButton');
         const premiumTestStatusEl = document.getElementById('premiumPlumberHindiStatus');
         const premiumPlumberHindiSubCardsContainer = document.getElementById('premiumPlumberHindiSubCardsContainer');
-
-        // Gemini Q&A DOM Elements
         const userGeminiQuestionInput = document.getElementById('userGeminiQuestion');
         const askGeminiButton = document.getElementById('askGeminiButton');
         const geminiQALoader = document.getElementById('geminiQALoader');
         const geminiAnswerArea = document.getElementById('geminiAnswerArea');
-
-        // Gemini Tool Info DOM Elements
         const getAdvancedToolInfoButton = document.getElementById('getAdvancedToolInfoButton');
         const geminiToolInfoLoader = document.getElementById('geminiToolInfoLoader');
         const geminiToolInfoArea = document.getElementById('geminiToolInfoArea');
-        let currentToolForGemini = null; // To store current tool context for Gemini
-
-        // Gemini Quiz Explanation DOM Elements
+        let currentToolForGemini = null; 
         const geminiQuizExplanationLoader = document.getElementById('geminiQuizExplanationLoader');
         const geminiQuizExplanationArea = document.getElementById('geminiQuizExplanationArea');
 
-
-        // --- Google Sheets CRUD Functions ---
-        async function sheetDbAction(action, payload = {}) {
-            if (GOOGLE_SHEET_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
-                console.warn("Google Sheets URL is not configured. Operations will be simulated or fail. Please replace 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE' in the script.");
-                if (action === 'getUser') return { success: true, data: null }; 
-                if (action === 'saveUser') return { success: true, data: payload };
-                if (action === 'getTopScorers') return { success: true, data: [{displayName: "Test Scorer 1", coins: 1500}, {displayName: "Test Scorer 2", coins: 1200}] };
-                return { success: false, error: "Google Sheets URL not configured." };
+        // --- Firestore Helper Functions (Placeholders - Implement these) ---
+        async function loadUserDataFromFirestore(userId) {
+            if (!window.firebaseDb || !window.firebaseSDKLoaded) {
+                console.error("Firestore is not initialized.");
+                return null;
             }
-            
-            loadingOverlay.style.display = 'flex';
+            const { doc, getDoc } = window.firebaseSDKLoaded;
+            const userDocRef = doc(window.firebaseDb, "users", userId); // Collection "users", document ID is userId
             try {
-                const response = await fetch(GOOGLE_SHEET_APP_URL, {
-                    method: 'POST',
-                    mode: 'cors', 
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action, ...payload }),
-                    redirect: 'follow' 
-                });
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error(`SheetDB Action '${action}' HTTP Error:`, response.status, errorText);
-                    throw new Error(`Network response was not ok: ${response.status} - ${errorText}`);
+                const docSnap = await getDoc(userDocRef);
+                if (docSnap.exists()) {
+                    console.log("User data loaded from Firestore:", docSnap.data());
+                    return docSnap.data();
+                } else {
+                    console.log("No such document in Firestore for user:", userId);
+                    return null;
                 }
-                const result = await response.json();
-                console.log(`SheetDB Action '${action}' successful:`, result);
-                return result;
             } catch (error) {
-                console.error(`Error in sheetDbAction '${action}':`, error);
+                console.error("Error loading user data from Firestore:", error);
+                return null;
+            }
+        }
+
+        async function saveUserDataToFirestore(userId, userData) {
+            if (!window.firebaseDb || !window.firebaseSDKLoaded) {
+                console.error("Firestore is not initialized.");
+                return { success: false, error: "Firestore not initialized" };
+            }
+            const { doc, setDoc, serverTimestamp } = window.firebaseSDKLoaded;
+            const userDocRef = doc(window.firebaseDb, "users", userId);
+            try {
+                // Add/update createdAt and updatedAt timestamps
+                const dataToSave = {
+                    ...userData,
+                    updatedAt: serverTimestamp()
+                };
+                if (!userData.createdAt) { // Only set createdAt if it doesn't exist
+                    dataToSave.createdAt = serverTimestamp();
+                }
+                await setDoc(userDocRef, dataToSave, { merge: true }); // Use merge:true to update existing or create new
+                console.log("User data saved to Firestore for user:", userId);
+                return { success: true };
+            } catch (error) {
+                console.error("Error saving user data to Firestore:", error);
                 return { success: false, error: error.message };
-            } finally {
-                loadingOverlay.style.display = 'none';
             }
         }
         
-        async function loadUserDataFromSheet(email) {
-            const result = await sheetDbAction('getUser', { email });
-            if (result.success && result.data) {
-                result.data.coins = parseInt(result.data.coins, 10) || 0;
-                try { result.data.premiumAccess = result.data.premiumAccess ? JSON.parse(result.data.premiumAccess) : {}; } 
-                catch (e) { console.warn("Could not parse premiumAccess:", e); result.data.premiumAccess = {}; }
-                try { result.data.favoriteQuestions = result.data.favoriteQuestions ? JSON.parse(result.data.favoriteQuestions) : []; }
-                catch (e) { console.warn("Could not parse favoriteQuestions:", e); result.data.favoriteQuestions = []; }
-                return result.data;
+        async function loadTopScorersFromFirestore() {
+            if (!window.firebaseDb || !window.firebaseSDKLoaded) {
+                console.error("Firestore is not initialized for loading top scorers.");
+                return [];
             }
-            return null;
+            const { collection, query, getDocs } = window.firebaseSDKLoaded;
+            // TODO: Implement actual query for top scorers (e.g., orderBy 'coins', limit)
+            // This requires an index on 'coins' in Firestore. For now, fetching all and sorting locally.
+            // For production, create a composite index or use a more efficient query.
+            const usersCollectionRef = collection(window.firebaseDb, "users");
+            // const q = query(usersCollectionRef, orderBy("coins", "desc"), limit(10)); // This would be ideal with an index
+            
+            try {
+                const querySnapshot = await getDocs(usersCollectionRef);
+                const scorers = [];
+                querySnapshot.forEach((doc) => {
+                    scorers.push({ id: doc.id, ...doc.data() });
+                });
+                // Sort by coins descending, then by displayName
+                scorers.sort((a, b) => {
+                    if (b.coins === a.coins) {
+                        return (a.displayName || '').localeCompare(b.displayName || '');
+                    }
+                    return (b.coins || 0) - (a.coins || 0);
+                });
+                return scorers.slice(0, 10); // Return top 10
+            } catch (error) {
+                console.error("Error loading top scorers from Firestore:", error);
+                return [];
+            }
         }
 
-        async function saveUserDataToSheet(userDataToSave) {
-            const payload = {
-                ...userDataToSave,
-                premiumAccess: JSON.stringify(userDataToSave.premiumAccess || {}),
-                favoriteQuestions: JSON.stringify(userDataToSave.favoriteQuestions || [])
-            };
-            return await sheetDbAction('saveUser', payload);
-        }
-
-        async function loadTopScorersFromSheet() {
-            const result = await sheetDbAction('getTopScorers');
-            return (result.success && result.data) ? result.data : [];
-        }
 
         // --- UI Update & Auth Logic ---
         function updateUIAfterAuthChange() {
             console.log("Updating UI based on auth state:", currentUserData);
-            if (currentUserData.isLoggedIn) {
-                userNameMainEl.textContent = currentUserData.displayName;
-                userIdDisplayEl.textContent = currentUserData.email; 
-                coinCountEl.textContent = currentUserData.coins;
+            if (currentUserData.isLoggedIn && currentUserData.isFirebaseUser) { // Check for Firebase user
+                userNameMainEl.textContent = currentUserData.displayName || "User";
+                userIdDisplayEl.textContent = currentUserData.email || currentUserData.userId; 
+                coinCountEl.textContent = currentUserData.coins || 0;
                 sidebarLogoutLink.classList.remove('hidden');
                 
-                authStatusEl.textContent = `Logged in as: ${currentUserData.displayName} (${currentUserData.email})`;
+                authStatusEl.textContent = `Logged in as: ${currentUserData.displayName || "User"} (${currentUserData.email || currentUserData.userId})`;
                 authStatusEl.classList.remove('hidden');
                 loginForm.classList.add('hidden'); 
                 signupForm.classList.add('hidden');
@@ -869,8 +943,16 @@
             signupTabButton.classList.add('active');
         });
 
+        // MODIFIED: Signup form to use Firebase Auth
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!window.firebaseAuth || !window.firebaseSDKLoaded) {
+                signupErrorEl.textContent = "Authentication service not ready.";
+                signupErrorEl.classList.remove('hidden');
+                return;
+            }
+            const { createUserWithEmailAndPassword } = window.firebaseSDKLoaded;
+
             const name = signupForm.signupName.value.trim();
             const email = signupForm.signupEmail.value.trim().toLowerCase();
             const password = signupForm.signupPassword.value;
@@ -881,79 +963,85 @@
             if (password.length < 6) { signupErrorEl.textContent = "Password must be at least 6 characters."; signupErrorEl.classList.remove('hidden'); return; }
 
             loadingOverlay.style.display = 'flex';
-            const existingUser = await loadUserDataFromSheet(email);
-            if (existingUser) {
-                signupErrorEl.textContent = "Email already exists. Please login.";
-                signupErrorEl.classList.remove('hidden');
-                loadingOverlay.style.display = 'none';
-                return;
-            }
+            try {
+                const userCredential = await createUserWithEmailAndPassword(window.firebaseAuth, email, password);
+                const user = userCredential.user;
+                console.log("Firebase user created:", user);
 
-            currentUserData = {
-                userId: email, displayName: name, email: email, coins: 100, 
-                premiumAccess: {}, favoriteQuestions: [], isLoggedIn: true, isSheetUser: true
-            };
-            
-            if (email === PRE_APPROVED_USER_EMAIL) { 
-                 const expiryDate = new Date(); expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                 currentUserData.premiumAccess[PREMIUM_TEST_ID] = { expiresAt: expiryDate.toISOString().split('T')[0] };
-                 currentUserData.coins = 1000; 
-            }
-
-            const saveResult = await saveUserDataToSheet(currentUserData);
-            loadingOverlay.style.display = 'none';
-
-            if (saveResult.success) {
-                updateUIAfterAuthChange();
+                // Prepare user data for Firestore
+                const newUserFirestoreData = {
+                    displayName: name,
+                    email: user.email,
+                    coins: 100, // Initial coins
+                    premiumAccess: {},
+                    favoriteQuestions: [],
+                    // createdAt will be set by saveUserDataToFirestore
+                };
+                // Note: currentUserData will be updated by onAuthStateChanged listener
+                await saveUserDataToFirestore(user.uid, newUserFirestoreData); 
+                // updateUIAfterAuthChange(); // onAuthStateChanged will handle this
                 closeAuthModalButton.click(); 
-            } else {
-                signupErrorEl.textContent = "Signup failed. " + (saveResult.error || "");
+            } catch (error) {
+                console.error("Firebase signup error:", error);
+                signupErrorEl.textContent = error.message; // Show Firebase error message
                 signupErrorEl.classList.remove('hidden');
-                currentUserData = { userId: null, displayName: "Guest User", email: null, coins: 0, premiumAccess: {}, favoriteQuestions: [], isLoggedIn: false, isSheetUser: false };
+            } finally {
+                loadingOverlay.style.display = 'none';
             }
         });
 
+        // MODIFIED: Login form to use Firebase Auth
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!window.firebaseAuth || !window.firebaseSDKLoaded) {
+                loginErrorEl.textContent = "Authentication service not ready.";
+                loginErrorEl.classList.remove('hidden');
+                return;
+            }
+            const { signInWithEmailAndPassword } = window.firebaseSDKLoaded;
+
             const email = loginForm.loginEmail.value.trim().toLowerCase();
             const password = loginForm.loginPassword.value;
             loginErrorEl.classList.add('hidden');
 
             if (!email || !password) { loginErrorEl.textContent = "Email and password are required."; loginErrorEl.classList.remove('hidden'); return; }
             
-            if (email === PRE_APPROVED_USER_EMAIL && password === PRE_APPROVED_USER_PASS) {
-                let userData = await loadUserDataFromSheet(email);
-                if (!userData) { 
-                    userData = { userId: email, displayName: "Test User (Approved)", email: email, coins: 1000, premiumAccess: {}, favoriteQuestions: [] };
-                }
-                const expiryDate = new Date(); expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                userData.premiumAccess = { ...userData.premiumAccess, [PREMIUM_TEST_ID]: { expiresAt: expiryDate.toISOString().split('T')[0] }};
-                userData.isLoggedIn = true; userData.isSheetUser = true;
-                currentUserData = userData;
-                await saveUserDataToSheet(currentUserData); 
-                updateUIAfterAuthChange();
-                closeAuthModalButton.click();
-                return;
-            }
-
             loadingOverlay.style.display = 'flex';
-            const userDataFromSheet = await loadUserDataFromSheet(email);
-            loadingOverlay.style.display = 'none';
-
-            if (userDataFromSheet) {
-                currentUserData = { ...userDataFromSheet, isLoggedIn: true, isSheetUser: true };
-                updateUIAfterAuthChange();
+            try {
+                const userCredential = await signInWithEmailAndPassword(window.firebaseAuth, email, password);
+                // User is signed in, onAuthStateChanged will handle UI updates and data loading
+                console.log("Firebase user signed in:", userCredential.user);
+                // updateUIAfterAuthChange(); // onAuthStateChanged will handle this
                 closeAuthModalButton.click();
-            } else {
-                loginErrorEl.textContent = "Invalid email or password / User not found.";
+            } catch (error) {
+                console.error("Firebase login error:", error);
+                loginErrorEl.textContent = "Invalid email or password."; // Generic message
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                    loginErrorEl.textContent = "गलत ईमेल या पासवर्ड।";
+                } else {
+                    loginErrorEl.textContent = "Login failed: " + error.message;
+                }
                 loginErrorEl.classList.remove('hidden');
+            } finally {
+                loadingOverlay.style.display = 'none';
             }
         });
         
-        sidebarLogoutLink.addEventListener('click', (e) => {
+        // MODIFIED: Logout to use Firebase Auth
+        sidebarLogoutLink.addEventListener('click', async (e) => {
             e.preventDefault();
-            currentUserData = { userId: null, displayName: "Guest User", email: null, coins: 0, premiumAccess: {}, favoriteQuestions: [], isLoggedIn: false, isSheetUser: false };
-            updateUIAfterAuthChange();
+            if (!window.firebaseAuth || !window.firebaseSDKLoaded) {
+                console.error("Firebase Auth not initialized for logout.");
+                return;
+            }
+            const { signOut } = window.firebaseSDKLoaded;
+            try {
+                await signOut(window.firebaseAuth);
+                // onAuthStateChanged will handle currentUserData reset and UI update
+                console.log("User signed out from Firebase.");
+            } catch (error) {
+                console.error("Firebase logout error:", error);
+            }
             if (sidebar.classList.contains('open')) { toggleSidebar(); }
         });
 
@@ -961,13 +1049,16 @@
         headerUserIcon.addEventListener('click', openAuthModal);
         footerProfileButton.addEventListener('click', openAuthModal);
 
+        // MODIFIED: Top Scorer to use Firestore
         sidebarTopScorerLink.addEventListener('click', async (e) => {
             e.preventDefault();
             topScorerModal.classList.remove('hidden');
             setTimeout(() => topScorerModal.classList.add('active'), 10);
             document.body.style.overflow = 'hidden';
             topScorerListEl.innerHTML = '<p class="text-center text-gray-500">Loading...</p>';
-            const scorers = await loadTopScorersFromSheet();
+            
+            const scorers = await loadTopScorersFromFirestore(); // Fetch from Firestore
+
             topScorerListEl.innerHTML = ''; 
             if (scorers && scorers.length > 0) {
                 scorers.forEach((scorer, index) => {
@@ -984,7 +1075,7 @@
                     topScorerListEl.appendChild(scorerDiv);
                 });
             } else {
-                topScorerListEl.innerHTML = '<p class="text-center text-gray-500">No scorers data.</p>';
+                topScorerListEl.innerHTML = '<p class="text-center text-gray-500">No scorers data found.</p>';
             }
         });
         closeTopScorerModalButton.addEventListener('click', () => {
@@ -995,7 +1086,7 @@
 
         function updatePremiumTestUI() {
             const testAccessData = currentUserData.premiumAccess?.[PREMIUM_TEST_ID];
-            const userCoins = currentUserData.coins;
+            const userCoins = currentUserData.coins || 0;
             
             premiumPlumberHindiSubCardsContainer.classList.add('hidden'); 
             premiumPlumberHindiSubCardsContainer.querySelectorAll('.premium-sub-card').forEach(card => {
@@ -1020,7 +1111,7 @@
             
             premiumTestButton.className = "mb-3 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-3 rounded-lg text-sm transition";
             
-            if (currentUserData.isLoggedIn) { 
+            if (currentUserData.isLoggedIn && currentUserData.isFirebaseUser) { 
                 if (userCoins >= PREMIUM_TEST_COST) {
                     premiumTestButton.textContent = `Unlock Section for ${PREMIUM_TEST_COST} 🪙`;
                     premiumTestButton.disabled = false;
@@ -1034,15 +1125,16 @@
                 }
             } else { 
                 premiumTestButton.textContent = `Login to Unlock (Cost: ${PREMIUM_TEST_COST} 🪙)`;
-                premiumTestButton.disabled = true;
+                premiumTestButton.disabled = true; // Should be true, user needs to login
                 premiumTestButton.classList.add('opacity-50', 'cursor-not-allowed');
                 premiumTestButton.onclick = openAuthModal; 
             }
         }
 
+        // MODIFIED: Unlock premium test to use Firestore
         async function handleUnlockPremiumTest(testId, cost) {
-            if (!currentUserData.isLoggedIn) { openAuthModal(); return; }
-            if (currentUserData.coins < cost) { premiumTestStatusEl.textContent = "Not enough coins."; return; }
+            if (!currentUserData.isLoggedIn || !currentUserData.isFirebaseUser) { openAuthModal(); return; }
+            if ((currentUserData.coins || 0) < cost) { premiumTestStatusEl.textContent = "Not enough coins."; return; }
             
             const confirmationModalEl = document.getElementById('confirmationModal');
             document.getElementById('confirmationTitle').textContent = "Confirm Purchase";
@@ -1055,14 +1147,23 @@
                 confirmationModalEl.classList.remove('active');
                 setTimeout(() => confirmationModalEl.classList.add('hidden'), 300);
                 
-                currentUserData.coins -= cost;
+                const newCoins = (currentUserData.coins || 0) - cost;
                 const expiryDate = new Date(); expiryDate.setMonth(expiryDate.getMonth() + 1);
-                currentUserData.premiumAccess[testId] = { expiresAt: expiryDate.toISOString().split('T')[0] };
+                const newPremiumAccess = {
+                    ...currentUserData.premiumAccess,
+                    [testId]: { expiresAt: expiryDate.toISOString().split('T')[0] }
+                };
+
+                const updateData = {
+                    coins: newCoins,
+                    premiumAccess: newPremiumAccess
+                };
                 
-                const saveResult = await saveUserDataToSheet(currentUserData);
-                if (!saveResult.success) { 
-                    currentUserData.coins += cost; 
-                    delete currentUserData.premiumAccess[testId];
+                const saveResult = await saveUserDataToFirestore(currentUserData.userId, updateData);
+                if (saveResult.success) {
+                    currentUserData.coins = newCoins;
+                    currentUserData.premiumAccess = newPremiumAccess;
+                } else { 
                     premiumTestStatusEl.textContent = "Error unlocking. Please try again.";
                 }
                 updateUIAfterAuthChange(); 
@@ -1073,14 +1174,17 @@
             };
         }
         
+        // MODIFIED: Update user coins to use Firestore
         async function updateUserCoins(amount) {
-            if (!currentUserData.isLoggedIn || !currentUserData.isSheetUser) {
-                if (currentUserData.isLoggedIn) { currentUserData.coins += amount; updateUIAfterAuthChange(); }
+            if (!currentUserData.isLoggedIn || !currentUserData.isFirebaseUser || !currentUserData.userId) {
+                console.warn("Cannot update coins: User not logged in via Firebase or userId missing.");
                 return;
             }
-            currentUserData.coins += amount;
-            const saveResult = await saveUserDataToSheet(currentUserData);
-            if (!saveResult.success) { currentUserData.coins -= amount; } 
+            const newCoins = (currentUserData.coins || 0) + amount;
+            const saveResult = await saveUserDataToFirestore(currentUserData.userId, { coins: newCoins });
+            if (saveResult.success) { 
+                currentUserData.coins = newCoins;
+            } 
             updateUIAfterAuthChange(); 
         }
 
@@ -1166,7 +1270,7 @@
         let lifelines = { fiftyFiftyUsed: false, audiencePollUsed: false };
 
         triggerQuizButton.addEventListener('click', () => {
-            if (!currentUserData.isLoggedIn) {
+            if (!currentUserData.isLoggedIn || !currentUserData.isFirebaseUser) { // Check for Firebase login
                 openAuthModal();
                 return;
             }
@@ -1317,9 +1421,9 @@
             const correctAnswerText = question.options.find(opt => opt.correct).text;
             let prompt;
             if (isCorrect) {
-                prompt = `प्रश्न है: "${question.text}". उपयोगकर्ता ने सही उत्तर चुना: "${selectedOptionText}". कृपया स्पष्ट करें कि यह उत्तर सही क्यों है। प्लंबिंग के संदर्भ में सरल हिंदी में समझाएं।`;
+                prompt = `The question is: "${question.text}". The user correctly chose: "${selectedOptionText}". Please explain why this answer is correct in the context of plumbing. Provide the explanation in simple Hindi.`;
             } else {
-                prompt = `प्रश्न है: "${question.text}". उपयोगकर्ता ने गलत उत्तर चुना: "${selectedOptionText}". सही उत्तर है: "${correctAnswerText}". कृपया स्पष्ट करें कि उपयोगकर्ता का उत्तर गलत क्यों था और सही उत्तर (${correctAnswerText}) सही क्यों है। प्लंबिंग के संदर्भ में सरल हिंदी में समझाएं।`;
+                prompt = `The question is: "${question.text}". The user incorrectly chose: "${selectedOptionText}". The correct answer is: "${correctAnswerText}". Please explain why the user's answer was wrong and why the correct answer ("${correctAnswerText}") is correct, in the context of plumbing. Provide the explanation in simple Hindi.`;
             }
             
             await callGeminiAPI(prompt, geminiQuizExplanationLoader, geminiQuizExplanationArea, true);
@@ -1414,30 +1518,37 @@
         }
         playAgainButton.addEventListener('click', () => { showQuizScreen('setup'); });
 
+        // MODIFIED: Favorite question to use Firestore
         favoriteQuestionButton.addEventListener('click', () => {
-            if (!currentUserData.isLoggedIn || !currentQuizQuestions[currentQuestionIndex]) return;
+            if (!currentUserData.isLoggedIn || !currentUserData.isFirebaseUser || !currentQuizQuestions[currentQuestionIndex]) return;
             const question = currentQuizQuestions[currentQuestionIndex];
             toggleFavoriteQuestion(question);
         });
 
         async function toggleFavoriteQuestion(question) {
             const questionId = question.id;
-            const isFavorited = currentUserData.favoriteQuestions.some(fav => fav.id === questionId);
+            let currentFavorites = Array.isArray(currentUserData.favoriteQuestions) ? currentUserData.favoriteQuestions : [];
+            const isFavorited = currentFavorites.some(fav => fav.id === questionId);
+            
             if (isFavorited) {
-                currentUserData.favoriteQuestions = currentUserData.favoriteQuestions.filter(fav => fav.id !== questionId);
+                currentUserData.favoriteQuestions = currentFavorites.filter(fav => fav.id !== questionId);
             } else {
-                currentUserData.favoriteQuestions.push({ id: question.id, text: question.text, image: question.image });
+                currentUserData.favoriteQuestions = [...currentFavorites, { id: question.id, text: question.text, image: question.image }];
             }
-            updateFavoriteQuestionButton(questionId);
-            if (currentUserData.isSheetUser) { await saveUserDataToSheet(currentUserData); }
+            updateFavoriteQuestionButton(questionId); // Update UI immediately
+            if (currentUserData.userId) { // Save to Firestore
+                await saveUserDataToFirestore(currentUserData.userId, { favoriteQuestions: currentUserData.favoriteQuestions });
+            }
         }
 
+
         function updateFavoriteQuestionButton(questionId) {
-            if (!currentUserData.isLoggedIn) {
+            if (!currentUserData.isLoggedIn || !currentUserData.isFirebaseUser) {
                  favoriteQuestionButton.innerHTML = '<i class="far fa-star"></i>'; 
                  favoriteQuestionButton.classList.remove('favorited'); return;
             }
-            const isFavorited = currentUserData.favoriteQuestions.some(fav => fav.id === questionId);
+            const currentFavorites = Array.isArray(currentUserData.favoriteQuestions) ? currentUserData.favoriteQuestions : [];
+            const isFavorited = currentFavorites.some(fav => fav.id === questionId);
             favoriteQuestionButton.innerHTML = isFavorited ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
             if(isFavorited) favoriteQuestionButton.classList.add('favorited'); else favoriteQuestionButton.classList.remove('favorited');
         }
@@ -1448,14 +1559,18 @@
             }
         }
 
+        // MODIFIED: Sidebar favorite question link to use Firestore data
         sidebarFavoriteQuestionLink.addEventListener('click', (e) => {
             e.preventDefault();
-            if (!currentUserData.isLoggedIn) { openAuthModal(); return; }
+            if (!currentUserData.isLoggedIn || !currentUserData.isFirebaseUser) { openAuthModal(); return; }
+            
             favoriteQuestionsListEl.innerHTML = ''; 
-            if (currentUserData.favoriteQuestions.length === 0) {
+            const currentFavorites = Array.isArray(currentUserData.favoriteQuestions) ? currentUserData.favoriteQuestions : [];
+
+            if (currentFavorites.length === 0) {
                 favoriteQuestionsListEl.innerHTML = '<p class="text-center text-gray-500">No favorite questions saved.</p>';
             } else {
-                currentUserData.favoriteQuestions.forEach(favQuestion => {
+                currentFavorites.forEach(favQuestion => {
                     const div = document.createElement('div');
                     div.className = 'p-3 border rounded-md bg-blue-50 shadow-sm';
                     div.innerHTML = `<h4 class="font-semibold text-blue-700">${favQuestion.text}</h4> 
@@ -1466,9 +1581,11 @@
                 document.querySelectorAll('.remove-favorite-btn').forEach(btn => {
                     btn.addEventListener('click', async function() {
                         const idToRemove = this.dataset.id;
-                        currentUserData.favoriteQuestions = currentUserData.favoriteQuestions.filter(q => q.id !== idToRemove);
-                        if (currentUserData.isSheetUser) { await saveUserDataToSheet(currentUserData); }
-                        sidebarFavoriteQuestionLink.click(); 
+                        currentUserData.favoriteQuestions = (Array.isArray(currentUserData.favoriteQuestions) ? currentUserData.favoriteQuestions : []).filter(q => q.id !== idToRemove);
+                        if (currentUserData.userId) { 
+                            await saveUserDataToFirestore(currentUserData.userId, { favoriteQuestions: currentUserData.favoriteQuestions });
+                        }
+                        sidebarFavoriteQuestionLink.click(); // Refresh the modal
                         updateFavoriteQuestionIcons(); 
                     });
                 });
@@ -1499,7 +1616,7 @@
             const complaintText = document.getElementById('complaintText').value.trim();
             if (!complaintText) { alert("Please write your complaint."); return; }
             const subject = "Mock Test App Complaint/Feedback";
-            const body = `User Email: ${currentUserData.email || 'Not Logged In'}\nUser ID: ${currentUserData.userId || 'N/A'}\n\nComplaint:\n${complaintText}`;
+            const body = `User Email: ${currentUserData.email || (currentUserData.isFirebaseUser ? currentUserData.userId : 'Not Logged In')}\nUser ID: ${currentUserData.userId || 'N/A'}\n\nComplaint:\n${complaintText}`;
             const mailtoLink = `mailto:kidsfation@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.location.href = mailtoLink;
             complaintForm.reset();
@@ -1565,7 +1682,7 @@
             "safety_symbols_en": { title: "Safety Symbols in Plumbing", image: "https://placehold.co/300x150/E0F2FE/0284C7?text=Safety+Symbols", content: "<p>Common safety signs: Danger, Warning, Caution. PPE symbols. Emergency shutdown symbols.</p>" },
             "measurement_tools_en": { title: "Measurement Tools", image: "https://placehold.co/300x150/E0F2FE/0284C7?text=Measuring+Tools", content: "<p>Measuring tapes, rulers, calipers, levels. How to use them accurately for pipe cutting and alignment.</p>" },
             "practice_drills_en": { title: "Practice Drills", image: "https://placehold.co/300x150/E0F2FE/0284C7?text=Drills", content: "<p>Simple exercises: Identify fittings, match tools to tasks, basic pipe joining techniques (conceptual).</p>" },
-            "instructions_sidebar": { title: "Instructions (निर्देश)", image: "https://placehold.co/300x150/E0F2FE/1D4ED8?text=निर्देश", content: "<h3>Welcome to the ITI Plumber Mock Test App!</h3><p>This application is designed to help ITI Plumber trade students prepare for their exams.</p><ul><li>Practice with mock tests.</li><li>Learn about various plumbing tools and concepts.</li><li>Track your progress and compete with others.</li><li>Use lifelines in quizzes to help you out.</li><li>Ask Gemini AI for explanations and advanced details.</li></ul><p><strong>This application is developed by Suleiman ITI Topper.</strong></p><p>We hope this app helps you succeed in your studies!</p>" }
+            "instructions_sidebar": { title: "Instructions (निर्देश)", image: "https://placehold.co/300x150/E0F2FE/1D4ED8?text=निर्देश", content: "<h3>Welcome to the ITI Plumber Mock Test App!</h3><p>This application is designed to help ITI Plumber trade students prepare for their exams.</p><ul><li>Practice with mock tests.</li><li>Learn about various plumbing tools and concepts.</li><li>Track your progress and compete with others using Firebase.</li><li>Use lifelines in quizzes to help you out.</li><li>Ask Gemini AI for explanations and advanced details.</li></ul><p><strong>This application is developed by Suleiman ITI Topper.</strong></p><p>We hope this app helps you succeed in your studies!</p>" }
         };
         const premiumContentData = {
             "handwritten_notes_hi": { title: "प्लंबिंग हस्तलिखित नोट्स (PDF)", image: "https://placehold.co/300x150/FEF3C7/D97706?text=हस्तलिखित+नोट्स", content: "<p>विस्तृत हस्तलिखित नोट्स विभिन्न प्लंबिंग विषयों पर।</p><p>पानी की आपूर्ति, जल निकासी व्यवस्था, पाइप फिटिंग, सुरक्षा सावधानियां।</p><p><strong>(यह सुविधा जल्द ही उपलब्ध होगी - PDF अपलोड किए जाएंगे।)</strong></p>" },
@@ -1783,42 +1900,115 @@
             }
         });
 
+        // --- Authentication State Listener & Initial Sign-in ---
+        async function initializeAuthAndListeners() {
+            if (!window.firebaseAuth || !window.firebaseSDKLoaded) {
+                console.error("Firebase Auth is not initialized. Cannot set up listeners.");
+                // Fallback to a guest state if Firebase auth cannot be initialized
+                currentUserData = { userId: crypto.randomUUID(), displayName: "Guest (Auth Error)", email: null, coins: 0, premiumAccess: {}, favoriteQuestions: [], isLoggedIn: false, isFirebaseUser: false };
+                updateUIAfterAuthChange();
+                return;
+            }
+            const { onAuthStateChanged, signInAnonymously, signInWithCustomToken } = window.firebaseSDKLoaded;
 
-        // --- Initial Setup ---
+            onAuthStateChanged(window.firebaseAuth, async (user) => {
+                if (user) {
+                    console.log("Auth state changed: User is signed in.", user);
+                    const uid = user.uid;
+                    let userDataFromDb = await loadUserDataFromFirestore(uid);
+
+                    if (userDataFromDb) {
+                        currentUserData = {
+                            ...userDataFromDb, // Spread existing data first
+                            userId: uid,    // Ensure Firebase UID is primary
+                            email: user.email || userDataFromDb.email, // Prefer Firebase's email if available
+                            displayName: user.displayName || userDataFromDb.displayName || "User " + uid.substring(0,5), // Prefer Firebase's display name
+                            isLoggedIn: true,
+                            isFirebaseUser: true,
+                        };
+                         // Ensure coins and other fields have defaults if not in DB
+                        if (typeof currentUserData.coins === 'undefined') currentUserData.coins = 0;
+                        if (typeof currentUserData.premiumAccess === 'undefined') currentUserData.premiumAccess = {};
+                        if (!Array.isArray(currentUserData.favoriteQuestions)) currentUserData.favoriteQuestions = [];
+
+                    } else {
+                        // New Firebase user (e.g. first time anonymous or first time email signup)
+                        const newUserDisplayName = user.isAnonymous ? "Guest " + uid.substring(0, 5) : (user.email ? user.email.split('@')[0] : "User " + uid.substring(0, 5));
+                        currentUserData = {
+                            userId: uid,
+                            displayName: user.displayName || newUserDisplayName,
+                            email: user.email, // Will be null for anonymous
+                            coins: user.isAnonymous ? 0 : 100, // 0 for anon, 100 for new email user
+                            premiumAccess: {},
+                            favoriteQuestions: [],
+                            isLoggedIn: true,
+                            isFirebaseUser: true,
+                            // createdAt will be set by saveUserDataToFirestore
+                        };
+                        // Save this new user profile to Firestore
+                        await saveUserDataToFirestore(uid, {
+                            displayName: currentUserData.displayName,
+                            email: currentUserData.email,
+                            coins: currentUserData.coins,
+                            premiumAccess: currentUserData.premiumAccess,
+                            favoriteQuestions: currentUserData.favoriteQuestions,
+                            // createdAt and updatedAt will be handled by saveUserDataToFirestore
+                        });
+                    }
+                } else {
+                    // User is signed out.
+                    console.log("Auth state changed: User is signed out.");
+                    currentUserData = { userId: crypto.randomUUID(), displayName: "Guest", email: null, coins: 0, premiumAccess: {}, favoriteQuestions: [], isLoggedIn: false, isFirebaseUser: false };
+                }
+                updateUIAfterAuthChange(); 
+            });
+
+            // Initial sign-in attempt
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    console.log("Attempting to sign in with custom token...");
+                    await signInWithCustomToken(window.firebaseAuth, __initial_auth_token);
+                    console.log("Signed in with custom token.");
+                } else if (!window.firebaseAuth.currentUser) { // Only sign in anonymously if no user and no custom token
+                    console.log("No custom token and no current user, attempting to sign in anonymously...");
+                    await signInAnonymously(window.firebaseAuth);
+                    console.log("Signed in anonymously.");
+                } else {
+                    console.log("User already signed in or custom token flow handled by onAuthStateChanged.");
+                }
+            } catch (error) {
+                console.error("Error during initial sign-in:", error);
+                if (!window.firebaseAuth.currentUser) { // Retry anonymous if initial failed and still no user
+                    try {
+                        console.warn("Initial sign-in failed, retrying anonymous sign-in...");
+                        await signInAnonymously(window.firebaseAuth);
+                        console.log("Signed in anonymously after initial failure.");
+                    } catch (anonError) {
+                        console.error("Error signing in anonymously after initial failure:", anonError);
+                    }
+                }
+            }
+        }
+
+
+        // --- Initial Setup on DOMContentLoaded ---
         document.addEventListener('DOMContentLoaded', () => {
             console.log("DOM fully loaded and parsed");
-            updateUIAfterAuthChange(); 
+            if (window.firebaseApp) { // Check if Firebase was initialized
+                 initializeAuthAndListeners(); 
+            } else {
+                console.error("Firebase App not initialized. Auth listeners not set up.");
+                // Fallback to a guest state if Firebase cannot be initialized
+                currentUserData = { userId: crypto.randomUUID(), displayName: "Guest (FB Init Error)", email: null, coins: 0, premiumAccess: {}, favoriteQuestions: [], isLoggedIn: false, isFirebaseUser: false };
+                updateUIAfterAuthChange();
+            }
             renderAllTools();
             displayRandomImportantQuestion();
             setupShareButtons();
-            updatePremiumTestUI(); 
+            // updatePremiumTestUI(); // This will be called by updateUIAfterAuthChange
         });
 
-
-
-        
     </script>
- // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCk0Wb16qVd16VKYsi5VviE_f0eE5jdNYY",
-  authDomain: "mock-test-eed98.firebaseapp.com",
-  databaseURL: "https://mock-test-eed98-default-rtdb.firebaseio.com",
-  projectId: "mock-test-eed98",
-  storageBucket: "mock-test-eed98.firebasestorage.app",
-  messagingSenderId: "821341772378",
-  appId: "1:821341772378:web:b9f000a61ba9224d1b1663",
-  measurementId: "G-V3K014SFG6"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 </body>
 </html>
