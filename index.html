@@ -1356,7 +1356,7 @@
 
         const contentModalEl = document.getElementById('contentModal');
         const contentModalTitle = document.getElementById('contentModalTitle');
-        const contentModalImageContainer = document.getElementById('contentModalImageContainer');
+       const contentModalImageContainer = document.getElementById('contentModalImageContainer');
         const contentModImage = document.getElementById('contentModalImage');
         const contentModalBody = document.getElementById('contentModalBody');
         const closeContentModalButton = document.getElementById('closeContentModalButton');
@@ -1377,156 +1377,12 @@
             "tools_detail_hi": { title: "उपकरण विवरण (AI)", content: "<p>विभिन्न प्लंबिंग उपकरणों का विस्तृत विवरण।</p>" }
         };
 
-        
-const allToolsData = {
-    "hand_tools": { 
-        name: "Hand Tools (हस्त उपकरण)", 
-        icon: "fas fa-tools", 
-        subcategories: { 
-            "wrenches": { 
-                name: "Wrenches", 
-                items: [ 
-                    { name: "Pipe Wrench", desc: "For pipes." },
-                    { name: "Adjustable Wrench", desc: "Adjustable jaw for various sizes." },
-                    { name: "Torque Wrench", desc: "Applies specific torque." },
-                    { name: "Combination Wrench", desc: "Open and box-end." },
-                    { name: "Ratchet Wrench", desc: "For quick fastening." }
-                ] 
-            },
-            "screwdrivers": { 
-                name: "Screwdrivers", 
-                items: [ 
-                    { name: "Phillips Screwdriver", desc: "For cross-head screws." },
-                    { name: "Flathead Screwdriver", desc: "For slotted screws." },
-                    { name: "Torx Screwdriver", desc: "For star-shaped screws." },
-                    { name: "Precision Screwdriver", desc: "For small screws." }
-                ] 
-            },
-            "hammers": { 
-                name: "Hammers", 
-                items: [ 
-                    { name: "Claw Hammer", desc: "For nails and prying." },
-                    { name: "Sledge Hammer", desc: "For heavy demolition." },
-                    { name: "Ball Peen Hammer", desc: "For metalworking." },
-                    { name: "Rubber Mallet", desc: "For soft strikes." }
-                ] 
-            },
-            "pliers": { 
-                name: "Pliers", 
-                items: [ 
-                    { name: "Needle Nose Pliers", desc: "For precision work." },
-                    { name: "Slip Joint Pliers", desc: "Adjustable for gripping." },
-                    { name: "Locking Pliers", desc: "For secure holding." },
-                    { name: "Cutting Pliers", desc: "For cutting wires." }
-                ] 
-            },
-            "saws": { 
-                name: "Saws", 
-                items: [ 
-                    { name: "Hand Saw", desc: "For cutting wood." },
-                    { name: "Hacksaw", desc: "For cutting metal." },
-                    { name: "Coping Saw", desc: "For intricate cuts." },
-                    { name: "Bow Saw", desc: "For rough cutting." }
-                ] 
-            }
-        } 
-    },
-    "power_tools": { 
-        name: "Power Tools (शक्ति उपकरण)", 
-        icon: "fas fa-bolt", 
-        subcategories: { 
-            "drills": { 
-                name: "Drills", 
-                items: [ 
-                    { name: "Cordless Drill", desc: "For holes." },
-                    { name: "Hammer Drill", desc: "For masonry drilling." },
-                    { name: "Impact Drill", desc: "For high-torque drilling." },
-                    { name: "Drill Press", desc: "For precise drilling." }
-                ] 
-            },
-            "saws": { 
-                name: "Saws", 
-                items: [ 
-                    { name: "Circular Saw", desc: "For straight cuts." },
-                    { name: "Jigsaw", desc: "For curved cuts." },
-                    { name: "Reciprocating Saw", desc: "For demolition." },
-                    { name: "Miter Saw", desc: "For angled cuts." }
-                ] 
-            },
-            "grinders": { 
-                name: "Grinders", 
-                items: [ 
-                    { name: "Angle Grinder", desc: "For grinding and cutting." },
-                    { name: "Bench Grinder", desc: "For sharpening tools." },
-                    { name: "Die Grinder", desc: "For precision grinding." },
-                    { name: "Belt Grinder", desc: "For surface finishing." }
-                ] 
-            },
-            "sanders": { 
-                name: "Sanders", 
-                items: [ 
-                    { name: "Orbital Sander", desc: "For smooth sanding." },
-                    { name: "Belt Sander", desc: "For heavy sanding." },
-                    { name: "Detail Sander", desc: "For tight spaces." },
-                    { name: "Disc Sander", desc: "For large surfaces." }
-                ] 
-            }
-        } 
-    },
-    "safety_equipment": { 
-        name: "Safety Equipment (सुरक्षा उपकरण)", 
-        icon: "fas fa-hard-hat", 
-        subcategories: { 
-            "ppe": { 
-                name: "PPE", 
-                items: [ 
-                    { name: "Safety Glasses", desc: "Protect eyes." },
-                    { name: "Hard Hat", desc: "Protects head." },
-                    { name: "Work Gloves", desc: "Protects hands." },
-                    { name: "Ear Plugs", desc: "Protects hearing." },
-                    { name: "Safety Vest", desc: "High visibility." }
-                ] 
-            },
-            "respiratory": { 
-                name: "Respiratory Protection", 
-                items: [ 
-                    { name: "Dust Mask", desc: "For dust protection." },
-                    { name: "Respirator", desc: "For chemical fumes." },
-                    { name: "Full-Face Respirator", desc: "For complete protection." }
-                ] 
-            },
-            "fall_protection": { 
-                name: "Fall Protection", 
-                items: [ 
-                    { name: "Safety Harness", desc: "For working at heights." },
-                    { name: "Lanyard", desc: "Connects harness to anchor." },
-                    { name: "Anchor Point", desc: "Secures lanyard." }
-                ] 
-            }
-        } 
-    },
-    "measuring_tools": { 
-        name: "Measuring Tools (माप उपकरण)", 
-        icon: "fas fa-ruler", 
-        subcategories: { 
-            "tapes": { 
-                name: "Tapes and Rulers", 
-                items: [ 
-                    { name: "Measuring Tape", desc: "For length measurement." },
-                    { name: "Steel Ruler", desc: "For precise straight lines." },
-                    { name: "Folding Ruler", desc: "For portable measurement." }
-                ] 
-            },
-            "levels": { 
-                name: "Levels", 
-                items: [ 
-                    { name: "Spirit Level", desc: "For checking alignment." },
-                    { name: "Laser Level", desc: "For precise leveling." }
-                ] 
-            }
-        } 
-    }
-};          
+        const allToolsData = {
+            "hand_tools": { name: "Hand Tools (हस्त उपकरण)", icon: "fas fa-tools", subcategories: { "wrenches": { name: "Wrenches", items: [ { name: "Pipe Wrench", desc: "For pipes." } ] } } },
+            "power_tools": { name: "Power Tools (शक्ति उपकरण)", icon: "fas fa-bolt", subcategories: { "drills": { name: "Drills", items: [ { name: "Cordless Drill", desc: "For holes." } ] } } },
+            "safety_equipment": { name: "Safety Equipment (सुरक्षा उपकरण)", icon: "fas fa-hard-hat", subcategories: { "ppe": { name: "PPE", items: [ { name: "Safety Glasses", desc: "Protect eyes." } ] } } }
+
+        };
      
                 const catDiv = document.createElement('div');
                 catDiv.className = 'mb-3 border border-gray-200 rounded-lg shadow-sm';
