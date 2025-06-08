@@ -1377,77 +1377,10 @@
             "tools_detail_hi": { title: "उपकरण विवरण (AI)", content: "<p>विभिन्न प्लंबिंग उपकरणों का विस्तृत विवरण।</p>" }
         };
 
-        const allToolsData = {
-  "basic_plumbing_tools": {
-    name: "Basic Plumbing Tools (मूलभूत उपकरण)",
-    icon: "fas fa-wrench",
-    items: [
-      { name: "Pipe Wrench (पाइप रिंच)", desc: "For gripping and turning pipes." },
-      { name: "Adjustable Wrench (एडजस्टेबल रिंच)", desc: "Adjustable jaw for various nut sizes." },
-      { name: "Basin Wrench (बेसिन रिंच)", desc: "For tightening nuts under sinks." },
-      { name: "Spanner Set (स्पैनर सेट)", desc: "For turning nuts and bolts." },
-      { name: "Plumber’s Tape / Teflon Tape (टेफ्लोन टेप)", desc: "Seals pipe threads to prevent leaks." },
-      { name: "Pipe Cutter (पाइप कट्टर)", desc: "Cuts pipes cleanly." },
-      { name: "Hacksaw (हैक्सॉ)", desc: "For cutting metal pipes or rods." },
-      { name: "Pipe Bender (पाइप बेंडर)", desc: "Shapes pipes without crimping." },
-      { name: "Plunger (प्लंजर)", desc: "Clears clogs in drains or toilets." },
-      { name: "Plumber’s Snake / Drain Auger (ड्रेन औगर)", desc: "Removes deep drain blockages." }
-    ]
-  },
-  "fitting_installation_tools": {
-    name: "Fitting & Installation Tools (फिटिंग और स्थापना उपकरण)",
-    icon: "fas fa-cog",
-    items: [
-      { name: "Pipe Threader (पाइप थ्रेडर)", desc: "Creates threads on pipe ends." },
-      { name: "Die Set (डाई सेट)", desc: "For cutting external threads." },
-      { name: "Reamer (रीमर)", desc: "Smooths and sizes pipe interiors." },
-      { name: "Pipe Vice (पाइप वाइज़)", desc: "Holds pipes securely during work." },
-      { name: "Tube Bender (ट्यूब बेंडर)", desc: "Bends tubing without kinking." },
-      { name: "Pipe Deburring Tool (ब्यूरिंग टूल)", desc: "Removes burrs from cut pipes." }
-    ]
-  },
-  "measuring_marking_tools": {
-    name: "Measuring & Marking Tools (मापने और चिह्नित करने के उपकरण)",
-    icon: "fas fa-ruler",
-    items: [
-      { name: "Measuring Tape (मेज़रिंग टेप)", desc: "Measures lengths accurately." },
-      { name: "Spirit Level (स्पिरिट लेवल)", desc: "Ensures horizontal or vertical alignment." },
-      { name: "Pipe Level (पाइप लेवल)", desc: "Checks alignment of pipes." },
-      { name: "Marking Pen / Chalk (मार्किंग पेन / चॉक)", desc: "Marks surfaces for cutting or fitting." }
-    ]
-  },
-  "cutting_drilling_sealing_tools": {
-    name: "Cutting, Drilling & Sealing Tools (काटने, ड्रिलिंग और सीलिंग उपकरण)",
-    icon: "fas fa-screwdriver",
-    items: [
-      { name: "Hole Saw (होल सॉ)", desc: "Cuts large holes in pipes or walls." },
-      { name: "Drill Machine (ड्रिल मशीन)", desc: "Drills holes in various materials." },
-      { name: "Sealant Gun / Caulking Gun (सीलेंट गन)", desc: "Applies sealants or caulk." },
-      { name: "Putty Knife (पुट्टी नाइफ)", desc: "Spreads or removes putty or sealant." }
-    ]
-  },
-  "leak_detection_maintenance_tools": {
-    name: "Leak Detection & Maintenance Tools (रिसाव पहचान और रखरखाव उपकरण)",
-    icon: "fas fa-water",
-    items: [
-      { name: "Pressure Gauge (प्रेशर गेज)", desc: "Measures water pressure in pipes." },
-      { name: "Water Leak Detector (लीक डिटेक्टर)", desc: "Detects hidden leaks." },
-      { name: "Inspection Camera (इंस्पेक्शन कैमरा)", desc: "Inspects pipes or tight spaces." }
-    ]
-  },
-  "fastening_safety_tools": {
-    name: "Fastening & Safety Tools (बांधने और सुरक्षा उपकरण)",
-    icon: "fas fa-hard-hat",
-    items: [
-      { name: "Screwdriver Set (स्क्रूड्राइवर सेट)", desc: "For driving screws of various types." },
-      { name: "Allen Keys / Hex Keys (हेक्स कीज़)", desc: "For hexagonal socket screws." },
-      { name: "Safety Gloves (सेफ़्टी ग्लव्स)", desc: "Protects hands during work." },
-      { name: "Safety Goggles (सेफ़्टी चश्मा)", desc: "Shields eyes from debris." },
-      { name: "Toolbox / Tool Bag (टूल बॉक्स)", desc: "Stores and organizes tools." }
-    ]
-  }
-};
-        };
+        
+
+       
+        
         
         const allToolsContainer = document.getElementById('allToolsContainer');
 
@@ -1455,6 +1388,107 @@
             allToolsContainer.innerHTML = ''; 
             for (const catKey in allToolsData) {
                 const cat = allToolsData[catKey];
+ const allToolsData = {
+  "basic_plumbing_tools": {
+    name: "Basic Plumbing Tools (मूलभूत उपकरण)",
+    icon: "fas fa-wrench",
+    subcategories: {
+      "basic_tools": {
+        name: "Basic Tools",
+        items: [
+          { name: "Pipe Wrench (पाइप रिंच)", desc: "For gripping and turning pipes." },
+          { name: "Adjustable Wrench (एडजस्टेबल रिंच)", desc: "Adjustable jaw for various nut sizes." },
+          { name: "Basin Wrench (बेसिन रिंच)", desc: "For tightening nuts under sinks." },
+          { name: "Spanner Set (स्पैनर सेट)", desc: "For turning nuts and bolts." },
+          { name: "Plumber’s Tape / Teflon Tape (टेफ्लोन टेप)", desc: "Seals pipe threads to prevent leaks." },
+          { name: "Pipe Cutter (पाइप कट्टर)", desc: "Cuts pipes cleanly." },
+          { name: "Hacksaw (हैक्सॉ)", desc: "For cutting metal pipes or rods." },
+          { name: "Pipe Bender (पाइप बेंडर)", desc: "Shapes pipes without crimping." },
+          { name: "Plunger (प्लंजर)", desc: "Clears clogs in drains or toilets." },
+          { name: "Plumber’s Snake / Drain Auger (ड्रेन औगर)", desc: "Removes deep drain blockages." }
+        ]
+      }
+    }
+  },
+  "fitting_installation_tools": {
+    name: "Fitting & Installation Tools (फिटिंग और स्थापना उपकरण)",
+    icon: "fas fa-cog",
+    subcategories: {
+      "fitting_tools": {
+        name: "Fitting Tools",
+        items: [
+          { name: "Pipe Threader (पाइप थ्रेडर)", desc: "Creates threads on pipe ends." },
+          { name: "Die Set (डाई सेट)", desc: "For cutting external threads." },
+          { name: "Reamer (रीमर)", desc: "Smooths and sizes pipe interiors." },
+          { name: "Pipe Vice (पाइप वाइज़)", desc: "Holds pipes securely during work." },
+          { name: "Tube Bender (ट्यूब बेंडर)", desc: "Bends tubing without kinking." },
+          { name: "Pipe Deburring Tool (ब्यूरिंग टूल)", desc: "Removes burrs from cut pipes." }
+        ]
+      }
+    }
+  },
+  "measuring_marking_tools": {
+    name: "Measuring & Marking Tools (मापने और चिह्नित करने के उपकरण)",
+    icon: "fas fa-ruler",
+    subcategories: {
+      "measuring_tools": {
+        name: "Measuring Tools",
+        items: [
+          { name: "Measuring Tape (मेज़रिंग टेप)", desc: "Measures lengths accurately." },
+          { name: "Spirit Level (स्पिरिट लेवल)", desc: "Ensures horizontal or vertical alignment." },
+          { name: "Pipe Level (पाइप लेवल)", desc: "Checks alignment of pipes." },
+          { name: "Marking Pen / Chalk (मार्किंग पेन / चॉक)", desc: "Marks surfaces for cutting or fitting." }
+        ]
+      }
+    }
+  },
+  "cutting_drilling_sealing_tools": {
+    name: "Cutting, Drilling & Sealing Tools (काटने, ड्रिलिंग और सीलिंग उपकरण)",
+    icon: "fas fa-screwdriver",
+    subcategories: {
+      "cutting_sealing_tools": {
+        name: "Cutting & Sealing Tools",
+        items: [
+          { name: "Hole Saw (होल सॉ)", desc: "Cuts large holes in pipes or walls." },
+          { name: "Drill Machine (ड्रिल मशीन)", desc: "Drills holes in various materials." },
+          { name: "Sealant Gun / Caulking Gun (सीलेंट गन)", desc: "Applies sealants or caulk." },
+          { name: "Putty Knife (पुट्टी नाइफ)", desc: "Spreads or removes putty or sealant." }
+        ]
+      }
+    }
+  },
+  "leak_detection_maintenance_tools": {
+    name: "Leak Detection & Maintenance Tools (रिसाव पहचान और रखरखाव उपकरण)",
+    icon: "fas fa-water",
+    subcategories: {
+      "detection_tools": {
+        name: "Detection Tools",
+        items: [
+          { name: "Pressure Gauge (प्रेशर गेज)", desc: "Measures water pressure in pipes." },
+          { name: "Water Leak Detector (लीक डिटेक्टर)", desc: "Detects hidden leaks." },
+          { name: "Inspection Camera (इंस्पेक्शन कैमरा)", desc: "Inspects pipes or tight spaces." }
+        ]
+      }
+    }
+  },
+  "fastening_safety_tools": {
+    name: "Fastening & Safety Tools (बांधने और सुरक्षा उपकरण)",
+    icon: "fas fa-hard-hat",
+    subcategories: {
+      "safety_fastening_tools": {
+        name: "Safety & Fastening Tools",
+        items: [
+          { name: "Screwdriver Set (स्क्रूड्राइवर सेट)", desc: "For driving screws of various types." },
+          { name: "Allen Keys / Hex Keys (हेक्स कीज़)", desc: "For hexagonal socket screws." },
+          { name: "Safety Gloves (सेफ़्टी ग्लव्स)", desc: "Protects hands during work." },
+          { name: "Safety Goggles (सेफ़्टी चश्मा)", desc: "Shields eyes from debris." },
+          { name: "Toolbox / Tool Bag (टूल बॉक्स)", desc: "Stores and organizes tools." }
+        ]
+      }
+    }
+  }
+}   };          
+     
                 const catDiv = document.createElement('div');
                 catDiv.className = 'mb-3 border border-gray-200 rounded-lg shadow-sm';
                 const header = document.createElement('div');
