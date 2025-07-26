@@ -177,6 +177,126 @@
             font-size: 0.875rem; /* text-sm */
             color: #374151; /* text-gray-700 */
         }
+
+/* News Ticker Styles */
+        .news-ticker-container {
+            background-color: #1E40AF; /* Dark Blue */
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .news-ticker-container .title {
+            background-color: #EF4444; /* Red */
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+            margin-right: 1rem;
+        }
+
+        .news-ticker {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .news-ticker p {
+            white-space: nowrap;
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker-scroll 25s linear infinite;
+        }
+
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Animated Banner Styles */
+        .animated-banner-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Aap isko adjust kar sakte hain */
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 0.75rem; /* rounded-xl */
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        .banner-slider {
+            position: relative;
+            width: 100%;
+            /* Aspect ratio set karne ke liye padding-top ka istemal */
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #e5e7eb;
+        }
+
+        .banner-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            visibility: hidden;
+        }
+
+        .banner-item.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .banner-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+        }
+
+        .banner-content p {
+            font-weight: 600;
+            font-size: 1.125rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .banner-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: white;
+        }
+        
     </style>
 </head>
 <body>
@@ -278,6 +398,60 @@
                 <span class="plumber-tag inline-block px-3 py-1 text-sm font-semibold rounded-md shadow">Plumber</span>
             </div>
         </section>
+
+
+<!-- News Ticker Section -->
+    <!-- Is section ko "Start Quiz" section ke theek upar paste karein -->
+    <section class="mt-5">
+        <div class="news-ticker-container">
+            <span class="title">LATEST</span>
+            <div class="news-ticker">
+                <p>
+                    ITI Plumber 2nd Year classes will start from August 1st. *** New premium mock tests have been added for advanced preparation. *** Stay updated with our YouTube channel for practical videos. *** </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animated Banner Section -->
+    <!-- Is section ko News Ticker ke theek neeche paste karein -->
+    <section class="mt-5">
+        <div class="animated-banner-container">
+            <div id="bannerSlider" class="banner-slider">
+                <!-- Banner Item 1 -->
+                <a href="https://www.youtube.com/" target="_blank" class="banner-item active">
+                    <img src="https://placehold.co/800x450/3B82F6/FFFFFF?text=Plumbing+Basics" alt="Video 1 Thumbnail">
+                    <div class="banner-content">
+                        <p>Plumbing Basics Part 1 (प्लंबिंग की मूल बातें)</p>
+                    </div>
+                </a>
+                <!-- Banner Item 2 -->
+                <a href="https://www.youtube.com/" target="_blank" class="banner-item">
+                    <img src="https://placehold.co/800x450/EC4899/FFFFFF?text=Pipe+Fitting" alt="Video 2 Thumbnail">
+                    <div class="banner-content">
+                        <p>Advanced Pipe Fitting Techniques (पाइप फिटिंग तकनीक)</p>
+                    </div>
+                </a>
+                <!-- Banner Item 3 -->
+                <a href="https://www.youtube.com/" target="_blank" class="banner-item">
+                    <img src="https://placehold.co/800x450/10B981/FFFFFF?text=Safety+Tips" alt="Video 3 Thumbnail">
+                    <div class="banner-content">
+                        <p>ITI Plumber Safety First (सुरक्षा टिप्स)</p>
+                    </div>
+                </a>
+                <!-- Banner Item 4 -->
+                <a href="https://www.youtube.com/" target="_blank" class="banner-item">
+                    <img src="https://placehold.co/800x450/F59E0B/FFFFFF?text=Tool+Guide" alt="Video 4 Thumbnail">
+                    <div class="banner-content">
+                        <p>Guide to Essential Plumber Tools (आवश्यक उपकरण)</p>
+                    </div>
+                </a>
+            </div>
+            <div id="bannerDots" class="banner-dots">
+                <!-- Dots will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+        
 
         <!-- Start Quiz Section -->
         <section class="bg-white p-5 rounded-lg shadow-lg mt-5">
@@ -2113,6 +2287,60 @@
 
         });
 
+    
+// Aapko yeh JavaScript code apne main <script> tag ke andar copy karna hai
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('bannerSlider');
+            if (!slider) return; // Agar slider मौजूद नहीं है तो code na chalaye
+
+            const items = slider.querySelectorAll('.banner-item');
+            const dotsContainer = document.getElementById('bannerDots');
+            let currentItem = 0;
+            let slideInterval;
+
+            // Har item ke liye ek dot banayein
+            items.forEach((item, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    showItem(index);
+                    resetInterval();
+                });
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = dotsContainer.querySelectorAll('.dot');
+
+            function showItem(index) {
+                // Sabhi items aur dots se 'active' class hatayein
+                items.forEach(item => item.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+
+                // Naye item aur dot par 'active' class lagayein
+                items[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentItem = index;
+            }
+
+            function nextItem() {
+                let next = (currentItem + 1) % items.length;
+                showItem(next);
+            }
+
+            function startInterval() {
+                slideInterval = setInterval(nextItem, 4000); // Har 4 second mein change karein
+            }
+
+            function resetInterval() {
+                clearInterval(slideInterval);
+                startInterval();
+            }
+
+            // Slider shuru karein
+            startInterval();
+        });
     </script>
 
 </body>
