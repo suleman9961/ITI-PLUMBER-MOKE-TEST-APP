@@ -317,6 +317,26 @@
         .dot.active {
             background-color: white;
         }
+
+
+ {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Yeh CSS news ticker ke animation ke liye hai */
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+        }
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 15s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
         
     </style>
 </head>
@@ -897,7 +917,73 @@
     </button>
 </div>
 
+<!-- ===== MAIN PAGE CONTAINER ===== -->
+    <!-- `h-screen` poori screen ki height leta hai. -->
+    <!-- `flex flex-col` elements ko upar se neeche line mein lagaata hai. -->
+    <div class="w-full max-w-md mx-auto bg-gray-50 h-screen flex flex-col">
 
+        <!-- 1. Header (Fixed) -->
+        <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-lg flex-shrink-0">
+            <h1 class="text-xl font-bold">Mock Test Ncn</h1>
+            <div class="w-8 h-8 bg-white rounded-full"></div>
+        </header>
+
+        <!-- 2. Main Content Area (Scrollable) -->
+        <!-- ===== YEH SABSE IMPORTANT PART HAI ===== -->
+        <!-- `flex-grow` isse kehta hai ki jitni bhi khali jagah bache, le lo. -->
+        <!-- `overflow-y-auto` isse scrollable banata hai jab content zyada ho. -->
+        <main class="flex-grow overflow-y-auto p-4">
+            
+            <!-- Banner 16:9 -->
+            <div class="w-full aspect-video bg-gray-300 rounded-lg mb-4 flex items-center justify-center">
+                <p class="text-gray-500"></p>
+            </div>
+
+            <!-- News Ticker -->
+            <div class="bg-white p-2 rounded-lg shadow-sm mb-4 ticker-wrap">
+                <div class="ticker-move">
+                    <span class="text-red-500 font-bold">Breaking News:</span> Plumber ki fees badh gayi hai...
+                    <span class="mx-4">|</span>
+                    <span class="text-blue-500 font-bold">Offer:</span> Geyser repair par 20% off...
+                </div>
+            </div>
+
+            <!-- Q&A Box -->
+            <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                <p class="mb-2 text-gray-800"><strong class="font-bold">प्रश्न:</strong> सुरक्षा के लिए गैस पाइपलाइन पर काम करते समय क्या सावधानियां बरतनी चाहिए?</p>
+                <p class="text-gray-700"><strong class="font-bold">उत्तर:</strong> मुख्य गैस आपूर्ति बंद करें, क्षेत्र को हवादार करें, ज्वलनशील पदार्थों को दूर रखें...</p>
+            </div>
+
+            <!-- "Ask Gemini" Section -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <h3 class="text-lg font-bold text-gray-800 mb-3">✨ अपना सवाल Gemini से पूछें</h3>
+                <div class="flex items-center border-2 border-purple-300 rounded-lg p-1">
+                    <input type="text" placeholder="अपना प्लंबिंग सवाल यहां लिखें..." class="w-full p-2 border-none focus:outline-none bg-transparent">
+                </div>
+            </div>
+
+            <!-- Aap yahan aur bhi content daal sakte hain, page apne aap scrollable rahega -->
+            <div class="h-20"></div> <!-- Extra space to demonstrate scrolling -->
+
+        </main>
+
+        <!-- 3. Bottom Navigation (Fixed) -->
+        <footer class="bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.1)] p-2 flex justify-around items-center flex-shrink-0">
+            <button class="flex flex-col items-center text-blue-600">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                <span class="text-xs">Home</span>
+            </button>
+            <button class="flex flex-col items-center text-gray-500">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+                <span class="text-xs">Tests</span>
+            </button>
+            <button class="flex flex-col items-center text-gray-500">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0012 11z" clip-rule="evenodd"></path></svg>
+                <span class="text-xs">Profile</span>
+            </button>
+        </footer>
+
+    </div>
     
     
     <!-- ============================================================================== -->
