@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-link.active { background-color: #4f46e5; color: white; }
+        .sidebar-link:not(.active):hover { background-color: #4338ca; }
+        .modal { display: none; animation: fadeIn 0.3s ease-out; }
+        .page { display: none; animation: slideIn 0.4s ease-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex h-screen bg-gray-200">
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-64 bg-indigo-700 text-indigo-100 flex flex-col flex-shrink-0">
+            <div class="px-6 py-5 border-b border-indigo-800">
+                <h2 class="text-2xl font-bold text-white flex items-center"><i class="fas fa-shield-halved mr-3"></i>Admin Panel</h2>
+            </div>
+            <nav class="flex-1 px-4 py-4 space-y-2">
+                <a href="#" data-page="banners" class="sidebar-link flex items-center px-4 py-2.5 rounded-md transition-colors duration-200 active"><i class="fas fa-images w-6 mr-3"></i>Banners</a>
+                <a href="#" data-page="news" class="sidebar-link flex items-center px-4 py-2.5 rounded-md transition-colors duration-200"><i class="fas fa-newspaper w-6 mr-3"></i>News Ticker</a>
+                <a href="#" data-page="important_qa" class="sidebar-link flex items-center px-4 py-2.5 rounded-md transition-colors duration-200"><i class="fas fa-star w-6 mr-3"></i>Important Q&A</a>
+                <a href="#" data-page="mcq" class="sidebar-link flex items-center px-4 py-2.5 rounded-md transition-colors duration-200"><i class="fas fa-question-circle w-6 mr-3"></i>MCQ Questions</a>
+                <a href="#" data-page="test_questions" class="sidebar-link flex items-center px-4 py-2.5 rounded-md transition-colors duration-200"><i class="fas fa-vial w-6 mr-3"></i>Test Series Q&A</a>
+                <a href="#" data-page="pdfs" class="sidebar-link flex items-center px-4 py-2.5 rounded-md transition-colors duration-200"><i class="fas fa-file-pdf w-6 mr-3"></i>PDF Notes</a>
+                <a href="#" data-page="ai_tools" class="sidebar-link flex items-center px-4 py-2.5 rounded-md transition-colors duration-200"><i class="fas fa-robot w-6 mr-3"></i>AI Tools</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white shadow-md p-4 flex justify-between items-center">
+                <h1 id="page-title" class="text-2xl font-bold text-gray-800">Banners</h1>
+                <button id="export-data-btn" class="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 font-bold flex items-center shadow-lg transform hover:scale-105 transition-transform duration-200">
+                    <i class="fas fa-rocket mr-2"></i>Generate Website Data
+                </button>
+            </header>
+            <main class="flex-1 overflow-y-auto bg-gray-100 p-6">
+                <!-- Pages will be rendered here -->
+                <div id="banners-page" class="page active"></div>
+                <div id="news-page" class="page"></div>
+                <div id="important_qa-page" class="page"></div>
+                <div id="mcq-page" class="page"></div>
+                <div id="test_questions-page" class="page"></div>
+                <div id="pdfs-page" class="page"></div>
+                <div id="ai_tools-page" class="page"></div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal for Forms -->
+    <div id="form-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-5 border-b">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-800"></h3>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-red-500 text-3xl">&times;</button>
+            </div>
+            <div id="modal-body" class="p-6 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const configs = {
+            banners: { title: 'Banner', fields: [{ id: 'imageUrl', label: 'Image URL', type: 'text' }, { id: 'title', label: 'Title', type: 'text' }], display: item => `<img src="${item.imageUrl}" class="w-24 h-12 object-cover rounded-md mr-4" alt="Banner Image"><span class="font-semibold">${item.title}</span>` },
+            news: { title: 'News Item', fields: [{ id: 'text', label: 'News Text', type: 'text' }], display: item => `<p>${item.text}</p>` },
+            important_qa: { title: 'Important Q&A', fields: [{ id: 'question', label: 'Question', type: 'text' }, { id: 'answer', label: 'Answer', type: 'text' }], display: item => `<p class="font-semibold">${item.question}</p>` },
+            mcq: { title: 'MCQ', fields: [{ id: 'question', label: 'Question', type: 'text' }, { id: 'optionA', label: 'Option A', type: 'text' }, { id: 'optionB', label: 'Option B', type: 'text' }, { id: 'optionC', label: 'Option C', type: 'text' }, { id: 'optionD', label: 'Option D', type: 'text' }, { id: 'correctAnswer', label: 'Correct Answer (A,B,C,D)', type: 'text' }], display: item => `<p class="font-semibold">${item.question}</p>` },
+            test_questions: { title: 'Test Series Question', fields: [{ id: 'testName', label: 'Test Name (e.g., Piping Test 1)', type: 'text' }, { id: 'question', label: 'Question', type: 'text' }, { id: 'optionA', label: 'Option A', type: 'text' }, { id: 'optionB', label: 'Option B', type: 'text' }, { id: 'optionC', label: 'Option C', type: 'text' }, { id: 'optionD', label: 'Option D', type: 'text' }, { id: 'correctAnswer', label: 'Correct Answer (A,B,C,D)', type: 'text' }], display: item => `<p><span class="font-bold text-indigo-600">${item.testName}</span>: ${item.question}</p>` },
+            pdfs: { title: 'PDF Note', fields: [{ id: 'title', label: 'PDF Title', type: 'text' }, { id: 'pdfUrl', label: 'PDF URL', type: 'text' }], display: item => `<p class="text-blue-600 font-semibold">${item.title}</p>` },
+            ai_tools: { title: 'AI Tool', fields: [{ id: 'name', label: 'Tool Name', type: 'text' }, { id: 'description', label: 'Description', type: 'text' }, { id: 'linkUrl', label: 'Tool URL', type: 'text' }, { id: 'iconClass', label: 'Font Awesome Icon (e.g., fas fa-calculator)', type: 'text' }], display: item => `<i class="${item.iconClass} w-6 mr-4 text-xl text-indigo-500"></i><span class="font-semibold">${item.name}</span>` }
+        };
+        let currentPageId = 'banners';
+
+        const getData = (key) => JSON.parse(localStorage.getItem(key)) || [];
+        const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+
+        const switchPage = (pageId) => {
+            currentPageId = pageId;
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+            document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === `${pageId}-page`));
+            document.getElementById('page-title').textContent = configs[currentPageId].title + 's';
+            renderPage(pageId);
+        };
+
+        const modal = document.getElementById('form-modal');
+        const openModal = (title, content) => {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').innerHTML = content;
+            modal.style.display = 'flex';
+        };
+        const closeModal = () => modal.style.display = 'none';
+        document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+
+        const renderPage = (pageId) => {
+            const config = configs[pageId];
+            const items = getData(pageId);
+            const pageElement = document.getElementById(`${pageId}-page`);
+            pageElement.innerHTML = `
+                <div class="flex justify-end mb-6">
+                    <button class="add-btn bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 font-bold shadow-lg flex items-center transform hover:scale-105 transition-transform duration-200">
+                        <i class="fas fa-plus mr-2"></i>Add New ${config.title}
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    ${items.length > 0 ? items.map((item, index) => `
+                        <div class="bg-white p-4 rounded-xl shadow-md flex items-center justify-between">
+                            <div class="flex items-center flex-1 min-w-0 mr-4">${config.display(item)}</div>
+                            <div class="flex-shrink-0">
+                                <button class="edit-btn text-yellow-500 hover:text-yellow-700 text-lg px-2" data-index="${index}"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="delete-btn text-red-500 hover:text-red-700 text-lg px-2" data-index="${index}"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>`).join('') : `<div class="text-center py-10 bg-white rounded-xl shadow-md"><p class="text-gray-500">No ${config.title}s found. Add one to get started!</p></div>`}
+                </div>`;
+        };
+
+        const generateFormHtml = (config, item = {}) => `
+            <form id="crud-form">
+                ${config.fields.map(field => `
+                    <div class="mb-5">
+                        <label for="${field.id}" class="block text-gray-700 text-sm font-bold mb-2">${field.label}</label>
+                        <input type="${field.type}" id="${field.id}" name="${field.id}" value="${item[field.id] || ''}" class="shadow-inner appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>`).join('')}
+                <div class="text-right mt-6"><button type="submit" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 font-bold shadow-lg">Save Changes</button></div>
+            </form>`;
+
+        document.body.addEventListener('click', e => {
+            const targetButton = e.target.closest('button');
+            if (!targetButton) return;
+            const config = configs[currentPageId];
+            if (targetButton.classList.contains('add-btn')) {
+                openModal(`Add New ${config.title}`, generateFormHtml(config));
+                handleFormSubmit(currentPageId);
+            }
+            if (targetButton.classList.contains('edit-btn')) {
+                const index = targetButton.dataset.index;
+                openModal(`Edit ${config.title}`, generateFormHtml(config, getData(currentPageId)[index]));
+                handleFormSubmit(currentPageId, index);
+            }
+            if (targetButton.classList.contains('delete-btn')) {
+                if (confirm('Are you sure you want to delete this item?')) {
+                    const items = getData(currentPageId);
+                    items.splice(targetButton.dataset.index, 1);
+                    setData(currentPageId, items);
+                    renderPage(currentPageId);
+                }
+            }
+        });
+
+        const handleFormSubmit = (pageId, index = null) => {
+            document.getElementById('crud-form').addEventListener('submit', e => {
+                e.preventDefault();
+                const items = getData(pageId);
+                const formData = new FormData(e.target);
+                const newItem = {};
+                configs[pageId].fields.forEach(field => newItem[field.id] = formData.get(field.id));
+                index !== null ? (items[index] = newItem) : items.push(newItem);
+                setData(pageId, items);
+                renderPage(pageId);
+                closeModal();
+            });
+        };
+        
+        document.getElementById('export-data-btn').addEventListener('click', () => {
+            const allData = {};
+            Object.keys(configs).forEach(key => allData[key] = getData(key));
+            const dataFileContent = `const websiteData = ${JSON.stringify(allData, null, 2)};`;
+            const dataBlob = new Blob([dataFileContent], {type: "text/javascript"});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'data.js';
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.querySelectorAll('.sidebar-link').forEach(link => link.addEventListener('click', e => switchPage(e.currentTarget.dataset.page)));
+        switchPage('banners');
+    });
+    </script>
+</body>
+</html>
