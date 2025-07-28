@@ -338,16 +338,7 @@
         }
 
 
-/*=====Admin panel===================================================================== */
 
-        { font-family: 'Inter', sans-serif; }
-        .ticker-wrap { overflow: hidden; }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-150%); } }
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-
-        
     </style>
 </head>
 <body>
@@ -988,49 +979,8 @@
     </div>
 
 
-=Admin pannel link======================================================================== -->
-     { font-family: 'Inter', sans-serif; }
-        .ticker-wrap { overflow: hidden; }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-150%); } }
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
 
 
-    <div class="max-w-3xl mx-auto p-4">
-        <header class="text-center my-8">
-            <h1 class="text-4xl font-extrabold text-gray-800">Plumbing Mock Tests</h1>
-            <p class="text-gray-500 mt-2">Apne trade ki taiyyari yahan karein</p>
-        </header>
-
-        <section id="news-section" class="mb-8 bg-white p-3 rounded-lg shadow-md ticker-wrap"></section>
-        <section id="banner-section" class="mb-8 grid grid-cols-1 gap-6"></section>
-
-        <section id="important_qa-section" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Important Q&A</h2>
-            <div id="important_qa-container" class="space-y-3"></div>
-        </section>
-
-        <section id="mcq-section" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Practice MCQs</h2>
-            <div id="mcq-container" class="space-y-4"></div>
-        </section>
-
-        <section id="test_questions-section" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Test Series</h2>
-            <div id="test_questions-container" class="space-y-6"></div>
-        </section>
-        
-        <section id="pdf-section" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Free PDF Notes</h2>
-            <div id="pdf-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </section>
-
-        <section id="ai_tools-section" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">AI Tools</h2>
-            <div id="ai_tools-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </section>
-    </div>
     
     
     <!-- ============================================================================== -->
@@ -2574,58 +2524,7 @@
 });
 
 
-// Admin pannel link
-        document.addEventListener('DOMContentLoaded', () => {
-        if (typeof websiteData === 'undefined') {
-            document.body.innerHTML = `<div class="text-center p-8 bg-red-100 text-red-700 rounded-lg max-w-2xl mx-auto mt-10"><strong>Error:</strong> Content file (data.js) not found or is empty. Please generate it from the admin panel and upload it.</div>`;
-            return;
-        }
 
-        const { banners, news, important_qa, mcq, test_questions, pdfs, ai_tools } = websiteData;
-
-        // Render Banners
-        const bannerContainer = document.getElementById('banner-section');
-        if (banners && banners.length > 0) bannerContainer.innerHTML = banners.map(b => `<div class="bg-white rounded-xl shadow-lg overflow-hidden"><img src="${b.imageUrl}" alt="${b.title}" class="w-full h-56 object-cover"><p class="font-bold text-lg p-4">${b.title}</p></div>`).join('');
-
-        // Render News Ticker
-        const newsContainer = document.getElementById('news-section');
-        if (news && news.length > 0) newsContainer.innerHTML = `<div class="ticker-move font-semibold text-gray-700">${news.map(n => `<span class="mx-6">${n.text}</span>`).join(' • ')}</div>`;
-
-        // Render Important Q&A
-        const importantQaContainer = document.getElementById('important_qa-container');
-        if (important_qa && important_qa.length > 0) importantQaContainer.innerHTML = important_qa.map(item => `<details class="bg-white p-4 rounded-xl shadow-md cursor-pointer group"><summary class="font-semibold text-gray-800 flex justify-between items-center"><span>${item.question}</span><i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i></summary><p class="mt-3 pt-3 border-t text-gray-600">${item.answer}</p></details>`).join('');
-
-        // Render MCQs
-        const mcqContainer = document.getElementById('mcq-container');
-        if (mcq && mcq.length > 0) mcqContainer.innerHTML = mcq.map(q => `<div class="bg-white p-5 rounded-xl shadow-md"><p class="font-bold text-gray-800 mb-3">${q.question}</p><ul class="space-y-2 text-gray-600"><li>A) ${q.optionA}</li><li>B) ${q.optionB}</li><li>C) ${q.optionC}</li><li>D) ${q.optionD}</li></ul><details class="mt-3 cursor-pointer"><summary class="font-semibold text-indigo-600">Show Answer</summary><p class="mt-2 p-3 bg-green-100 text-green-800 rounded-lg">Correct Answer: <strong>${q.correctAnswer}</strong></p></details></div>`).join('');
-        
-        // Render Test Series Questions
-        const testContainer = document.getElementById('test_questions-container');
-        if (test_questions && test_questions.length > 0) {
-            const tests = test_questions.reduce((acc, q) => {
-                acc[q.testName] = acc[q.testName] || [];
-                acc[q.testName].push(q);
-                return acc;
-            }, {});
-            testContainer.innerHTML = Object.keys(tests).map(testName => `
-                <div class="bg-white p-5 rounded-xl shadow-md">
-                    <h3 class="text-xl font-bold text-indigo-700 mb-4">${testName}</h3>
-                    <div class="space-y-4">${tests[testName].map(q => `
-                        <div class="border-t pt-4"><p class="font-bold text-gray-800 mb-3">${q.question}</p>
-                        <ul class="space-y-2 text-gray-600"><li>A) ${q.optionA}</li><li>B) ${q.optionB}</li><li>C) ${q.optionC}</li><li>D) ${q.optionD}</li></ul>
-                        <details class="mt-3 cursor-pointer"><summary class="font-semibold text-indigo-600">Show Answer</summary><p class="mt-2 p-3 bg-green-100 text-green-800 rounded-lg">Correct Answer: <strong>${q.correctAnswer}</strong></p></details></div>`).join('')}
-                    </div>
-                </div>`).join('');
-        }
-        
-        // Render PDFs
-        const pdfContainer = document.getElementById('pdf-container');
-        if (pdfs && pdfs.length > 0) pdfContainer.innerHTML = pdfs.map(p => `<a href="${p.pdfUrl}" target="_blank" class="block bg-white p-5 rounded-xl shadow-md hover:shadow-lg hover:bg-indigo-50 transition-all duration-200 flex items-center"><i class="fas fa-file-pdf text-red-500 text-2xl mr-4"></i><span class="font-bold text-gray-800">${p.title}</span></a>`).join('');
-
-        // Render AI Tools
-        const aiToolsContainer = document.getElementById('ai_tools-container');
-        if (ai_tools && ai_tools.length > 0) aiToolsContainer.innerHTML = ai_tools.map(tool => `<a href="${tool.linkUrl}" target="_blank" class="block bg-white p-5 rounded-xl shadow-md hover:shadow-lg hover:bg-indigo-50 transition-all duration-200"><div class="flex items-center mb-2"><i class="${tool.iconClass} text-indigo-600 text-2xl mr-4"></i><span class="font-bold text-gray-800 text-lg">${tool.name}</span></div><p class="text-gray-600">${tool.description}</p></a>`).join('');
-    });
                                   
     </script>
 
