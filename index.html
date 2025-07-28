@@ -7,6 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    
     <style>
         body 
         #threeStepOnboardingOverlay {
@@ -337,7 +342,212 @@
             100% { transform: translateX(-100%); }
         }
 
+        
 
+/* --- Neon Button Animation --- */
+        .neon-button {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: color 0.3s;
+        }
+
+        .neon-button:hover {
+            color: white;
+        }
+
+        .neon-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            z-index: -2;
+            background: conic-gradient(
+                transparent,
+                #0ea5e9, /* sky-500 */
+                #ec4899, /* pink-500 */
+                #f59e0b, /* amber-500 */
+                transparent 30%
+            );
+            animation: rotate 4s linear infinite;
+            transform-origin: center center;
+            transform: translate(-50%, -50%);
+        }
+
+        .neon-button::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: #ffffff;
+            border-radius: 0.625rem;
+            z-index: -1;
+            transition: background 0.3s;
+        }
+
+        .neon-button:hover::after {
+            background: #1e293b;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        
+        /* --- Collapsible Content Animation --- */
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 1.25rem;
+        }
+
+        .collapsible-content.open {
+            max-height: 1500px;
+            opacity: 1;
+            padding: 1.25rem;
+        }
+
+        /* Style for the full-screen image modal */
+        .image-modal {
+            background-color: rgba(0, 0, 0, 0.9);
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .image-container-9-16 {
+            width: 100%;
+            max-width: 48vh;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- Neon Animation for Image Wrappers --- */
+        .image-wrapper {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            z-index: -2;
+            transform-origin: center center;
+            transform: translate(-50%, -50%);
+        }
+
+        .image-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: #e5e7eb; /* gray-200 */
+            border-radius: 0.5rem;
+            z-index: -1;
+        }
+
+        /* Unique animations for each image wrapper */
+        .image-wrapper-0::before {
+            background: conic-gradient(
+                transparent,
+                #3b82f6, /* blue-500 */
+                #ef4444, /* red-500 */
+                #8b5cf6, /* purple-500 */
+                transparent 30%
+            );
+            animation: rotate 3s linear infinite;
+        }
+
+        .image-wrapper-1::before {
+            background: conic-gradient(
+                transparent,
+                #10b981, /* emerald-500 */
+                #f97316, /* orange-500 */
+                #6366f1, /* indigo-500 */
+                transparent 30%
+            );
+            animation: rotate 3.5s linear infinite;
+        }
+
+        .image-wrapper-2::before {
+            background: conic-gradient(
+                transparent,
+                #ec4899, /* pink-500 */
+                #eab308, /* yellow-500 */
+                #14b8a6, /* teal-500 */
+                transparent 30%
+            );
+            animation: rotate 4s linear infinite;
+        }
+
+        .image-wrapper-3::before {
+            background: conic-gradient(
+                transparent,
+                #f59e0b, /* amber-500 */
+                #8b5cf6, /* purple-500 */
+                #ef4444, /* red-500 */
+                transparent 30%
+            );
+            animation: rotate 4.5s linear infinite;
+        }
+
+        .image-wrapper-4::before {
+            background: conic-gradient(
+                transparent,
+                #0ea5e9, /* sky-500 */
+                #f97316, /* orange-500 */
+                #10b981, /* emerald-500 */
+                transparent 30%
+            );
+            animation: rotate 5s linear infinite;
+        }
+
+        .image-wrapper-5::before {
+            background: conic-gradient(
+                transparent,
+                #6366f1, /* indigo-500 */
+                #ec4899, /* pink-500 */
+                #eab308, /* yellow-500 */
+                transparent 30%
+            );
+            animation: rotate 3.2s linear infinite;
+        }
+
+        .image-wrapper-6::before {
+            background: conic-gradient(
+                transparent,
+                #14b8a6, /* teal-500 */
+                #f59e0b, /* amber-500 */
+                #3b82f6, /* blue-500 */
+                transparent 30%
+            );
+            animation: rotate 3.7s linear infinite;
+        }
+
+        .image-wrapper-7::before {
+            background: conic-gradient(
+                transparent,
+                #ef4444, /* red-500 */
+                #0ea5e9, /* sky-500 */
+                #8b5cf6, /* purple-500 */
+                transparent 30%
+            );
+            animation: rotate 4.2s linear infinite;
+        }
 
     </style>
 </head>
@@ -979,6 +1189,52 @@
     </div>
 
 
+
+    <!-- ===================== IMPORTANT IMAGES SECTION START ========================= -->
+    
+    <section class="container mx-auto">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Section Header (Always Visible) -->
+            <div id="gallery-header" class="p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <h3 class="text-xl font-bold text-gray-800">Important Images (महत्वपूर्ण चित्र)</h3>
+                    </div>
+                    <!-- The Neon Button -->
+                    <button id="toggle-gallery-btn" class="neon-button relative inline-flex items-center justify-center px-6 py-3 rounded-xl font-bold text-lg text-gray-700">
+                        <span id="toggle-text">Show</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Collapsible Image Gallery -->
+            <div id="image-gallery-container" class="collapsible-content">
+                <div id="image-gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- JavaScript will populate this area -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ============================================================================== -->
+    <!-- ====================== IMPORTANT IMAGES SECTION END ========================== -->
+    <!-- ============================================================================== -->
+
+    <!-- ============================================================================== -->
+    <!-- ==================== FULL SCREEN IMAGE MODAL START =========================== -->
+    <!-- ============================================================================== -->
+    <div id="image-modal" class="image-modal fixed inset-0 z-[200] flex items-center justify-center p-4 hidden">
+        <!-- Close Button -->
+        <button id="close-modal-btn" class="absolute top-4 right-4 text-white hover:text-gray-300 text-4xl z-[210] transition-colors">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- 9:16 Aspect Ratio Image Container -->
+        <div class="image-container-9-16">
+            <img id="fullscreen-image" src="" alt="Full-screen view" class="w-full h-auto object-contain rounded-lg shadow-2xl">
+        </div>
+    </div>
+    <!-- ============================================================================== -->
+    <!-- ===================== FULL SCREEN IMAGE MODAL END ============================ -->
 
 
     
@@ -2523,8 +2779,103 @@
     });
 });
 
+// ------ important  Images---
 
+    document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA for images ---
+            const imageData = [
+                { src: 'https://placehold.co/900x1600/1e3a8a/ffffff?text=Pipe+Wrench+Diagram', title: 'पाइप रिंच आरेख' },
+                { src: 'https://placehold.co/900x1600/374151/ffffff?text=PVC+Pipe+Types', title: 'पीवीसी पाइप के प्रकार' },
+                { src: 'https://placehold.co/900x1600/be123c/ffffff?text=Safety+Symbols', title: 'सुरक्षा संकेत' },
+                { src: 'https://placehold.co/900x1600/047857/ffffff?text=Water+Meter+Setup', title: 'पानी मीटर सेटअप' },
+                { src: 'https://placehold.co/900x1600/7c2d12/ffffff?text=Drainage+System', title: 'जल निकासी प्रणाली' },
+                { src: 'https://placehold.co/900x1600/4a044e/ffffff?text=Geyser+Installation', title: 'गीजर इंस्टॉलेशन' },
+                { src: 'https://placehold.co/900x1600/164e63/ffffff?text=Valve+Types', title: 'वाल्व के प्रकार' },
+                { src: 'https://placehold.co/900x1600/9a3412/ffffff?text=Tap+Assembly', title: 'नल असेंबली' }
+            ];
 
+            // --- DOM Elements ---
+            const galleryHeader = document.getElementById('gallery-header');
+            const toggleButton = document.getElementById('toggle-gallery-btn');
+            const galleryContainer = document.getElementById('image-gallery-container');
+            const gallery = document.getElementById('image-gallery');
+            const toggleText = document.getElementById('toggle-text');
+            
+            const modal = document.getElementById('image-modal');
+            const fullscreenImage = document.getElementById('fullscreen-image');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+
+            // --- Function to create and populate the gallery ---
+            function populateGallery() {
+                if (!gallery) return;
+                gallery.innerHTML = ''; 
+
+                imageData.forEach((image, index) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'gallery-item cursor-pointer group';
+                    itemDiv.setAttribute('data-full-src', image.src);
+
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.className = `image-wrapper image-wrapper-${index} aspect-square rounded-lg overflow-hidden shadow-md`;
+
+                    const img = document.createElement('img');
+                    img.src = image.src;
+                    img.alt = image.title;
+                    img.className = 'w-full h-full object-cover group-hover:scale-110 transition-transform duration-300';
+                    img.loading = 'lazy';
+
+                    const titleP = document.createElement('p');
+                    titleP.className = 'text-center text-sm font-medium text-gray-700 mt-2 truncate';
+                    titleP.textContent = image.title;
+
+                    imageWrapper.appendChild(img);
+                    itemDiv.appendChild(imageWrapper);
+                    itemDiv.appendChild(titleP);
+                    gallery.appendChild(itemDiv);
+                });
+            }
+
+            // --- Function to toggle the gallery visibility ---
+            function toggleGallery() {
+                galleryContainer.classList.toggle('open');
+                const isOpen = galleryContainer.classList.contains('open');
+                
+                toggleText.textContent = isOpen ? 'Hide' : 'Show';
+            }
+
+            // --- Event Listeners ---
+            galleryHeader.addEventListener('click', toggleGallery);
+
+            // --- Modal Logic ---
+            function openModal(src) {
+                if (!modal || !fullscreenImage) return;
+                fullscreenImage.src = src;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                if (!modal) return;
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            gallery.addEventListener('click', (e) => {
+                const item = e.target.closest('.gallery-item');
+                if (item) {
+                    const fullSrc = item.getAttribute('data-full-src');
+                    if (fullSrc) openModal(fullSrc);
+                }
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            // --- Initial Call ---
+            populateGallery();
+        });
                                   
     </script>
 
