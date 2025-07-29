@@ -342,7 +342,90 @@
             100% { transform: translateX(-100%); }
         }
 
+
+
         
+/* ---Important images  --- */
+         {
+            background-color: #f0f9ff; /* Light blue background to match your app */
+            font-family: 'Inter', sans-serif;
+        }
+        /* --- Neon Button Animation --- */
+        .neon-button {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: color 0.3s;
+        }
+        .neon-button:hover {
+            color: white;
+        }
+        .neon-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            z-index: -2;
+            background: conic-gradient(
+                transparent,
+                #0ea5e9, /* sky-500 */
+                #ec4899, /* pink-500 */
+                #f59e0b, /* amber-500 */
+                transparent 30%
+            );
+            animation: rotate 4s linear infinite;
+            transform-origin: center center;
+            transform: translate(-50%, -50%);
+        }
+        .neon-button::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: #ffffff;
+            border-radius: 0.625rem;
+            z-index: -1;
+            transition: background 0.3s;
+        }
+        .neon-button:hover::after {
+            background: #1e293b;
+        }
+        @keyframes rotate {
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        
+        /* --- Collapsible Content Animation --- */
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 1.25rem;
+        }
+        .collapsible-content.open {
+            max-height: 1500px;
+            opacity: 1;
+            padding: 1.25rem;
+        }
+        /* Style for the full-screen image modal */
+        .image-modal {
+            background-color: rgba(0, 0, 0, 0.9);
+            transition: opacity 0.3s ease-in-out;
+        }
+        .image-container-9-16 {
+            width: 100%;
+            max-width: 48vh;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
 
 
@@ -967,6 +1050,61 @@
 
         </main>
 
+
+
+
+        
+    <!-- ===================== IMPORTANT IMAGES SECTION START ========================= -->
+    
+    <section class="container mx-auto">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Section Header (Always Visible) -->
+            <div id="gallery-header" class="p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-md bg-pink-100 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-pink-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Important Images (महत्वपूर्ण चित्र)</h3>
+                    </div>
+                    <!-- The Neon Button -->
+                    <button id="toggle-gallery-btn" class="neon-button relative inline-flex items-center justify-center px-4 py-2 rounded-xl font-semibold text-gray-700">
+                        <span id="toggle-text">Show</span>
+                        <i id="toggle-icon" class="fas fa-chevron-down ml-2 transition-transform duration-300"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Collapsible Image Gallery -->
+            <div id="image-gallery-container" class="collapsible-content">
+                <div id="image-gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- JavaScript will populate this area -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ============================================================================== -->
+    <!-- ====================== IMPORTANT IMAGES SECTION END ========================== -->
+    <!-- ============================================================================== -->
+    <!-- ============================================================================== -->
+    <!-- ==================== FULL SCREEN IMAGE MODAL START =========================== -->
+    <!-- ============================================================================== -->
+    <div id="image-modal" class="image-modal fixed inset-0 z-[200] flex items-center justify-center p-4 hidden">
+        <!-- Close Button -->
+        <button id="close-modal-btn" class="absolute top-4 right-4 text-white hover:text-gray-300 text-4xl z-[210] transition-colors">
+            <i class="fas fa-times"></i>
+        </button>
+        <!-- 9:16 Aspect Ratio Image Container -->
+        <div class="image-container-9-16">
+            <img id="fullscreen-image" src="" alt="Full-screen view" class="w-full h-auto object-contain rounded-lg shadow-2xl">
+        </div>
+    </div>
+    <!-- ============================================================================== -->
+    <!-- ===================== FULL SCREEN IMAGE MODAL END ============================ -->
+
+
+        
         <!-- 3. Bottom Navigation (Fixed) -->
         <footer class="bg-white shadow-[0_-2px_5px_rgba(0,0,0,0.1)] p-2 flex justify-around items-center flex-shrink-0">
             <button class="flex flex-col items-center text-blue-600">
@@ -2532,6 +2670,159 @@
     });
 });
 
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA for images ---
+            // Har image ke liye ek unique 'id' add kiya gaya hai
+            const imageData = [
+                {
+                    id: 'pipe-wrench',
+                    thumbnailSrc: 'https://placehold.co/400x400/1e3a8a/ffffff?text=Thumbnail+1',
+                    fullscreenSrc: 'https://placehold.co/900x1600/1e3a8a/ffffff?text=Pipe+Wrench+Diagram',
+                    title: 'पाइप रिंच आरेख'
+                },
+                {
+                    id: 'pvc-pipes',
+                    thumbnailSrc: 'https://placehold.co/400x400/374151/ffffff?text=Thumbnail+2',
+                    fullscreenSrc: 'https://placehold.co/900x1600/374151/ffffff?text=PVC+Pipe+Types',
+                    title: 'पीवीसी पाइप के प्रकार'
+                },
+                {
+                    id: 'safety-symbols',
+                    thumbnailSrc: 'https://placehold.co/400x400/be123c/ffffff?text=Thumbnail+3',
+                    fullscreenSrc: 'https://placehold.co/900x1600/be123c/ffffff?text=Safety+Symbols',
+                    title: 'सुरक्षा संकेत'
+                },
+                {
+                    id: 'water-meter',
+                    thumbnailSrc: 'https://placehold.co/400x400/047857/ffffff?text=Thumbnail+4',
+                    fullscreenSrc: 'https://placehold.co/900x1600/047857/ffffff?text=Water+Meter+Setup',
+                    title: 'पानी मीटर सेटअप'
+                },
+                {
+                    id: 'drainage-system',
+                    thumbnailSrc: 'https://placehold.co/400x400/7c2d12/ffffff?text=Thumbnail+5',
+                    fullscreenSrc: 'https://placehold.co/900x1600/7c2d12/ffffff?text=Drainage+System',
+                    title: 'जल निकासी प्रणाली'
+                },
+                {
+                    id: 'geyser-install',
+                    thumbnailSrc: 'https://placehold.co/400x400/4a044e/ffffff?text=Thumbnail+6',
+                    fullscreenSrc: 'https://placehold.co/900x1600/4a044e/ffffff?text=Geyser+Installation',
+                    title: 'गीजर इंस्टॉलेशन'
+                }
+            ];
+            // --- DOM Elements ---
+            const galleryHeader = document.getElementById('gallery-header');
+            const galleryContainer = document.getElementById('image-gallery-container');
+            const gallery = document.getElementById('image-gallery');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const toggleText = document.getElementById('toggle-text');
+            
+            const modal = document.getElementById('image-modal');
+            const fullscreenImage = document.getElementById('fullscreen-image');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            // --- LocalStorage Logic for View Count ---
+            const STORAGE_KEY = 'imageGalleryViews';
+            function getImageViews() {
+                const views = localStorage.getItem(STORAGE_KEY);
+                try {
+                    return views ? JSON.parse(views) : {};
+                } catch (e) {
+                    console.error("Could not parse image views from localStorage", e);
+                    return {};
+                }
+            }
+            function incrementImageView(imageId) {
+                const views = getImageViews();
+                views[imageId] = (views[imageId] || 0) + 1;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(views));
+            }
+            // --- Function to create and populate the gallery ---
+            function populateGallery() {
+                if (!gallery) return;
+                const views = getImageViews();
+                // View count ko data me add karein aur sort karein
+                const sortedImageData = imageData
+                    .map(image => ({
+                        ...image,
+                        views: views[image.id] || 0
+                    }))
+                    .sort((a, b) => b.views - a.views);
+                gallery.innerHTML = ''; 
+                sortedImageData.forEach(image => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'gallery-item cursor-pointer group';
+                    itemDiv.setAttribute('data-full-src', image.fullscreenSrc);
+                    itemDiv.setAttribute('data-image-id', image.id); // ID ko store karein
+                    const imageWrapper = document.createElement('div');
+                    // position-relative add karein taki badge sahi se position ho
+                    imageWrapper.className = 'relative aspect-square bg-gray-200 rounded-lg overflow-hidden shadow-md border-2 border-transparent group-hover:border-sky-500 transition-all';
+                    const img = document.createElement('img');
+                    img.src = image.thumbnailSrc;
+                    img.alt = image.title;
+                    img.className = 'w-full h-full object-cover group-hover:scale-110 transition-transform duration-300';
+                    img.loading = 'lazy';
+                    // View count ke liye badge banayein
+                    const viewBadge = document.createElement('div');
+                    viewBadge.className = 'absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center pointer-events-none';
+                    viewBadge.innerHTML = `<i class="fas fa-eye mr-1.5"></i> ${image.views}`;
+                    
+                    const titleP = document.createElement('p');
+                    titleP.className = 'text-center text-sm font-medium text-gray-700 mt-2 truncate';
+                    titleP.textContent = image.title;
+                    imageWrapper.appendChild(img);
+                    imageWrapper.appendChild(viewBadge); // Badge ko image wrapper me add karein
+                    itemDiv.appendChild(imageWrapper);
+                    itemDiv.appendChild(titleP);
+                    gallery.appendChild(itemDiv);
+                });
+            }
+            // --- Function to toggle the gallery visibility ---
+            function toggleGallery() {
+                galleryContainer.classList.toggle('open');
+                const isOpen = galleryContainer.classList.contains('open');
+                
+                toggleIcon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+                toggleText.textContent = isOpen ? 'Hide' : 'Show';
+            }
+            // --- Event Listeners ---
+            galleryHeader.addEventListener('click', toggleGallery);
+            // --- Modal Logic ---
+            function openModal(src, imageId) {
+                if (!modal || !fullscreenImage) return;
+                
+                // View count badhayein aur gallery ko re-render karein
+                incrementImageView(imageId);
+                populateGallery(); 
+                fullscreenImage.src = src;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeModal() {
+                if (!modal) return;
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+            gallery.addEventListener('click', (e) => {
+                const item = e.target.closest('.gallery-item');
+                if (item) {
+                    const fullSrc = item.getAttribute('data-full-src');
+                    const imageId = item.getAttribute('data-image-id');
+                    if (fullSrc && imageId) {
+                        openModal(fullSrc, imageId);
+                    }
+                }
+            });
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+            // --- Initial Call ---
+            populateGallery();
+        });
             
     </script>
 
