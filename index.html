@@ -429,34 +429,6 @@
 
 /* new login form */
 
-{
-            background-color: #f0f9ff;
-        }
-        .form-container {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-top: 5px solid #3b82f6;
-        }
-        .form-input {
-            transition: all 0.3s ease;
-        }
-        .form-input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-        .submit-btn {
-            background-color: #3b82f6;
-            transition: background-color 0.3s ease;
-        }
-        .submit-btn:hover {
-            background-color: #2563eb;
-        }
-        .submit-btn:disabled {
-            background-color: #9ca3af;
-            cursor: not-allowed;
-        }
         
 
     </style>
@@ -839,7 +811,7 @@
             </div>
 
             
-          <!--  <form id="loginForm" class="space-y-4">
+          <form id="loginForm" class="space-y-4">
                 <div><label for="loginEmail" class="block text-sm font-medium text-gray-700">Email (ईमेल)</label><input type="email" id="loginEmail" name="loginEmail" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div>
                 <div><label for="loginPassword" class="block text-sm font-medium text-gray-700">Password (पासवर्ड)</label><input type="password" id="loginPassword" name="loginPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div>
                 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition">Login</button>
@@ -853,52 +825,11 @@
                 <p id="signupError" class="error-message hidden"></p>
             </form>
         </div>
-    </div> -->
+    </div> 
 
 
-    <div class="form-container w-full max-w-md">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-800">Create Account</h2>
-            <p class="text-gray-500 mt-2">Sign up to get started.</p>
-        </div>
-        <!-- YAHAN APNA EMAIL ADDRESS DAALEIN -->
-        <form id="signupForm" action="https://formsubmit.co/barkatiesofficial@email.com" method="POST" class="space-y-6">
-            
-            <!-- Honeypot field for spam prevention -->
-            <input type="text" name="_honey" style="display:none">
-            
-            <!-- Disable Captcha -->
-            <input type="hidden" name="_captcha" value="false">
-            
-            <!-- Success Redirect URL (Optional) -->
-            <!-- <input type="hidden" name="_next" value="https://your-site.com/thanks.html"> -->
-            <!-- Name Input -->
-            <div>
-                <label for="signupName" class="block text-sm font-medium text-gray-700 mb-1">Full Name (पूरा नाम)</label>
-                <input type="text" id="signupName" name="Name" required class="form-input block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none">
-            </div>
-            <!-- Email Input -->
-            <div>
-                <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-1">Email (ईमेल)</label>
-                <input type="email" id="signupEmail" name="Email" required class="form-input block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none">
-            </div>
-            
-            <!-- Mobile Input -->
-            <div>
-                <label for="signupMobile" class="block text-sm font-medium text-gray-700 mb-1">Mobile Number (मोबाइल नंबर)</label>
-                <input type="tel" id="signupMobile" name="Mobile" required pattern="[6-9]{1}[0-9]{9}" title="Please enter a valid 10-digit Indian mobile number" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none">
-            </div>
-            <!-- Password Input -->
-            <div>
-                <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-1">Password (पासवर्ड)</label>
-                <input type="password" id="signupPassword" name="Password" required minlength="6" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none">
-            </div>
-            <!-- Submit Button -->
-            <button type="submit" id="submitBtn" class="submit-btn w-full text-white font-semibold py-3 px-4 rounded-lg text-lg flex items-center justify-center">
-                <span>Register</span>
-            </button>
-        </form>
-    </div>
+    
+    
     <!-- Top Scorer Modal -->
     <div id="topScorerModal" class="top-scorer-modal fixed inset-0 z-[95] flex items-center justify-center p-4">
         <div class="top-scorer-modal-content bg-slate-50 w-11/12 max-w-2xl rounded-xl shadow-2xl p-6 overflow-y-auto">
