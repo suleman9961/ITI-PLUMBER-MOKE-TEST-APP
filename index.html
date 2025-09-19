@@ -855,6 +855,9 @@
                     <button data-count="5" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">5 प्रश्न</button>
                     <button data-count="10" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">10 प्रश्न</button>
                     <button data-count="15" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">15 प्रश्न</button>
+                    <button data-count="20" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">20 प्रश्न</button>
+                    <button data-count="25" class="num-questions-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">25 प्रश्न</button>
+             
                 </div>
                 <p class="text-center text-xs text-gray-500 mb-4">प्रत्येक प्रश्न के लिए 1 मिनट का समय होगा।</p>
                 <button id="startSelectedQuizButton" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-lg transition disabled:opacity-50" disabled>क्विज़ शुरू करें</button>
@@ -1185,7 +1188,7 @@
             try {
                 // --- FIREBASE CONFIG ---
                 let userProvidedFirebaseConfig = { 
-                    apiKey: "AIzaSyCk0Wb16qVd16VKYsi5VviE_f0eE5jdNYY",
+                    apiKey: "AIzaSyBR31Af_upqWc2t0ciIf59lWY-PS5BZk3E",
                     authDomain: "mock-test-eed98.firebaseapp.com",
                     databaseURL: "https://mock-test-eed98-default-rtdb.firebaseio.com",
                     projectId: "mock-test-eed98",
@@ -1773,7 +1776,9 @@
             { id: "pq1", text: "चित्र में दिखाए गए उपकरण का नाम क्या है? (What is the name of the tool shown in the picture?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Pipe+Wrench", options: [{ text: "पाइप रिंच (Pipe Wrench)", correct: true },{ text: "समायोज्य रिंच (Adjustable Wrench)", correct: false },{ text: "सॉकेट रिंच (Socket Wrench)", correct: false },{ text: "टॉर्क रिंच (Torque Wrench)", correct: false }]},
             { id: "pq2", text: "पानी के रिसाव को रोकने के लिए पाइप थ्रेड्स पर आमतौर पर किस सामग्री का उपयोग किया जाता है? (What material is commonly used on pipe threads to prevent water leaks?)", image: null, options: [{ text: "टेफ्लॉन टेप (Teflon Tape)", correct: true },{ text: "डक्ट टेप (Duct Tape)", correct: false },{ text: "रबर सीमेंट (Rubber Cement)", correct: false },{ text: "सिलिकॉन सीलेंट (Silicone Sealant)", correct: false }]},
             { id: "pq3", text: "पीवीसी का पूर्ण रूप क्या है? (What is the full form of PVC?)", image: null, options: [{ text: "पॉलीविनाइल क्लोराइड (Polyvinyl Chloride)", correct: true }, { text: "पॉलीविनाइल कार्बन (Polyvinyl Carbon)", correct: false }, { text: "प्रेसर वाल्व कंट्रोल (Pressure Valve Control)", correct: false }, { text: "पाइप वेरिफ़िकेशन कोड (Pipe Verification Code)", correct: false }]},
-            { id: "pq4", text: "नाली की रुकावट को साफ करने के लिए किस उपकरण का उपयोग किया जाता है? (Which tool is used to clear a drain blockage?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Drain+Auger", options: [{ text: "ड्रेन औगर (Drain Auger/Plunger)", correct: true }, { text: "हथौड़ा (Hammer)", correct: false }, { text: "पेंचकस (Screwdriver)", correct: false }, { text: "आरी (Saw)", correct: false }]}
+            { id: "pq4", text: "चित्र में दिखाए गए उपकरण का नाम क्या है? (What is the name of the tool shown in the picture?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Pipe+Wrench", options: [{ text: "पाइप रिंच (Pipe Wrench)", correct: true },{ text: "समायोज्य रिंच (Adjustable Wrench)", correct: false },{ text: "सॉकेट रिंच (Socket Wrench)", correct: false },{ text: "टॉर्क रिंच (Torque Wrench)", correct: false }]},
+            { id: "pq5", text: "पानी के रिसाव को रोकने के लिए पाइप थ्रेड्स पर आमतौर पर किस सामग्री का उपयोग किया जाता है? (What material is commonly used on pipe threads to prevent water leaks?)", image: null, options: [{ text: "टेफ्लॉन टेप (Teflon Tape)", correct: true },{ text: "डक्ट टेप (Duct Tape)", correct: false },{ text: "रबर सीमेंट (Rubber Cement)", correct: false },{ text: "सिलिकॉन सीलेंट (Silicone Sealant)", correct: false }]},
+            { id: "pq6", text: "नाली की रुकावट को साफ करने के लिए किस उपकरण का उपयोग किया जाता है? (Which tool is used to clear a drain blockage?)", image: "https://placehold.co/300x200/E0F2FE/3B82F6?text=Drain+Auger", options: [{ text: "ड्रेन औगर (Drain Auger/Plunger)", correct: true }, { text: "हथौड़ा (Hammer)", correct: false }, { text: "पेंचकस (Screwdriver)", correct: false }, { text: "आरी (Saw)", correct: false }]}
         ];
         let currentQuizQuestions = [];
         let currentQuestionIndex = 0;
@@ -2835,4 +2840,5 @@
 
 </body>
 </html>
+
 
