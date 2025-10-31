@@ -1055,6 +1055,12 @@
                 <p class="text-gray-700"><strong class="font-bold">उत्तर:</strong> मुख्य गैस आपूर्ति बंद करें, क्षेत्र को हवादार करें, ज्वलनशील पदार्थों को दूर रखें...</p>
             </div>
 
+             <div class="bg-white p-5 rounded-lg shadow-md mb-5">
+                <p class="mb-3 text-gray-800"><strong class="font-bold">प्रश्न:</strong> सुरक्षा के लिए गैस पाइपलाइन पर काम करते समय क्या सावधानियां बरतनी चाहिए?</p>
+                <p class="text-gray-700"><strong class="font-bold">उत्तर:</strong> मुख्य गैस आपूर्ति बंद करें, क्षेत्र को हवादार करें, ज्वलनशील पदार्थों को दूर रखें...</p>
+            </div>
+
+
             <!-- Aap yahan aur bhi content daal sakte hain, page apne aap scrollable rahega -->
             <div class="h-20"></div> <!-- Extra space to demonstrate scrolling -->
 
@@ -1419,7 +1425,7 @@
                 document.getElementById('signupTabButton').classList.add('hidden'); 
 
             } else { 
-                userNameMainEl.textContent = "Guest User (अतिथि)";
+                userNameMainEl.textContent = "Guest User (USER)";
                 userIdDisplayEl.textContent = "N/A";
                 coinCountEl.textContent = 0;
                 sidebarLogoutLink.classList.add('hidden');
@@ -2170,9 +2176,6 @@
                 { id: "pdf1", title: "What is File (रेती) (Hindi)", description: "A hand file is a hardened steel tool used for cutting and shaping materials like metal, wood, plastic, and more.", link: "https://drive.google.com/file/d/1t2foqazXsCL83R46mwbB6haWcrQjvMMQ/view?usp=drivesdk" },
                 { id: "pdf2", title:  "HACKSAW FRAME WIDTH BLADE (HINDI)", description: "हैकसॉ फ्रेम, जिन्हें ब्लेड होल्डर भी कहा जाता है, में आमतौर पर एक एर्गोनॉमिक हैंडल (उदाहरण के लिए, पिस्टल ग्रिप) होता है और नए ब्लेड लगाने के लिए पिन भी लगे होते हैं", link: "https://drive.google.com/file/d/1t9k3-iTw2jw7L84Z8X3JDRKpgqfUS995/view?usp=drivesdk" },
                 { id: "pdf3", title: "Engineering Drawing for Plumbers (English)", description: "Essential engineering drawing concepts for the trade.", link: "https://drive.google.com/file/d/1t2foqazXsCL83R46mwbB6haWcrQjvMMQ/view?usp=drivesdk" },
-                { id: "pdf4", title: "Employability Skills Notes (Hindi)", description: "Improve your employability skills with these notes.", link: "https://drive.google.com/file/d/1t2foqazXsCL83R46mwbB6haWcrQjvMMQ/view?usp=drivesdk" },
-                { id: "pdf5", title: "Employability Skills Notes (Hindi)", description: "Improve your employability skills with these notes.", link: "https://drive.google.com/file/d/1t2foqazXsCL83R46mwbB6haWcrQjvMMQ/view?usp=drivesdk" },
-                { id: "pdf6", title: "What is File (रेती) (Hindi)", description: "A hand file is a hardened steel tool used for cutting and shaping materials like metal, wood, plastic, and more.", link: "https://drive.google.com/file/d/1t2foqazXsCL83R46mwbB6haWcrQjvMMQ/view?usp=drivesdk" }
                
             ]
         };
@@ -2186,21 +2189,8 @@
                     "cutters": { name: "Cutters (कटर)", items: [ { name: "PVC Pipe Cutter (पीवीसी पाइप कटर)", desc: "For clean cuts on PVC pipes." }, { name: "Hacksaw (हैकसॉ)", desc: "For cutting metal pipes." } ] }
                     
                 }
-            },
-            "power_tools": {
-                name: "Power Tools (शक्ति उपकरण)",
-                icon: "fas fa-bolt",
-                subcategories: {
-                    "drills": { name: "Drills (ड्रिल)", items: [ { name: "Cordless Drill (ताररहित ड्रिल)", desc: "For drilling holes and driving screws." } ] },
-                    "threading_machines": { name: "Threading Machines (थ्रेडिंग मशीन)", items: [ { name: "Pipe Threading Machine (पाइप थ्रेडिंग मशीन)", desc: "For creating threads on pipes." } ] }
-                }
-            },
-             "safety_equipment": {
-                name: "Safety Equipment (सुरक्षा उपकरण)",
-                icon: "fas fa-hard-hat",
-                subcategories: {
-                    "personal_ppe": { name: "Personal Protective Equipment (व्यक्तिगत सुरक्षा उपकरण)", items: [ { name: "Safety Glasses (सुरक्षा चश्मा)", desc: "Protect eyes from debris." }, { name: "Gloves (दस्ताने)", desc: "Protect hands from cuts and chemicals." }, { name: "Hard Hat (हार्ड हैट)", desc: "Protect head from falling objects." } ] }
-                }
+        
+          
             }
         };
         
@@ -2840,5 +2830,6 @@
 
 </body>
 </html>
+
 
 
